@@ -29,7 +29,7 @@ var del = require('del');//删除文件
 gulp.task('webserver', gulp.parallel(function () {
     connect.server({
         // livereload: true,
-        port: 2333
+        port: 2333,
     });
 }));
 

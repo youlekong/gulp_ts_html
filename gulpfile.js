@@ -18,6 +18,7 @@ const cache = require('gulp-cached');//用于复制文件时只复制修改过�
 var concat = require('gulp-concat');//合并Js
 
 
+
 var connect = require('gulp-connect');//测试环境
 
 
@@ -86,6 +87,18 @@ gulp.task("concat-css", gulp.parallel(function () {
         .pipe(concat('style.css'))
         .pipe(gulp.dest('dist/style'));
 }));
+
+//postcss css 自助补全
+// gulp.task('css', gulp.parallel(function () {
+//     const postcss = require('gulp-postcss');//css兼容适配
+//     var autoprefixer = require('autoprefixer');
+
+//     return gulp.src('app/style/*.css')
+//     // return gulp.src('app/view/*.html')
+//         .pipe(postcss([autoprefixer()]))
+//         .pipe(concat('style.css'))
+//         .pipe(gulp.dest('./dest'));
+// }));
 
 gulp.task("default", gulp.series("build-ts", gulp.parallel(
     [

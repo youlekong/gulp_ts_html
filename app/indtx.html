@@ -9,19 +9,6 @@
     <title>Document</title>
     <link rel="stylesheet" href="style/style.css">
     <script>
-        // ! function (e, t) {
-        //     var n = t.documentElement,
-        //     d = e.devicePixelRatio || 1;
-
-        //     function i() {
-        //         var e = n.clientWidth / 3.75;
-        //         n.style.fontSize = e + "px"
-        //     } if (function e() { t.body ? t.body.style.fontSize = "16px" : t.addEventListener("DOMContentLoaded", e) }(), i(), e.addEventListener("resize", i), e.addEventListener("pageshow", function (e) { e.persisted && i() }), d >= 2) {
-        //         var o = t.createElement("body"),
-        //         a = t.createElement("div");
-        //         a.style.border = ".5px solid transparent", o.appendChild(a), n.appendChild(o), 1 === a.offsetHeight && n.classList.add("hairlines"), n.removeChild(o)
-        //     }
-        // }(window, document);
 
         /**
   * 以下这段代码是用于根据移动端设备的屏幕分辨率计算出合适的根元素的大小
@@ -43,7 +30,6 @@
                     || doc.documentElement.clientWidth
                     || doc.body.clientWidth;
 
-                console.log(clientWidth)
                 if (!clientWidth) return;
                 var fz;
                 var width = clientWidth;
@@ -103,7 +89,7 @@
 </head>
 
 <body>
-    <div id="scene"></div>
+    <div id="root"></div>
     <script src="bundle.dev.js"></script>
 </body>
 

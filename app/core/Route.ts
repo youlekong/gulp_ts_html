@@ -1,5 +1,7 @@
 import { Utils } from "./Utils";
-import { Core } from "./Core";
+import { ViewManager } from "./ViewManager";
+import { ViewConfig } from "../common/ViewConfig";
+
 
 /**
  * 路由
@@ -19,23 +21,28 @@ export class Route {
         console.log(hash)
     }
 
+    /**
+     * 解析地址 打开对应的界面
+     * @param src 
+     */
     static dispatcher(src: any): void {
         if (!src) src = ['/'];
         console.log(src[0]);
         switch (src[0]) {
             case '/':
-                this.openView('view/main.html');
+                ViewManager.openView(ViewConfig.index);
                 break;
             case 'alert':
-                this.openView('view/alert.html');
+                ViewManager.openView(ViewConfig.alert);
                 break;
         }
     }
 
     private static async openView(v: string) {
-        let data:any = await Utils.ajax({
+        let data: any = await Utils.ajax({
             url: v
         });
-        Core.root.innerHTML = data;
+        // Core.root.innerHTML = data;
+        return data;
     }
 }

@@ -9,3 +9,27 @@ interface ajaxData {
     /** 成功回调 */
     success?: Function
 }
+
+/**
+ * 界面配置结构 
+ */
+interface viewConfig {
+    /**界面名称 */
+    name: string,
+    /**界面类 */
+    class: any,
+    /** 模板路径 */
+    skin: string
+}
+
+/**
+ * 界面类接口
+ */
+interface viewBase {
+    name:string,
+    template: any,
+    add(parent: HTMLDivElement): void,
+    openAnimation(): void
+}
+
+

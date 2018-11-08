@@ -1,7 +1,7 @@
 /**
  * 事件分发
  */
-export class EventDispatcher {
+export default class EventDispatcher {
 
     /** 已经绑定事件列表 */
     private static list: any = {};

@@ -1,7 +1,7 @@
 /**
  * 基类
  */
-export class Base {
+export default class Base {
     constructor() {
         this.onAwake();
     }

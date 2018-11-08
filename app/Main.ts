@@ -1,7 +1,7 @@
-import { EventDispatcher } from "./core/EventDispatcher";
+import EventDispatcher from "./core/EventDispatcher";
 import { Route } from "./core/Route";
 import { Utils } from "./core/Utils";
-import { Core } from "./core/Core";
+import Core from "./core/Core";
 
 
 /**
@@ -17,7 +17,7 @@ class Main {
      * 初始化
      */
     private async init() {
-        Core.root = document.querySelector('#root');
+        Core.root = document.querySelector('#root');//设置主场景
         Route.listen();
 
         // $.ajax({

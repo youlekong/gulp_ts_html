@@ -27,8 +27,10 @@ var del = require('del');//删除文件
 
 
 // //测试环境
-gulp.task('webserver', gulp.parallel(function () {
+gulp.task('server', gulp.parallel(function () {
     connect.server({
+        root: 'release/',
+        host: '192.168.3.2',
         // livereload: true,
         port: 2333,
     });
@@ -83,7 +85,7 @@ gulp.task("concat-js", gulp.parallel(function () {
 
 //合并css
 gulp.task("concat-css", gulp.parallel(function () {
-    return gulp.src(['app/style/main.css', 'app/style/*.css'])
+    return gulp.src(['app/style/common.css', 'app/style/*.css'])
         .pipe(concat('style.css'))
         .pipe(gulp.dest('dist/style'));
 }));
@@ -102,7 +104,7 @@ gulp.task("concat-css", gulp.parallel(function () {
 
 gulp.task("default", gulp.series("build-ts", gulp.parallel(
     [
-        "webserver",
+        "server",
         "concat-js",
         "copy-html",
         "watch",
@@ -115,16 +117,35 @@ gulp.task("default", gulp.series("build-ts", gulp.parallel(
 
 //===================== 发布release
 
-// //压缩html
-// gulp.task('minify-html', () => {
-//     return gulp.src('dist/**/*.html')
-//         .pipe(htmlmin({ collapseWhitespace: true }))
-//         .pipe(gulp.dest('release'));
-// });
+//压缩html
+gulp.task('minHtml', gulp.parallel(function () {
+    return gulp.src(['dist/**/*html', 'dist/*.html'])
+        .pipe(htmlmin({ collapseWhitespace: true }))
+        .pipe(gulp.dest('release'));
+}));
 
-// //混淆代码
-// gulp.task('release', ['minify-html'], function () {
-//     return gulp.src('dist/*.js')
-//         .pipe(uglify())
-//         .pipe(gulp.dest("release/"));
-// })
+//混淆js
+gulp.task('minJs', gulp.parallel(function () {
+    return gulp.src('./dist/bundle.dev.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('release'));
+}));
+
+//压缩css
+gulp.task('minCss', gulp.parallel(function () {
+    const postcss = require('gulp-postcss'),//css兼容适配
+        autoprefixer = require('autoprefixer'),
+        cssMin = require('gulp-minify-css');//压缩
+    return gulp.src('./dist/**/*.css')
+        .pipe(postcss([autoprefixer()]))
+        .pipe(cssMin())
+        .pipe(gulp.dest('release'));
+}));
+
+//复制图片
+gulp.task('copy-img-release', gulp.parallel(function () {
+    return gulp.src('./dist/res/*')
+        .pipe(gulp.dest('release/res'));
+}));
+
+gulp.task('release', gulp.parallel('minHtml', 'minJs', 'minCss', 'copy-img-release'));

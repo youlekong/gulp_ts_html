@@ -1,5 +1,5 @@
 
-export class Utils {
+export default class Utils {
     static async ajax(d: ZeptoAjaxSettings) {
         return await new Promise((resolve, reject) => {
             $.ajax({

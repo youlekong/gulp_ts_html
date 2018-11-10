@@ -1,5 +1,4 @@
 import Base from "./Base";
-import Core from "./Core";
 
 export default class ViewBase extends Base implements viewBase {
 
@@ -17,7 +16,7 @@ export default class ViewBase extends Base implements viewBase {
         return this._template;
     }
     set template(d: any) {
-        this._template = d.replace(/^\<div[\s\>]/, `<div id=${this.name} `);
+        this._template = d.replace(/^\<div/, `<div id=${this.name} `);
         this.onCreate();
     }
 

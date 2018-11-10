@@ -75,6 +75,7 @@
   
   a {
     background-color: transparent;
+    text-decoration: none; 
   }
   
   /**
@@ -346,4 +347,11 @@
   
   [hidden] {
     display: none;
+  }
+
+  /* 消除点击阴影问题 */
+  *{
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
   }

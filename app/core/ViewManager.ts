@@ -1,10 +1,9 @@
 import Core from "./Core";
-import { Utils } from "./Utils";
 
 /**
  * 界面管理器
  */
-export class ViewManager {
+export default class ViewManager {
     /**已经打开界面缓存 => 后期如果需要批量处理界面可以用到 */
     private static viewCache: any = {};
 
@@ -12,15 +11,14 @@ export class ViewManager {
      * 打开界面
      */
 
-    static async openView(viewConfig: viewConfig) {
+    static async openView(viewConfig:any) {
         let view: viewBase = this.viewCache[viewConfig.name];
-        console.log(viewConfig)
         if (!view) {//检测界面是否已经缓存实例
            
             view = new viewConfig.class();
             this.viewCache[viewConfig.name] = view;
             view.name = viewConfig.name;
-            view.template = await Utils.ajax({
+            view.template = await Core.utils.ajax({
                 url: viewConfig.skin
             });
         }

@@ -85,7 +85,10 @@ gulp.task("concat-js", gulp.parallel(function () {
 
 //合并css
 gulp.task("concat-css", gulp.parallel(function () {
-    return gulp.src(['app/style/common.css', 'app/style/*.css'])
+    return gulp.src([
+        'app/style/normalize.css',
+        'app/style/common.css', 
+        'app/style/*.css'])
         .pipe(concat('style.css'))
         .pipe(gulp.dest('dist/style'));
 }));

@@ -7,18 +7,42 @@
         overflow: hidden;
     }
 
+    .dial-box {
+        width: 4.1rem;
+        height: 4.1rem;
+        margin-left: 50%;
+        left: -2.05rem;
+        top: 1rem;
+
+    }
+
     .dial {
         width: 4.1rem;
         height: 4.1rem;
         background: url('../res/CircleCenter_1.png') no-repeat;
         background-size: contain;
-        margin-left: 50%;
-        left: -2.05rem;
-        top: 1rem;
-        
+    }
+
+    .lipstick-box {
+        width: 0;
+        height: 0;
+        z-index: -1;
+    }
+
+    .lipstick {
+        display: inline-block;
+        width: .41rem;
+        height: 1.78rem;
+        background: url('../res/Lipstick_1.png') no-repeat;
+        background-size: contain;
+        position: relative;
+        top: -0.89rem;
+        left: -0.205rem;
     }
 </style>
 <div class="view relative">
-    <div id="dial" class="dial absolute"></div>
+    <div id="dial" class="dial-box absolute">
+        <div class="dial absolute"></div>
+    </div>
     这是游戏场景sdfsdfsdf
 </div>

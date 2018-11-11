@@ -38,6 +38,13 @@ interface viewBase {
     // remove():void
 }
 
+/**
+ * 坐标
+ */
+interface pos {
+    x:number,
+    y:number
+}
 
 
 

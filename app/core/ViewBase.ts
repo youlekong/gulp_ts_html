@@ -44,7 +44,9 @@ export default class ViewBase extends Base implements viewBase {
         parent.innerHTML = this._template;
         // this.node = parent.querySelector(`#${this.name}`);
         this.node = $(`#${this.name}`);
-        if (this.node) this.node.on('click', this.onClick);//绑定点击事件
+        if (this.node) this.node.on('click', (e) => {
+            this.onClick(e);
+        });//绑定点击事件
         this.onEnable();
         this.update();
     }
@@ -75,7 +77,7 @@ export default class ViewBase extends Base implements viewBase {
     }
 
 
-    private update() {
+    private update() {// TODO 这个设计有点问题，因为每次实例的时候都会创建一个，后期需要优化成只创建一个
         //每帧执行一次
         requestAnimationFrame(() => {
             this.update();
@@ -102,6 +104,6 @@ export default class ViewBase extends Base implements viewBase {
      * 从场景移除
      */
     onRemove() {
-        this.node.off('click', this.onClick);//绑定点击事件
+        this.node.off('click');//绑定点击事件
     }
 }

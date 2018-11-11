@@ -3,7 +3,11 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
+
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
   }
+
 
   body {
     font-size: .24rem;
@@ -12,6 +16,7 @@
   html,
   body {
     height: 100%;
+    -webkit-overflow-scrolling: touch;
   }
 
   .page-container {

@@ -2,7 +2,12 @@
  * 基类
  */
 export default class Base {
+
+    /**单例 */
+    static instance:Base;
+
     constructor() {
+        Base.instance = this;
         this.onAwake();
     }
 

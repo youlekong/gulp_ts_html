@@ -1,6 +1,31 @@
   /* 消除点击阴影问题 */
-  *{
+  * {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
+  }
+
+  body {
+    font-size: .24rem;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  .page-container {
+    height: 100%;
+    max-width: 7.5rem;
+    display: flex;
+    background-color: beige;
+    margin: 0 auto;
+  }
+
+  .relative {
+    position: relative;
+  }
+
+  .absolute {
+    position: absolute;
   }

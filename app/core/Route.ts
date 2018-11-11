@@ -34,14 +34,21 @@ export default class Route {
      * @param src 
      */
     static dispatcher(src: any): void {
-        if (!src) src = ['/'];
-        switch (src[0]) {
-            case '/':
-                Core.viewManager.openView(ViewConfig.index);
-                break;
-            case 'alert':
-                Core.viewManager.openView(ViewConfig.alert);
-                break;
+        if (!src) src = ['index'];
+
+        // switch (src[0]) {
+        //     default:
+        //         console.error('界面不存在，现在还未做处理')
+        //         return;
+        // }
+
+        if (!ViewConfig[src[0]]) {
+            console.error('模板不存在，现在还未做处理')
+            return;
         }
+        if (Core.preView) Core.preView.remove();
+        Core.viewManager.openView(ViewConfig[src[0]]);
+        Core.preView = ViewConfig[src[0]].class.instance;
+     
     }
 }

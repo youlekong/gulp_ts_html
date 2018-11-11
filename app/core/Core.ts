@@ -2,10 +2,13 @@ import ViewManager from "./ViewManager";
 import EventDispatcher from "./EventDispatcher";
 import Utils from "./Utils";
 import Route from "./Route";
+import ViewBase from "./ViewBase";
 
 export default class Core {
     /**主场景 */
     static root: HTMLDivElement;
+    /**已经打开的界面，仅限直接添加到主场景的，弹穿不算 */
+    static preView:ViewBase;
     /** 界面管理 */
     static viewManager = ViewManager;
     /**事件管理 */

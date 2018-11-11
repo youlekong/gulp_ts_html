@@ -29,7 +29,8 @@ var del = require('del');//删除文件
 // //测试环境
 gulp.task('server', gulp.parallel(function () {
     connect.server({
-        root: 'release/',
+        root: 'dist/',
+        // root: 'release/',
         host: '192.168.3.2',
         // livereload: true,
         port: 2333,
@@ -78,7 +79,7 @@ gulp.task("build-ts", gulp.parallel(function () {
 
 //合并js 
 gulp.task("concat-js", gulp.parallel(function () {
-    return gulp.src(['libs/*.js', 'dist/bundle.js'])
+    return gulp.src(['libs/zepto.min.js', 'libs/fx.js', 'libs/*.js', 'dist/bundle.js'])
         .pipe(concat('bundle.dev.js'))
         .pipe(gulp.dest("dist"));
 }));
@@ -87,7 +88,7 @@ gulp.task("concat-js", gulp.parallel(function () {
 gulp.task("concat-css", gulp.parallel(function () {
     return gulp.src([
         'app/style/normalize.css',
-        'app/style/common.css', 
+        'app/style/common.css',
         'app/style/*.css'])
         .pipe(concat('style.css'))
         .pipe(gulp.dest('dist/style'));

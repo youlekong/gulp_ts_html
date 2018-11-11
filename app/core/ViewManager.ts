@@ -24,7 +24,7 @@ export default class ViewManager {
         }
         if (view.add) view.add(Core.root);
         // Core.root.innerHTML = view.template;
-        if (view.openAnimation) view.openAnimation();
+        if (view.openAnimation && view.animation) view.openAnimation();
         console.log('%c ==> ', 'color:#fff;font-weight:700;background-color:rgba(27, 144, 4, 0.7)', ` open ${viewConfig.name}`);
 
     }

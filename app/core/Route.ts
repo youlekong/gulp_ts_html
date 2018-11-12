@@ -46,9 +46,10 @@ export default class Route {
             console.error('模板不存在，现在还未做处理')
             return;
         }
-        if (Core.preView) Core.preView.remove();
+        // if (Core.preView) Core.preView.remove();
+        // Core.preView = ViewConfig[src[0]];
         Core.viewManager.openView(ViewConfig[src[0]]);
-        Core.preView = ViewConfig[src[0]].class.instance;
+        
      
     }
 }

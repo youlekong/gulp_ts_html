@@ -12,9 +12,11 @@ export default class GameLogic extends ViewBase {
     /**转速度 */
     private speed:number = 1;
 
+    isCloseAnimation:boolean = true;
+
     onEnable() {
         this.dial = $('#dial');
-        console.log(this.node)
+        this.node.css({zIndex:999})
     }
 
     onClick() {

@@ -20,6 +20,8 @@ interface viewConfig {
     class: any;
     /** 模板路径 */
     skin: string;
+    /** 是否关闭上一个场景 */
+    closePre:boolean
 }
 
 /**
@@ -28,14 +30,20 @@ interface viewConfig {
 interface viewBase {
     /**是否播放动画 */
     animation:boolean;
+    isCloseAnimation:boolean;
     /**模板名称 */
     name:string;
+    /**是否已经添加 */
+    isAdd:boolean;
     /**模板 */
     template: any;
-    add(parent: HTMLDivElement): void;
+    add(parent: ZeptoCollection): void;
     /**播放加入到场景动画 */
     openAnimation(): void;
-    // remove():void
+    /**播放移除到场景动画 */
+    closeAnimation(): void;
+    /**从父级删除 */
+    remove():void;
 }
 
 /**

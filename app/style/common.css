@@ -27,6 +27,15 @@
     margin: 0 auto;
   }
 
+  .view{
+    
+  }
+
+  .full-window {
+    height: 100%;
+    width: 100%;
+  }
+
   .relative {
     position: relative;
   }

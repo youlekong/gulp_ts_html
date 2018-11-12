@@ -7,9 +7,9 @@ import GameLogic from "../logic/view_logic/GameLogic";
  */
 export default class ViewConfig {
     /**首页 */
-    static index: viewConfig = { name: 'index', class: IndexLogic, skin: 'view/main.html' };
+    static index: viewConfig = { name: 'index', class: IndexLogic, skin: 'view/main.html', closePre: true };
     /**游戏 */
-    static game: viewConfig = { name: 'game', class: GameLogic, skin: 'view/game.html' };
+    static game: viewConfig = { name: 'game', class: GameLogic, skin: 'view/game.html', closePre: false  };
     /**测试页 */
-    static alert: viewConfig = { name: 'alert', class: AlertLogic, skin: 'view/alert.html' };
+    static alert: viewConfig = { name: 'alert', class: AlertLogic, skin: 'view/alert.html', closePre: true  };
 }

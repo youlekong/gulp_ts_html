@@ -14,7 +14,7 @@ class Main {
      * 初始化
      */
     private init() {
-        Core.root = document.querySelector('#root');//设置主场景
+        Core.root = $('#root');//设置主场景
         Core.route.init();
        
     }

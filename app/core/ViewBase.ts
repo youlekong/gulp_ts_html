@@ -11,7 +11,12 @@ export default class ViewBase extends Base implements viewBase {
     /**模板名称名称 (要是独一的，防止id冲突) */
     name: any;
 
+    /** 是否播放动画 */
     animation: boolean = true;
+    isCloseAnimation:boolean = false;
+
+    /** 是否已经添加到场景 */
+    isAdd: boolean = false;
 
     /**模板数据 */
     private _template: string;
@@ -19,7 +24,8 @@ export default class ViewBase extends Base implements viewBase {
         return this._template;
     }
     set template(d: any) {
-        this._template = d.replace(/\<div/, `<div id=${this.name} `);///^\<div/
+        // this._template = d.replace(/\<div/, `<div id=${this.name} `);///^\<div/
+        this._template = d;
         this.onCreate();
     }
 
@@ -40,13 +46,22 @@ export default class ViewBase extends Base implements viewBase {
     /**
      * 添加到场景
      */
-    add(parent: HTMLDivElement) {
-        parent.innerHTML = this._template;
+    add(parent: ZeptoCollection) {
+        // console.log(this._template);
+        parent.append(`<div id=${this.name} class="view absolute full-window">${this._template}</div>`);
+        this.isAdd = true;
         // this.node = parent.querySelector(`#${this.name}`);
         this.node = $(`#${this.name}`);
-        if (this.node) this.node.on('click', (e) => {
-            this.onClick(e);
-        });//绑定点击事件
+        if (this.node) {
+            this.node.on('click', (e) => {
+                this.onClick(e);
+            });//绑定点击事件
+
+            //给a标签添加单独事件
+            // this.node.on('click', 'a', (e) => {
+
+            // }); 
+        }
         this.onEnable();
         this.update();
     }
@@ -60,8 +75,22 @@ export default class ViewBase extends Base implements viewBase {
             opacity: 1,
             transform: 'translateX(0)'
         }, 400, 'ease-out');
-
     }
+    /**
+     * 打开界面时的动画
+     */
+    closeAnimation() {
+        // this.node.css({ opacity: 0, transform: 'translateX(1.5rem)' });
+        
+        this.node.animate({
+            opacity: 0,
+            transform: 'translateX(1.5rem)'
+        }, 200, 'ease-out', () => {
+            this.remove();
+        });
+    }
+
+
 
     /**
      * 点击事件
@@ -97,6 +126,8 @@ export default class ViewBase extends Base implements viewBase {
      * 场景删除
      */
     remove() {
+        this.isAdd = false;
+        this.node.remove();
         this.onRemove();
     }
 
@@ -104,6 +135,6 @@ export default class ViewBase extends Base implements viewBase {
      * 从场景移除
      */
     onRemove() {
-        this.node.off('click');//绑定点击事件
+        if (this.node) this.node.off('click');//绑定点击事件
     }
 }

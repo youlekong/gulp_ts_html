@@ -4,6 +4,11 @@ import ViewConfig from "../../common/ViewConfig";
 
 
 export default class AlertLogic extends ViewBase {
+
+    onEnable(){
+        // Core.viewManager.closeView(Core.preView);
+    }
+
     onClick(e) {
         console.log(e)
     }

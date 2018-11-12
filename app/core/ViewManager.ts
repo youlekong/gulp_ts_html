@@ -10,11 +10,10 @@ export default class ViewManager {
     /**
      * 打开界面
      */
-
-    static async openView(viewConfig:any) {
+    static async openView(viewConfig: viewConfig) {
         let view: viewBase = this.viewCache[viewConfig.name];
         if (!view) {//检测界面是否已经缓存实例
-           
+
             view = new viewConfig.class();
             this.viewCache[viewConfig.name] = view;
             view.name = viewConfig.name;
@@ -22,10 +21,42 @@ export default class ViewManager {
                 url: viewConfig.skin
             });
         }
-        if (view.add) view.add(Core.root);
-        // Core.root.innerHTML = view.template;
-        if (view.openAnimation && view.animation) view.openAnimation();
+
+        if (!view.isAdd) {
+            if (view.add) view.add(Core.root);
+            if (view.openAnimation && view.animation) view.openAnimation();
+        }
+        if (viewConfig.closePre && Core.preView) this.closeView(Core.preView);//是否需要关闭上一个打开的界面
+        // if (Core.preView) this.closeView(Core.preView);//是否需要关闭上一个打开的界面
+        Core.preView = viewConfig;
         console.log('%c ==> ', 'color:#fff;font-weight:700;background-color:rgba(27, 144, 4, 0.7)', ` open ${viewConfig.name}`);
 
     }
+
+    /**
+     * 关闭界面
+     */
+    static closeView(viewConfig: viewConfig) {
+        if (!viewConfig) return;
+        let view: viewBase = this.viewCache[viewConfig.name];
+        if (!view) {//检测界面是否已经缓存实例
+            console.warn('lose view!');
+            return;
+        }
+
+        // if (!view.isAdd) return;
+
+        // todo 不能给所有的界面添加关闭动画，这里会有问题，因为浏览器的点击返回或是手机的返回速度太快，会导致界面叠加等，后期有时间再优化
+        if (view.closeAnimation && view.isCloseAnimation) {//isCloseAnimation 默认都是false  现在这个如果点的特别特别快是有问题的
+            view.closeAnimation();
+        }else{
+            view.remove();
+        }
+        
+        console.log('%c <== ', 'color:#fff;font-weight:700;background-color:rgba(255, 0, 0, 0.7)', ` close ${viewConfig.name}`);
+    }
+
+    /**
+     * 销毁界面
+     */
 }

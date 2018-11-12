@@ -65,7 +65,7 @@ gulp.task('watch', gulp.parallel(function () {
 //编译ts
 gulp.task("build-ts", gulp.parallel(function () {
     return browserify({
-        basedir: '.',
+        // basedir: '.',
         debug: true,
         entries: ['app/Main.ts'],
         cache: {},
@@ -79,8 +79,8 @@ gulp.task("build-ts", gulp.parallel(function () {
 
 //合并js 
 gulp.task("concat-js", gulp.parallel(function () {
-    return gulp.src(['libs/zepto.min.js', 'libs/fx.js', 'libs/*.js', 'dist/bundle.js'])
-        .pipe(concat('bundle.dev.js'))
+    return gulp.src(['libs/zepto.min.js', 'libs/fx.js', 'libs/*.js'])
+        .pipe(concat('library.js'))
         .pipe(gulp.dest("dist"));
 }));
 
@@ -128,12 +128,18 @@ gulp.task('minHtml', gulp.parallel(function () {
         .pipe(gulp.dest('release'));
 }));
 
-//混淆js
+//混淆js => 这个方法暂时不要用，最好还是把原来的ts 编译以后再和库合并，然后再发布
 gulp.task('minJs', gulp.parallel(function () {
-    return gulp.src('./dist/bundle.dev.js')
+    return gulp.src('./dist/bundle.js')
         .pipe(uglify())
         .pipe(gulp.dest('release'));
 }));
+
+// gulp.task("concat-js", gulp.parallel(function () {
+//     return gulp.src(['libs/zepto.min.js', 'libs/fx.js', 'libs/*.js', './dist/bundle.js'])
+//         .pipe(concat('library.js'))
+//         .pipe(gulp.dest("dist"));
+// }));
 
 //压缩css
 gulp.task('minCss', gulp.parallel(function () {

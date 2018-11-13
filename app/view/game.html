@@ -13,7 +13,7 @@
         margin-left: 50%;
         left: -2.05rem;
         top: 1rem;
-
+        z-index: 999;
     }
 
     .dial {
@@ -21,6 +21,7 @@
         height: 4.1rem;
         background: url('../res/CircleCenter_1.png') no-repeat;
         background-size: contain;
+        
     }
 
     .lipstick-box {
@@ -39,10 +40,15 @@
         top: -0.89rem;
         left: -0.205rem;
     }
+    .shoot-lipstick{
+        z-index: 0;
+        left: 3.75rem;
+        top: 10rem;
+        opacity: 0;
+    }
 </style>
-<div class="game-view full-window">
+<div id="gameView" class="game-view full-window">
     <div id="dial" class="dial-box absolute">
         <div class="dial absolute"></div>
     </div>
-    这是游戏场景sdfsdfsdf
 </div>

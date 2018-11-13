@@ -1,6 +1,6 @@
 import Base from "./Base";
-import { throws } from "assert";
-
+import Core from "./Core";
+import EventType from "../common/EventType";
 export default class ViewBase extends Base implements viewBase {
 
     /**
@@ -63,7 +63,7 @@ export default class ViewBase extends Base implements viewBase {
             // }); 
         }
         this.onEnable();
-        this.update();
+        Core.eventManager.on(EventType.update, this, this.onUpdate);
     }
 
     /**
@@ -106,19 +106,11 @@ export default class ViewBase extends Base implements viewBase {
     }
 
 
-    private update() {// TODO 这个设计有点问题，因为每次实例的时候都会创建一个，后期需要优化成只创建一个
-        //每帧执行一次
-        requestAnimationFrame(() => {
-            this.update();
-        });
-        this.onUpdate();
-    }
-
     /**
      * 每帧执行一次
      */
     onUpdate() {
-
+        
     }
 
 
@@ -128,13 +120,16 @@ export default class ViewBase extends Base implements viewBase {
     remove() {
         this.isAdd = false;
         this.node.remove();
+        if (this.node) this.node.off('click');//绑定点击事件
+        Core.eventManager.off(EventType.update, this, this.onUpdate);
         this.onRemove();
+        
     }
 
     /**
      * 从场景移除
      */
     onRemove() {
-        if (this.node) this.node.off('click');//绑定点击事件
+        
     }
 }

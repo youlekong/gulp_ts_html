@@ -10,15 +10,19 @@ export default class GameLogic extends ViewBase {
     /**转盘正在旋转角度 */
     private angle: number = 0;
     /**转速度 */
-    private speed: number = 0.5;
+    private speed: number = 2;
     /**当前场景要射口红 */
     private currentLipstick: ZeptoCollection;
     /**游戏场景 */
     private gameView: ZeptoCollection;
     /**已经插的飞刀的角度列表 通过角度来判断碰撞 */
     private angles: number[] = [];
+    /**射击次数递增 */
     private addNum: number = 0;
-    private randomAngle:number = 1;
+    /**随机方向 */
+    private randomAngle: number = 1;
+    /**游戏是否开始 */
+    private start: boolean = false;
 
     isCloseAnimation: boolean = true;
 
@@ -26,15 +30,16 @@ export default class GameLogic extends ViewBase {
         this.dial = $('#dial');
         this.node.css({ zIndex: 999 });
         this.gameView = $('#gameView');
+        this.angles = [];
         this.addShootLipstick();
+
+        this.start = true;
     }
 
     onClick() {
+        if (!this.start) return;
 
-        this.randomAngle = (Math.random() < 0.4 ? -1 : 1);
-
-        // let cur = this.currentLipstick;
-        // this.currentLipstick = null;
+        this.randomAngle = (Math.random() < 0.4 ? -1 : 1)
 
         let self = this;
         this.currentLipstick.animate({ transform: 'translate3d(0,-4.9rem,0) rotate(0deg);' }, 150, null, function () {
@@ -42,8 +47,7 @@ export default class GameLogic extends ViewBase {
             console.log(angle);
 
             if (self.collision(angle)) {
-                console.log('碰撞');//translate3d(6rem,14.9rem,0)
-                // console.log(cur);//translate3d(6rem,14.9rem,0)
+                console.log('碰撞');
                 $(this).animate({ transform: 'translate3d(6rem,10rem,0) rotate(1800deg);' }, 1000, null, function () {
                     $(this).remove();
                 });

@@ -43,3 +43,7 @@
   .absolute {
     position: absolute;
   }
+  .top_left_50 {
+    left:50%;
+    top: 50%;
+  }

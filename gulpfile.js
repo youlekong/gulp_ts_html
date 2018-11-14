@@ -1,13 +1,3 @@
-// var gulp = require('gulp');
-// var ts = require("gulp-typescript");
-// var tsProject = ts.createProject("tsconfig.json");
-
-// gulp.task("default", function () {
-//     return tsProject.src()
-//     .pipe(tsProject())
-//     .js.pipe(gulp.dest('dist'));
-// })
-
 var gulp = require("gulp");
 var browserify = require("browserify");
 var source = require('vinyl-source-stream');
@@ -22,9 +12,7 @@ const rev = require('gulp-rev'),//生成文件hash
     fileInclude = require('gulp-file-include');//界面模板功能
 
 const postcss = require('gulp-postcss'),//css兼容适配
-    autoprefixer = require('autoprefixer');
-
-const sequence = require('run-sequence');
+    autoprefixer = require('autoprefixer');//css补前缀
 
 var connect = require('gulp-connect');//测试环境
 
@@ -37,7 +25,7 @@ gulp.task('server', gulp.parallel(function () {
     return connect.server({
         root: 'dist/',
         // root: 'release/',
-        // host: '192.168.3.2',
+        host: '192.168.3.2',
         // livereload: true,
         port: 2333,
     });
@@ -65,6 +53,7 @@ gulp.task('file-include', gulp.parallel(function () {
         .pipe(gulp.dest('./dist/view/'));//输出文件路径
 }));
 
+//复制图片
 gulp.task('copy-img', gulp.parallel(function () {
     return del(['dist/res/*']).then(function () {//先删除
         return gulp.src('./app/res/*')

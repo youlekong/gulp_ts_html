@@ -30,23 +30,72 @@ export default class GameLogic extends ViewBase {
         this.dial = $('#dial');
         this.node.css({ zIndex: 999 });
         this.gameView = $('#gameView');
-        this.angles = [];
         this.addShootLipstick();
 
+        this.onStart();
+    }
+
+
+    /**
+     * 游戏开始
+     */
+    private onStart(): void {
+        this.angles = [];
         this.start = true;
     }
 
-    onClick() {
-        if (!this.start) return;
+    /**
+     * 游戏结束
+     */
+    private onOver(): void {
+        this.start = false;
+        this.setOverViewState(true);
+    }
 
-        this.randomAngle = (Math.random() < 0.4 ? -1 : 1)
+    /**
+    * 点击事件
+    * @param d 
+    */
+    onClick(d: Event) {
+        if (this.start) {
+            this.shoot();
+        } else {
+            switch (d.target['id']) {
+                case 'replay'://重玩
+                    this.onStart();
+                    this.setOverViewState(false);
+                    break;
+                case 'goBack'://返回
+                    window.location.href = '#index';
+                    break;
+            }
+        }
+        console.log(d.target['id']);
+    }
 
+    /**
+     * 设置结束界面显示状态
+     */
+    private setOverViewState(state: boolean): void {
+        if(state){
+            $('#overView').show();
+        }else{
+            $('#overView').hide();
+        }
+    }
+
+    /**
+     * 射击
+     * @param angle 
+     */
+    private shoot(): void {
         let self = this;
         this.currentLipstick.animate({ transform: 'translate3d(0,-4.9rem,0) rotate(0deg);' }, 150, null, function () {
             let angle = self.getAngle();
             console.log(angle);
 
             if (self.collision(angle)) {
+                self.onOver();
                 console.log('碰撞');
                 $(this).animate({ transform: 'translate3d(6rem,10rem,0) rotate(1800deg);' }, 1000, null, function () {
                     $(this).remove();
@@ -56,6 +105,7 @@ export default class GameLogic extends ViewBase {
                 self.dialAddLipstick(angle);
             }
 
+            self.randomAngle = (Math.random() < 0.4 ? -1 : 1)
 
         });
         self.addShootLipstick();

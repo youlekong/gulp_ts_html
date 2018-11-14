@@ -1109,7 +1109,7 @@ interface ZeptoCollection {
 	* Restore the default value for the “display” property of each element in the array, effectively showing them if they were hidden with hide.
 	* @return
 	**/
-	show(): ZeptoCollection;
+	show(speed:number, callback:Function): ZeptoCollection;
 
 	/**
 	* Get all sibling nodes of each element in the collection. If CSS selector is specified, filter the results to contain only elements that match the selector.

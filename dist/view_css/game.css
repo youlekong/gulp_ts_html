@@ -52,4 +52,5 @@
     border: .01rem solid #fff;
     margin: -2rem 0 0 -3.2rem;
     z-index: 999;
+    display: none;
 }

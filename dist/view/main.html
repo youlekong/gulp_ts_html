@@ -1,8 +1,36 @@
 <style>
-    .test{display: -webkit-box;display: -ms-flexbox;display: flex; };
+    .test{display: -webkit-box;display: -ms-flexbox;display: flex; }
+
+    /* banner图 */
+    .banner{
+        width: 7.5rem;
+        height: 3.75rem;
+    }
+    .banner a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: none;
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+        -webkit-box-sizing:border-box;
+        box-sizing:border-box;
+        border: 1px solid rgba(255,0,0,.5);
+    
+    }
+    .banner-move{
+        -webkit-transition: -webkit-transform 0.4s;
+        transition: -webkit-transform 0.4s;
+        transition: transform 0.4s;
+        transition: transform 0.4s, -webkit-transform 0.4s;
+    };
 </style>
-<div>
-    <div>这是首页</div>
-    <a  href="#alert">这里跳alert</a>
-    <a href="#game">进入游戏</a>
+<div id="banner" class="banner relative">
+    <a href="javascirpt:void();">测试1</a>
+    <a href="javascirpt:void();">测试2</a>
+    <a href="javascirpt:void();">测试3</a>
+    <a href="javascirpt:void();">测试4</a>
 </div>
+<div>这是首页</div>
+<a href="#alert">这里跳alert</a>
+<a href="#game">进入游戏</a>

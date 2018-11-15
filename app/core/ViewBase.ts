@@ -33,7 +33,7 @@ export default class ViewBase extends Base implements viewBase {
     node: ZeptoCollection;
 
     onAwake() {
-        console.log(222)
+        // console.log(222)
     }
 
     /**

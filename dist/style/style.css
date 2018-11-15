@@ -377,6 +377,8 @@
     display: flex;
     background-color: beige;
     margin: 0 auto;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   .view{

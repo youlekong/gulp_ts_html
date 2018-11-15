@@ -1,28 +1,26 @@
 import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
 import ViewConfig from "../../common/ViewConfig";
+import Slider from "../component/Slider";
 
 export default class IndexLogic extends ViewBase {
-
-    onAwake() {
-       
-    }
-
+    /**轮播图组件 */
+    private slide: Slider;
     onEnable() {
-     
+        this.slide = new Slider('#banner');
     }
 
     onClick(e: MouseEvent) {
-        console.log(e.target);
+        // console.log(e.target);
     }
 
-    onUpdate(){
+    onUpdate() {
         // console.log(this.node)
     }
 
-    onRemove(){
+    onRemove() {
         console.log('删除首页')
     }
 
-   
+
 }

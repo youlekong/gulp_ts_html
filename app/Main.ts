@@ -23,8 +23,9 @@ class Main {
     private update() {// TODO 这个设计有点问题，后期需要加到一个核心代码里
         Core.eventManager.event(EventType.update);
         //每帧执行一次
-         requestAnimationFrame(() => {
+         requestAnimationFrame((time) => {
             this.update();
+            TWEEN.update(time);
         });
     }
 }

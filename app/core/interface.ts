@@ -54,5 +54,7 @@ interface pos {
     y:number
 }
 
+declare var TWEEN: any
+
 
 

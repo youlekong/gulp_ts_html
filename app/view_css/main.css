@@ -1,20 +1,63 @@
-.test{display: flex; }
+.test {
+    display: flex;
+}
 
 /* banner图 */
-.banner{
+.banner {
     width: 7.5rem;
     height: 3.75rem;
 }
-.banner a {
+
+.banner>em {
     position: absolute;
     width: 100%;
     height: 100%;
     display: none;
     transform: translateX(100%);
-    box-sizing:border-box;
-    border: 1px solid rgba(255,0,0,.5);
-    
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 0, 0, .5);
+
 }
-.banner-move{
-    transition: transform 0.4s;
+
+.banner-move {
+    transition: transform 5s;
+}
+
+.banner-stop {
+    animation-play-state: paused;
+    -webkit-animation-play-state:paused;
+}
+
+.banner-point {
+    z-index: 999;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.banner-point i {
+    display: inline-block;
+    width: .15rem;
+    height: .15rem;
+    background-color: rgba(255, 255, 255, .5);
+    transition: all 0.4s;
+    margin: 0 .05rem .05rem .05rem;
+}
+
+.banner-point .cur {
+    background-color: rgba(255, 255, 255, 1);
+    width: .3rem;
+}
+
+.banner em:nth-child(1) {
+    background: rgba(255, 255, 0, .5)
+}
+
+.banner em:nth-child(2) {
+    background: rgba(255, 0, 0, .5)
+}
+
+.banner em:nth-child(3) {
+    background: rgba(0, 0, 255, .5)
 }

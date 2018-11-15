@@ -25,7 +25,7 @@ gulp.task('server', gulp.parallel(function () {
     return connect.server({
         root: 'dist/',
         // root: 'release/',
-        // host: '192.168.3.2',
+        host: '192.168.3.2',
         // livereload: true,
         port: 2333,
     });
@@ -99,7 +99,7 @@ gulp.task("build-ts", gulp.parallel(function () {
 
 //合并js 
 gulp.task("concat-js", gulp.parallel(function () {
-    return gulp.src(['libs/zepto.min.js', 'libs/fx.js', 'libs/*.js'])
+    return gulp.src(['libs/zepto.min.js', 'libs/fx.js','libs/Tween.min.js'])//, 'libs/*.js'
         .pipe(concat('library.js'))
         .pipe(gulp.dest("dist"));
 }));

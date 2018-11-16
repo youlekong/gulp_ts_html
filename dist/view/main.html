@@ -20,20 +20,12 @@
         transform: translateX(100%);
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
-        border: 1px solid rgba(255, 0, 0, .5);
-
     }
 
-    .banner-move {
-        -webkit-transition: -webkit-transform 5s;
-        transition: -webkit-transform 5s;
-        transition: transform 5s;
-        transition: transform 5s, -webkit-transform 5s;
-    }
-
-    .banner-stop {
-        animation-play-state: paused;
-        -webkit-animation-play-state:paused;
+    .banner a{
+        width: 100%;
+        height: 100%;
+        display: inline-block;
     }
 
     .banner-point {
@@ -58,23 +50,14 @@
         background-color: rgba(255, 255, 255, 1);
         width: .3rem;
     }
-
-    .banner em:nth-child(1) {
-        background: rgba(255, 255, 0, .5)
-    }
-
-    .banner em:nth-child(2) {
-        background: rgba(255, 0, 0, .5)
-    }
-
-    .banner em:nth-child(3) {
-        background: rgba(0, 0, 255, .5)
-    };
+;
 </style>
 <div id="banner" class="banner relative">
-    <em>测试1</em>
-    <em>测试2</em>
-    <em>测试3</em>
+    <em><a href="#alert" lazy="../res/banner1.jpg">1</a></em>
+    <em><a href="javascript:void(0);" lazy="../res/banner2.jpg">2</a></em>
+    <em><a href="javascript:void(0);" lazy="../res/banner3.jpg">3</a></em>
+    <em><a href="javascript:void(0);" lazy="../res/banner2.jpg">4</a></em>
+    <em><a href="javascript:void(0);" lazy="../res/banner3.jpg">5</a></em>
     <div id="point" class="banner-point absolute"></div>
 </div>
 <div>这是首页</div>

@@ -8,6 +8,7 @@ import { throws } from "assert";
  */
 export default class Slider {
 
+
     /** 容器 */
     private box: ZeptoCollection;
     /** a标签列表 */
@@ -28,7 +29,8 @@ export default class Slider {
     private point: ZeptoCollection;
     /** 定时器 */
     private time: any;
-    private moveList: any[] = [];
+    /**tween动画 */
+    private tween: any;
 
     /**
      * 轮播图组件
@@ -46,23 +48,22 @@ export default class Slider {
 
         this.init();
         this.creatPoint();
-
-        Core.eventManager.on(EventType.update, this, this.onUpdate);
     }
 
     /**
      * 初始化
      */
-    private init() {
-        this.showSlider(this.currentIndex);
+    init() {
+        this.setSliderAttribute(0);
         this.creatTime();
+    }
 
+    /**
+     * 初始化所有banner的层级
+     */
+    private initZIndex() {
         for (let x = this.sliderList.length - 1; x > -1; x--) {
-            this.moveList.push({
-                node: this.sliderList.eq(x),
-                end: 0,
-                start: 0
-            })
+            this.sliderList[x].style.zIndex = 0;
         }
     }
 
@@ -90,33 +91,32 @@ export default class Slider {
         i.eq(this.currentIndex).addClass('cur');
     }
 
-    /**
-     * 显示第几张并移动到指定位置
-     * @param eq 下标
-     * @param x 需要移动的x位置
-     */
-    private showSlider(eq: number, x?: number) {
-        this.sliderList.eq(eq).css({
-            display: 'inline-block',
-            transform: `translateX(${x ? x + '%' : 0})`
-        });
-    }
 
     /**
      * 触摸开始
      */
     private onTouchStart(e: Event) {
+        if (e.target['nodeName'] == 'I' || e.target['id'] == 'point') {
+            return false;
+        }
         this.clearTime();
+        if (this.tween) this.tween.stop();
         this.touch = true;
-        let node: ZeptoCollection = $(e.target);
+        let node: ZeptoCollection = $(e.target).parent();
         this.currentIndex = node.index();
-        this.setMoveCss(false);
+        this.initZIndex();
         node.css({ zIndex: 10 });
         this.oldTouchX = e['changedTouches'][0]['pageX'];
         this.oldMoveX = this.conversionX(this.sliderList.eq(this.currentIndex));
 
 
-        return false;
+
+        //临时优化，这个地方有问题，连续点击的时候会有点小问题
+        let x: number = (e['changedTouches'][0]['pageX'] - this.oldTouchX) / this.maxWidth;//触摸点转换成宽度比例
+        let currentX: number = this.oldMoveX + x * 100;
+        this.currentX = currentX;
+
+        // return false;
     }
 
     /**
@@ -127,18 +127,23 @@ export default class Slider {
 
             let x: number = (e['changedTouches'][0]['pageX'] - this.oldTouchX) / this.maxWidth;//触摸点转换成宽度比例
             let currentX: number = this.oldMoveX + x * 100;
+            this.initZIndex();
             this.sliderMove(this.currentIndex, currentX);
-
-            //向右滑动 左边数下一个
-            let next = this.currentIndex - 1;
-            if (next < 0) next = this.sliderList.length - 1;
-            this.sliderMove(next, currentX - 100);
-            //向左滑动 右边数下一个
-            next = this.currentIndex + 1;
-            if (next > this.sliderList.length - 1) next = 0;
-            this.sliderMove(next, 100 + currentX);
+            let next
+            if (currentX < 0) {
+                //向左滑动 右边数下一个
+                next = this.currentIndex + 1;
+                if (next > this.sliderList.length - 1) next = 0;
+                this.sliderMove(next, 100 + currentX);
+            } else {
+                //向右滑动 左边数下一个
+                next = this.currentIndex - 1;
+                if (next < 0) next = this.sliderList.length - 1;
+                this.sliderMove(next, currentX - 100);
+            }
 
             this.currentX = currentX;
+            this.setSliderAttribute(next);
 
         }
         return false;
@@ -148,55 +153,87 @@ export default class Slider {
      * 触摸结束
      */
     private onTouchEnd(e: Event) {
+        if(!this.touch)return;
         this.touch = false;
-        // this.creatTime();
-        // if (!this.currentX) return;
-        this.setMoveCss(true);
-        // //向右滑动 左边数下一个
-        if (this.currentX < -15) {//向左滑动
-            // this.showSlider(this.currentIndex, -100);
-            // this.showSlider(this.next(2), 0);
-            // this.currentIndex = this.next(2);
-        } else if (this.currentX > 15) {//向右滑动
-            // this.showSlider(this.currentIndex, 100);
-            // this.showSlider(this.next(1), 0);
-            // this.currentIndex = this.next(1);
+        if (!this.currentX) {
+            this.creatTime();
+            return;
+        }
+        let coords = { x: this.currentX },
+            sliderList = this.sliderList;
+
+        if (this.currentX < -10) {//向左滑， 右边为下一个
+            this.currentIndex = this.next(2);
+
+            this.tween = new TWEEN.Tween(coords).to({ x: -100 }, 600)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .onUpdate(() => {
+                    sliderList.eq(this.next(1)).css({
+                        zIndex: 10,
+                        transform: `translateX(${coords.x}%)`
+                    });
+
+                    sliderList.eq(this.currentIndex).css({
+                        transform: `translateX(${coords.x + 100}%)`
+                    });
+
+                })
+                .start().onComplete(() => {
+                    // this.currentX = 0;
+                    this.creatTime();
+                });
+        } else if (this.currentX > 10) {//向右滑动 左边为下一个
+            this.currentIndex = this.next(1);
+
+            this.tween = new TWEEN.Tween(coords).to({ x: 100 }, 600)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .onUpdate(() => {
+                    sliderList.eq(this.next(2)).css({
+                        zIndex: 10,
+                        transform: `translateX(${coords.x}%)`
+                    });
+
+                    sliderList.eq(this.currentIndex).css({
+                        transform: `translateX(${coords.x - 100}%)`
+                    });
+
+                })
+                .start().onComplete(() => {
+                    // this.currentX = 0;
+                    this.creatTime();
+                });
+
         } else {//回到原点
-            // this.showSlider(this.currentIndex, 0);
-            // this.showSlider(this.next(1), -100);
-            // this.showSlider(this.next(2), 100);
 
-           
+            this.tween = new TWEEN.Tween(coords).to({ x: 0 }, 600)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .onUpdate(() => {
+                    sliderList.eq(this.currentIndex).css({
+                        transform: `translateX(${coords.x}%)`
+                    });
+                    if (this.currentX > 0) {
+                        sliderList.eq(this.next(1)).css({
+                            zIndex: 10,
+                            transform: `translateX(${coords.x - 100}%)`
+                        });
+                    } else {
+                        sliderList.eq(this.next(2)).css({
+                            zIndex: 10,
+                            transform: `translateX(${100 + coords.x}%)`
+                        });
+                    }
 
-            // // this.setNodeMove(this.currentIndex, this.currentX, 0);
-            // if(this.currentX > 0){
-            //     this.showSlider(this.next(1), -100);
-            //     // this.setNodeMove(this.next(1), 100 - this.currentX, -100);
-            // }else{
-            //     this.showSlider(this.next(2), 100);
-            //     // this.setNodeMove(this.next(2), 100 + this.currentX, 100);
-            // }
-
+                })
+                .start().onComplete(() => {
+                    // this.currentX = 0;
+                    this.creatTime();
+                });
 
         }
 
-
-        //把当前前的tween存起来，点的时候给stop
-        var coords = { x: this.currentX };
-        var tween = new TWEEN.Tween(coords).to({ x: 0 }, 5000)
-            .easing(TWEEN.Easing.Quadratic.Out)
-            .onUpdate(() => {
-                this.sliderList.eq(this.currentIndex).css({
-                    transform: `translateX(${coords.x}%)`
-                })
-            })
-            .start();
-
-        console.log(this.currentX);
-
-
         this.setPointCurrent();
 
+        return false;
     }
 
     /**
@@ -222,6 +259,7 @@ export default class Slider {
      */
     private sliderMove(eq: number, x: number) {
         this.sliderList.eq(eq).css({
+            zIndex: 10,
             display: 'inline-block',
             transform: `translateX(${x}%)`
         });
@@ -231,102 +269,65 @@ export default class Slider {
      * 转换transform的值
      */
     private conversionX(node: ZeptoCollection): number {
+        if (!node.length) return 0;
         return parseFloat(node.css('transform').match(/[0-9|.|\-]+/g)[0]);
-    }
-
-    /**
-     * 设置移动css属性
-     * @param type true 添加  false 移除
-     */
-    private setMoveCss(type: boolean) {
-
-return;
-
-        let list = this.sliderList;
-        for (let x = list.length - 1; x > -1; x--) {
-            if (type) {
-
-                $(list[x]).addClass('banner-move');
-            } else {
-                $(list[x]).removeClass('banner-move');
-
-                // $(list[x]).css({
-                //     zIndex: 0
-                // });
-            }
-        }
     }
 
     /**
      * 开始轮播定时器
      */
     private creatTime() {
-        return;
-        if (this.time) clearInterval(this.time);
-        this.time = setInterval(() => {
 
-            this.setMoveCss(false);
-            this.sliderList.eq(this.next(2)).css({
-                display: 'inline-block',
-                transform: `translateX(100%)`
+        if (this.time) clearInterval(this.time);
+        if (this.tween) this.tween.stop();
+        let sliderList = this.sliderList;
+        this.time = setInterval(() => {
+            let coords = { x: 0 };
+            this.currentIndex = this.next(2);
+
+
+            this.setSliderAttribute(this.currentIndex);
+
+            this.tween = new TWEEN.Tween(coords).to({ x: -100 }, 600)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .onUpdate(() => {
+                    sliderList.eq(this.next(1)).css({
+                        transform: `translateX(${coords.x}%)`
+                    });
+                    sliderList.eq(this.currentIndex).css({
+                        transform: `translateX(${coords.x + 100}%)`
+                    });
+
+                })
+                .start();
+            this.setPointCurrent();
+        }, 3000);
+    }
+
+    /**
+     * 根据下标设置banner显示和图片纹理
+     */
+    private setSliderAttribute(eq: number) {
+        let node: ZeptoCollection = this.sliderList.eq(eq),
+            a: ZeptoCollection = node.find('a');
+        node.css({
+            display: 'inline-block'
+        });
+        if (a.attr('lazy')) {
+            node.css({
+                transform: `translateX(0)`
             });
-            setTimeout(() => {
-                this.sliderList.eq(this.currentIndex).css({
-                    transform: `translateX(-100%)`
-                });
-                this.sliderList.eq(this.next(2)).css({
-                    transform: `translateX(0)`
-                });
-                this.sliderList.eq(this.currentIndex).addClass('banner-move');
-                this.sliderList.eq(this.next(2)).addClass('banner-move');
-                this.currentIndex = this.next(2);
-                this.setPointCurrent();
-            }, 4);
-        }, 1000);
+            a.css('background', `url(${a.attr('lazy')})`);
+            a.removeAttr('lazy');
+        }
+
     }
 
     /**
      * 停止轮播
      */
-    private clearTime() {
+    clearTime() {
         clearInterval(this.time);
     }
 
-    /**
-     * 指定节点移动到指定位置
-     */
-    private setNodeMove(eq: number, start: number, end: number) {
-        for (let x = this.moveList.length - 1; x > -1; x--) {
-            if (this.moveList[x].node.index() == eq) {
-                this.moveList[x].end = end;
-                this.moveList[x].start = start;
-            }
-        }
-        console.log(this.moveList[eq])
-    }
-
-    private onUpdate() {
-        if (!this.touch) {
-            for (let x = this.moveList.length - 1; x > -1; x--) {
-                let obj = this.moveList[x];
-                if (obj.start != obj.end) {
-                    if (obj.end > obj.start) {
-                        obj.start += 0.5;
-                        if (obj.start > obj.end) obj.start = obj.end;
-                    } else {
-                        obj.start -= 0.5;
-                        if (obj.start < obj.end) obj.start = obj.end;
-                    }
-
-
-                    obj.node.css({
-                        transform: `translateX(${obj.start}%)`
-                    })
-                }
-            }
-
-            // console.log(1);
-        }
-
-    }
 }

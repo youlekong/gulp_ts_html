@@ -19,7 +19,9 @@ export default class IndexLogic extends ViewBase {
     }
 
     onRemove() {
-        console.log('删除首页')
+        console.log('删除首页');
+        this.slide.clearTime();
+        this.slide = null;
     }
 
 

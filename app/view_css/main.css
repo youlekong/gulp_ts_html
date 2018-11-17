@@ -1,11 +1,8 @@
-.test {
-    display: flex;
-}
-
-/* banner图 */
+/******************** banner图 ****************/
 .banner {
     width: 7.5rem;
     height: 3.75rem;
+    overflow: hidden;
 }
 
 .banner>em {
@@ -17,10 +14,12 @@
     box-sizing: border-box;
 }
 
-.banner a{
+.banner a {
     width: 100%;
     height: 100%;
     display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .banner-point {
@@ -43,4 +42,176 @@
 .banner-point .cur {
     background-color: rgba(255, 255, 255, 1);
     width: .3rem;
+}
+
+
+/******************* 热门道县 ************************/
+.hot-item {
+    width: 100%;
+    height: 4.3rem;
+    padding: .12rem 0;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.hot-item .item-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 16.8rem;
+}
+
+.hot-item a {
+    margin: .18rem 0;
+    width: 1.6rem;
+    height: 1.8rem;
+    display: inline-block;
+    text-align: center;
+    padding: 0 .25rem;
+    /* background-color: rgba(255, 255, 0, .5) */
+}
+
+.hot-item img {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.hot-item em {
+    /* padding-top: .10rem; */
+    display: inline-block;
+    font-size: .2rem;
+    color: #333;
+    font-style: normal;
+    height: .55rem;
+    overflow: hidden;
+    text-overflow: -o-ellipsis-lastline;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/******************* 分隔线 ************************/
+.index-line {
+    height: .18rem;
+    background-color: #f9f9f9;
+}
+
+/****************** 商品列表 *****************/
+.index-list-title {
+    height: 1.2rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 3.14rem .58rem;
+}
+
+.item-list-box {
+    width: 6.9rem;
+    height: auto;
+    margin: 0 auto;
+    padding-bottom: .98rem;
+}
+
+.item-list-box li {
+    position: relative;
+    height: 5rem;
+}
+
+.item-list-box li>a {
+    float: left;
+    height: 3.45;
+    width: 6.9rem;
+    display: inline-block;
+}
+
+.item-list-box img {
+    width: 6.9rem;
+    height: 3.45rem;
+    float: left;
+}
+
+.item-list-box h3 {
+    font-size: .28rem;
+    color: #333;
+    padding-bottom: .1rem;
+}
+
+.item-list-box .item-msg {
+    width: 100%;
+    float: left;
+    height: .6rem;
+    padding: .3rem 0 .5rem 0;
+}
+
+.item-list-box .left {
+    width: 5.1rem;
+    float: left;
+}
+
+.item-list-box .left span {
+    line-height: .3rem;
+}
+
+.item-list-box .right {
+    float: right;
+}
+
+.item-list-box .need-btn {
+    display: inline-block;
+    width: 1.6rem;
+    height: .6rem;
+    text-align: center;
+    line-height: .6rem;
+    color: white;
+    background-color: #EC4A58;
+    margin-top: .15rem;
+}
+
+.item-list-box del {
+    color: #bbb;
+    vertical-align: middle;
+}
+
+.item-list-box .price {
+    color: #EC4A58;
+    padding-right: .25rem;
+}
+
+.item-list-box .game-status {
+    color: #fff;
+    text-align: center;
+    top: .2rem;
+    left: .2rem;
+    font-style: normal;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: .4rem;
+    width: 1.6rem;
+    height: .45rem;
+    line-height: .45rem;
+}
+
+.view-title .pay-btn {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    left: 0;
+    top: .15rem;
+    width: .8rem;
+    color: #333;
+}
+.view-title .pay-btn em {
+    display: block;
+    width: 100%;
+    float: left;
+    height: .26rem;
+    line-height: .26rem;
+}
+.view-title .pay-btn .icon{
+    width: .44rem;
+    height: .32rem;   
+    background-position: -1.86rem -1.21rem;
+    margin: 0;
 }

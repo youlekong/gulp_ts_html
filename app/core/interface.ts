@@ -55,6 +55,7 @@ interface pos {
 }
 
 declare var TWEEN: any
+declare var lazyload: any
 
 
 

@@ -99,7 +99,7 @@ gulp.task("build-ts", gulp.parallel(function () {
 
 //合并js 
 gulp.task("concat-js", gulp.parallel(function () {
-    return gulp.src(['libs/zepto.min.js', 'libs/fx.js','libs/Tween.min.js'])//, 'libs/*.js'
+    return gulp.src(['libs/zepto.min.js', 'libs/fx.js','libs/lazyload.min.js','libs/Tween.min.js'])//, 'libs/*.js'
         .pipe(concat('library.js'))
         .pipe(gulp.dest("dist"));
 }));
@@ -112,6 +112,10 @@ gulp.task("concat-css", gulp.parallel(function () {
             'app/style/*.css'
         ])
         .pipe(concat('style.css'))
+        .pipe(postcss([autoprefixer({
+            browsers: ['last 2 versions', 'Android >= 4.0'], //http://www.ydcss.com/archives/94
+            cascade: false, //是否美化属性值 默认：true 像这样：
+        })]))
         .pipe(gulp.dest('dist/style'));
 }));
 

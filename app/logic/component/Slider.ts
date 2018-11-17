@@ -317,7 +317,7 @@ export default class Slider {
             node.css({
                 transform: `translateX(0)`
             });
-            a.css('background', `url(${a.attr('lazy')})`);
+            a.css('background-image', `url(${a.attr('lazy')})`);
             a.removeAttr('lazy');
         }
 

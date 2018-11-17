@@ -8,6 +8,8 @@ export default class IndexLogic extends ViewBase {
     private slide: Slider;
     onEnable() {
         this.slide = new Slider('#banner');
+        let images = document.querySelectorAll(".lazy");
+        lazyload(images);
     }
 
     onClick(e: MouseEvent) {

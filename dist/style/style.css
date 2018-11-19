@@ -533,11 +533,19 @@
     /* background-color: beige; */
     margin: 0 auto;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+
   }
 
-  .view {}
+  .view {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+  }
 
   .full-window {
     height: 100%;
@@ -550,6 +558,10 @@
 
   .absolute {
     position: absolute;
+  }
+
+  .fixed {
+    position: fixed;
   }
 
   .top_left_50 {
@@ -591,6 +603,10 @@
   }
 
   /*****字体大小****/
+  .f18 {
+    font-size: .18rem
+  }
+
   .f20 {
     font-size: .2rem
   }
@@ -606,6 +622,7 @@
   .f28 {
     font-size: .28rem
   }
+
   .f38 {
     font-size: .38rem
   }
@@ -621,15 +638,15 @@
   /******底部banner******/
   .bottom-nav {
     text-align: center;
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(255, 255, 255, 1);
     left: 50%;
-    bottom: 0;
+    bottom: -1rem;
     z-index: 99;
-    position: fixed;
     width: 7.5rem;
     height: .98rem;
     font-size: .26rem;
     margin-left: -3.75rem;
+    border-top: 1px solid #ddd;
     /* box-shadow:0px -2px 15px rgba(0, 0, 0, 0.2); */
   }
 
@@ -640,17 +657,18 @@
     margin-bottom: -0.15rem;
   }
 
-  .bottom-nav .find {
+  .bottom-nav .find .icon {
     background-position-y: -0.62rem;
   }
 
-  .bottom-nav .personal {
+  .bottom-nav .personal .icon {
     background-position-y: -1.24rem;
   }
 
   .bottom-nav .cur .icon {
     background-position-x: -0.62rem;
   }
+
   .bottom-nav .cur {
     color: #EC4A58;
   }
@@ -660,7 +678,7 @@
   }
 
   .bottom-nav .cur .personal {
-    background-position-y: -1.24rem;
+    background-position-x: -0.62rem;
   }
 
   .bottom-nav em {
@@ -672,12 +690,131 @@
     width: 1rem;
     height: .8rem;
     color: #333;
-    
+
   }
 
-  .view-title{
+  .view-title {
     text-align: center;
     height: .8rem;
     color: #333;
     line-height: .8rem;
+  }
+
+  /******************** banner图 ****************/
+  .banner {
+    width: 7.5rem;
+    height: 3.75rem;
+    overflow: hidden;
+  }
+
+  .banner>em {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .banner a {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .banner-point {
+    z-index: 999;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .banner-point i {
+    display: inline-block;
+    width: .15rem;
+    height: .15rem;
+    background-color: rgba(255, 255, 255, .5);
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+    margin: 0 .05rem .05rem .05rem;
+  }
+
+  .banner-point .cur {
+    background-color: rgba(255, 255, 255, 1);
+    width: .3rem;
+  }
+
+  /******************** 界面顶部标题 ****************/
+  .view-title {
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+  }
+
+  .view-title .pay-btn,
+  .view-title .back-btn {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center;
+    left: 0;
+    top: .15rem;
+    width: .8rem;
+    color: #333;
+  }
+
+  .view-title .back-btn {
+    top: .2rem;
+  }
+
+  .view-title .pay-btn em {
+    display: block;
+    width: 100%;
+    float: left;
+    height: .26rem;
+    line-height: .26rem;
+  }
+
+  .view-title .pay-btn .icon {
+    width: .44rem;
+    height: .32rem;
+    background-position: -1.86rem -1.21rem;
+    margin: 0;
+  }
+
+  .view-title .back-btn .icon {
+    width: .24rem;
+    height: .39rem;
+    background-position-x: -3.68rem;
+    margin: 0;
+  }
+
+
+  /******************** 商品列表标题 ****************/
+  .index-list-title {
+    height: 1.2rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 3.14rem .58rem;
+  }
+
+  /******************** 按钮 ****************/
+  .btn_red {
+    display: inline-block;
+    width: 1.6rem;
+    height: .6rem;
+    background-color: #EC4A58;
+    font-size: .26rem;
+    color: #fff;
+    text-align: center;
+    line-height: 0.6rem;
   }

@@ -13,7 +13,7 @@ export default class ViewBase extends Base implements viewBase {
 
     /** 是否播放动画 */
     animation: boolean = true;
-    isCloseAnimation:boolean = false;
+    isCloseAnimation: boolean = false;
 
     /** 是否已经添加到场景 */
     isAdd: boolean = false;
@@ -49,6 +49,7 @@ export default class ViewBase extends Base implements viewBase {
     add(parent: ZeptoCollection) {
         // console.log(this._template);
         parent.append(`<div id=${this.name} class="view absolute full-window">${this._template}</div>`);
+        ; (parent[0] as HTMLDivElement).scrollTop = 0;//默认滚到最上面，后期根据需求优化
         this.isAdd = true;
         // this.node = parent.querySelector(`#${this.name}`);
         this.node = $(`#${this.name}`);
@@ -74,14 +75,18 @@ export default class ViewBase extends Base implements viewBase {
         this.node.animate({
             opacity: 1,
             transform: 'translateX(0)'
-        }, 400, 'ease-out');
+        }, 400, 'ease-out', () => {
+            this.node.css({
+                transform:null
+            })
+        });
     }
     /**
      * 打开界面时的动画
      */
     closeAnimation() {
         // this.node.css({ opacity: 0, transform: 'translateX(1.5rem)' });
-        
+
         this.node.animate({
             opacity: 0,
             transform: 'translateX(1.5rem)'
@@ -110,7 +115,7 @@ export default class ViewBase extends Base implements viewBase {
      * 每帧执行一次
      */
     onUpdate() {
-        
+
     }
 
 
@@ -119,17 +124,18 @@ export default class ViewBase extends Base implements viewBase {
      */
     remove() {
         this.isAdd = false;
+        this.node.off();
         this.node.remove();
         if (this.node) this.node.off('click');//绑定点击事件
         Core.eventManager.off(EventType.update, this, this.onUpdate);
         this.onRemove();
-        
+
     }
 
     /**
      * 从场景移除
      */
     onRemove() {
-        
+
     }
 }

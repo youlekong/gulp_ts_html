@@ -1,10 +1,12 @@
 import ViewBase from "../../core/ViewBase";
-import Core from "../../core/Core";
-import ViewConfig from "../../common/ViewConfig";
 import Slider from "../component/Slider";
+import Core from "../../core/Core";
 import EventType from "../../common/EventType";
 
-export default class IndexLogic extends ViewBase {
+/**
+ * 发现模板
+ */
+export default class FindLogic extends ViewBase {
     /**轮播图组件 */
     private slide: Slider;
     onEnable() {
@@ -13,7 +15,7 @@ export default class IndexLogic extends ViewBase {
         lazyload(images);
 
         //更新底部导航状态
-        Core.eventManager.event(EventType.updateBottomNav, { type: 'index' });
+        Core.eventManager.event(EventType.updateBottomNav, { type: 'find' });
     }
 
     onClick(e: MouseEvent) {
@@ -25,10 +27,8 @@ export default class IndexLogic extends ViewBase {
     }
 
     onRemove() {
-        console.log('删除首页');
+        console.log('find界面关闭');
         this.slide.clearTime();
         this.slide = null;
     }
-
-
 }

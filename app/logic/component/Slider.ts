@@ -1,8 +1,3 @@
-import { setTimeout } from "timers";
-import Core from "../../core/Core";
-import EventType from "../../common/EventType";
-import { throws } from "assert";
-
 /**
  * 轮播图组件
  */
@@ -32,15 +27,17 @@ export default class Slider {
     /**tween动画 */
     private tween: any;
 
+
     /**
      * 轮播图组件
      * @param id 容器id
      */
     constructor(id: string) {
+       
         this.box = $(id);
         this.sliderList = this.box.find('em');
         this.maxWidth = this.box.width();
-        this.point = $('#point');
+        this.point = this.box.find('.banner-point');
 
         this.box.on('touchstart', (e) => this.onTouchStart(e));
         this.box.on('touchmove', (e) => this.onTouchMove(e));

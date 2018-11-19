@@ -22,11 +22,13 @@ export default class ViewManager {
             });
         }
 
+        if (viewConfig.closePre && Core.preView) this.closeView(Core.preView);//是否需要关闭上一个打开的界面
+
         if (!view.isAdd) {
             if (view.add) view.add(Core.root);
             if (view.openAnimation && view.animation) view.openAnimation();
         }
-        if (viewConfig.closePre && Core.preView) this.closeView(Core.preView);//是否需要关闭上一个打开的界面
+      
         // if (Core.preView) this.closeView(Core.preView);//是否需要关闭上一个打开的界面
         Core.preView = viewConfig;
         console.log('%c ==> ', 'color:#fff;font-weight:700;background-color:rgba(27, 144, 4, 0.7)', ` open ${viewConfig.name}`);

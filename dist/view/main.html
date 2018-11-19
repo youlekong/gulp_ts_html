@@ -1,54 +1,4 @@
 <style>
-    /******************** banner图 ****************/
-    .banner {
-        width: 7.5rem;
-        height: 3.75rem;
-        overflow: hidden;
-    }
-
-    .banner>em {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: none;
-        -webkit-transform: translateX(100%);
-        transform: translateX(100%);
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-
-    .banner a {
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
-
-    .banner-point {
-        z-index: 999;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-    }
-
-    .banner-point i {
-        display: inline-block;
-        width: .15rem;
-        height: .15rem;
-        background-color: rgba(255, 255, 255, .5);
-        -webkit-transition: all 0.4s;
-        transition: all 0.4s;
-        margin: 0 .05rem .05rem .05rem;
-    }
-
-    .banner-point .cur {
-        background-color: rgba(255, 255, 255, 1);
-        width: .3rem;
-    }
-
-
     /******************* 热门道县 ************************/
     .hot-item {
         width: 100%;
@@ -109,12 +59,6 @@
     }
 
     /****************** 商品列表 *****************/
-    .index-list-title {
-        height: 1.2rem;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: 3.14rem .58rem;
-    }
 
     .item-list-box {
         width: 6.9rem;
@@ -168,13 +112,6 @@
     }
 
     .item-list-box .need-btn {
-        display: inline-block;
-        width: 1.6rem;
-        height: .6rem;
-        text-align: center;
-        line-height: .6rem;
-        color: white;
-        background-color: #EC4A58;
         margin-top: .15rem;
     }
 
@@ -199,35 +136,6 @@
         width: 1.6rem;
         height: .45rem;
         line-height: .45rem;
-    }
-
-    .view-title .pay-btn {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        text-align: center;
-        left: 0;
-        top: .15rem;
-        width: .8rem;
-        color: #333;
-    }
-    .view-title .pay-btn em {
-        display: block;
-        width: 100%;
-        float: left;
-        height: .26rem;
-        line-height: .26rem;
-    }
-    .view-title .pay-btn .icon{
-        width: .44rem;
-        height: .32rem;   
-        background-position: -1.86rem -1.21rem;
-        margin: 0;
     };
 </style>
 <div class="view-title f38 relative">
@@ -247,7 +155,7 @@
 </div>
 <div class="hot-item">
     <div class="item-box">
-        <a href="javascript:void(0);">
+        <a href="#game">
             <img src="../res/1.jpg" alt="">
             <em>测试测试测试测试测试测试测试测试测试</em>
         </a>
@@ -294,7 +202,7 @@
 <div class="item-list-box">
     <ul>
         <li>
-            <a href="javascirpt:void(0);">
+            <a href="#game">
                 <img class="lazy" src="" data-src="../res//banner1.jpg" alt="">
             </a>
             <div class="item-msg">
@@ -306,7 +214,7 @@
                     </span>
                 </div>
                 <div class="right">
-                    <a href="javascript:void(0);" class="need-btn f26">我要这支</a>
+                    <a href="javascript:void(0);" class="btn_red need-btn f26">我要这支</a>
                 </div>
             </div>
             <i class="absolute game-status f20 font-clip">
@@ -326,7 +234,7 @@
                     </span>
                 </div>
                 <div class="right">
-                    <a href="javascript:void(0);" class="need-btn f26">我要这支</a>
+                    <a href="javascript:void(0);" class="btn_red need-btn f26">我要这支</a>
                 </div>
             </div>
             <i class="absolute game-status f20 font-clip">

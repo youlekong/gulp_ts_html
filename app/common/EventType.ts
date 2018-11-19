@@ -4,5 +4,9 @@
 export default {
     //====================== 系统事件
     /** 系统onUpdate事件 */
-    update:'update',
+    update: 'update',
+
+    //====================== 界面事件
+    /**更新底部导航状态 */
+    updateBottomNav: 'updateBottomNav',
 }

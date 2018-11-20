@@ -10,7 +10,7 @@ export default class GameLogic extends ViewBase {
     /**转盘正在旋转角度 */
     private angle: number = 0;
     /**转速度 */
-    private speed: number = 2;
+    private speed: number = 1;
     /**当前场景要射口红 */
     private currentLipstick: ZeptoCollection;
     /**游戏场景 */
@@ -23,6 +23,14 @@ export default class GameLogic extends ViewBase {
     private randomAngle: number = 1;
     /**游戏是否开始 */
     private start: boolean = false;
+    /**三个关卡的口红数 */
+    private lipstickNumbers: number[] = [
+        8, 10, 12
+    ];
+    /**当前关卡 */
+    private progress: number;
+    /**当前 关卡的口红数 */
+    private lipsticks: number;
 
     isCloseAnimation: boolean = true;
 
@@ -40,8 +48,13 @@ export default class GameLogic extends ViewBase {
      * 游戏开始
      */
     private onStart(): void {
+
+        this.progress = 1;
+
         this.angles = [];
         this.start = true;
+        this.dial.find('.lipstick-box').remove();
+        this.setLipstickNumbers();
     }
 
     /**
@@ -70,16 +83,15 @@ export default class GameLogic extends ViewBase {
                     break;
             }
         }
-        console.log(d.target['id']);
     }
 
     /**
      * 设置结束界面显示状态
      */
     private setOverViewState(state: boolean): void {
-        if(state){
+        if (state) {
             $('#overView').show();
-        }else{
+        } else {
             $('#overView').hide();
         }
     }
@@ -90,10 +102,11 @@ export default class GameLogic extends ViewBase {
      */
     private shoot(): void {
         let self = this;
-        this.currentLipstick.animate({ transform: 'translate3d(0,-4.9rem,0) rotate(0deg);' }, 150, null, function () {
+        let h: number = window.innerHeight - (parseFloat(this.dial.css('top').match(/[0-9|\.]+/g)[0]) + parseFloat(this.currentLipstick.css('bottom').match(/[0-9|\.]+/g)[0]));
+        if (!this.start) return;
+        self.setLipstickStatus();
+        this.currentLipstick.animate({ transform: `translate3d(0,-${h - this.dial.css('height').match(/[0-9|\.]+/g)[0]}px,0) rotate(0deg);` }, 150, null, function () {
             let angle = self.getAngle();
-            console.log(angle);
-
             if (self.collision(angle)) {
                 self.onOver();
                 console.log('碰撞');
@@ -108,7 +121,8 @@ export default class GameLogic extends ViewBase {
             self.randomAngle = (Math.random() < 0.4 ? -1 : 1)
 
         });
-        self.addShootLipstick();
+        if (this.start) self.addShootLipstick();
+
     }
 
     /**
@@ -118,7 +132,7 @@ export default class GameLogic extends ViewBase {
     private collision(angle: number): boolean {
         let list = this.angles;
         for (let x = list.length - 1; x > -1; x--) {
-            if (list[x] + 10 > angle && angle > list[x] - 10) {
+            if (list[x] + 15 > angle && angle > list[x] - 15) {
                 return true
             }
         }
@@ -155,9 +169,39 @@ export default class GameLogic extends ViewBase {
         this.currentLipstick.animate({ opacity: 1 }, 300);
     }
 
+    /**
+     * 根据关卡进度设置口红数量
+     */
+    private setLipstickNumbers() {
+        if (!this.progress) return;
+        let len = this.lipstickNumbers[this.progress],//获取口红数量
+            html = '';
+        for (let x = 0; x < len; x++) {
+            html += '<i></i>'
+        }
+        $('#shootList').html(html);
+        this.lipsticks = len;
+    }
+
+    /**
+     * 根据剩余口红数量设置口红数量显示状态
+     */
+    private setLipstickStatus() {
+        this.lipsticks--;
+        let len = this.lipstickNumbers[this.progress];
+        $('#shootList').find('i').eq(len - this.lipsticks - 1).addClass('shoot');
+        if (this.lipsticks <= 0) {
+            console.log('游戏结束或是下一关');
+            this.start = false;
+            return;
+        }
+
+    }
+
     onUpdate() {
-        this.angle += (this.speed + this.angles.length * 0.2) * this.randomAngle;
+        this.angle += (this.speed);// + this.angles.length * 0.2 加速度   * this.randomAngle 随机方向
         if (this.angle > 360) this.angle = 0;
+        if (this.dial) this.dial.css({ transform: `rotate(${this.angle}deg)` })
         if (this.dial) this.dial.css({ transform: `rotate(${this.angle}deg)` })
     }
 

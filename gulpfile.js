@@ -55,8 +55,8 @@ gulp.task('file-include', gulp.parallel(function () {
 
 //复制图片
 gulp.task('copy-img', gulp.parallel(function () {
-    return del(['dist/res/*']).then(function () { //先删除
-        return gulp.src('./app/res/*')
+    return del(['dist/res/**/*']).then(function () { //先删除
+        return gulp.src('./app/res/**/*')
             .pipe(gulp.dest('./dist/res'));
     });
 }));
@@ -77,7 +77,7 @@ gulp.task('watch', gulp.parallel(function () {
     gulp.watch(['app/*.ts', 'app/**/*.ts'], gulp.series('build-ts', "concat-js")); //监听ts
     gulp.watch('app/style/*.css', gulp.parallel('concat-css')); //监听css
     // gulp.watch('app/res/*', gulp.series('revImage', 'revHtmlCss', 'file-include'));//监听图片
-    gulp.watch('app/res/*', gulp.series('copy-img')); //监听图片
+    gulp.watch('app/res/**/*', gulp.series('copy-img')); //监听图片
     gulp.watch(['app/view_css/*.css', 'app/view/*.html'], gulp.series("postcss", "file-include")); //监听库修改
     // gulp.watch('libs/*.js', ['concat-js']);//监听库修改
 }));

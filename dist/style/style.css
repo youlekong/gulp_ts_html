@@ -818,3 +818,9 @@
     text-align: center;
     line-height: 0.6rem;
   }
+
+  /*******************灰度******************/
+  .gray {
+    filter: Gray;
+    -webkit-filter: grayscale(100%);
+  }

@@ -1,6 +1,7 @@
 import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
 import EventType from "../../common/EventType";
+import ViewConfig from "../../common/ViewConfig";
 
 /**
  * 文章收藏
@@ -28,7 +29,9 @@ export default class CollectLogic extends ViewBase {
 
         //返回按钮功能
         $('#goBack').on('click', () => {
-            location.href = location.origin + location.pathname + "#";
+            // location.href = location.origin + location.pathname + "#";
+            window.history.pushState({}, '', '#');//临时用，后期优化
+            Core.viewManager.openView(ViewConfig.index);
         });
     }
 

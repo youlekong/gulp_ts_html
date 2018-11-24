@@ -8,6 +8,12 @@ import CollectLogic from "../logic/view_logic/CollectLogic";
 import EmailLogic from '../logic/view_logic/EmailLogic';
 import AddressesLogic from "../logic/view_logic/AddressesLogic";
 import AddressLogic from '../logic/view_logic/AddressLogic';
+import GamePlayList from "../logic/view_logic/GamePlayList";
+import Gift from "../logic/view_logic/Gift";
+import NewsInfo from "../logic/view_logic/newsInfo";
+import Logistics from "../logic/view_logic/Logistics";
+import MyOrder from "../logic/view_logic/MyOrder";
+import FriendsPlay from "../logic/view_logic/FriendsPlay";
 
 /**
  * 界面配置，路径，对应的类等等
@@ -31,5 +37,17 @@ export default class ViewConfig {
     /**收货地址 */
     static addresses: viewConfig = { name: 'addresses', class: AddressesLogic, skin: 'view/addresses.html', closePre: true };
     /**新增收货地址 */
-    static address: viewConfig = { name: 'address', class: AddressLogic, skin: 'view/address.html', closePre: true }
+    static address: viewConfig = { name: 'address', class: AddressLogic, skin: 'view/address.html', closePre: true };
+    /**游戏打榜*/
+    static gamePlayList: viewConfig = { name: 'gamePlayList', class: GamePlayList, skin: 'view/gamePlay-list.html', closePre: true  };
+    /**选择礼物*/
+    static gift: viewConfig = { name: 'gift', class: Gift, skin: 'view/gift.html', closePre: true  };
+    /**消息详情*/
+    static newsInfo: viewConfig = { name: 'newsInfo', class: NewsInfo, skin: 'view/newsInfo.html', closePre: true  };
+    /**物流信息*/
+    static logistics: viewConfig = { name: 'logistics', class: Logistics, skin: 'view/logistics.html', closePre: true  };
+    /**我的订单*/
+    static myOrder: viewConfig = { name: 'myOrder', class: MyOrder, skin: 'view/myOrder.html', closePre: true  };
+    /**好友帮完*/
+    static friendsPlay: viewConfig = { name: 'friendsPlay', class: FriendsPlay, skin: 'view/friendsPlay.html', closePre: true  };
 }

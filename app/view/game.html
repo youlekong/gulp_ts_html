@@ -1,23 +1,69 @@
 <style>
-@include('../view_css/game.css');
+    @include('../view_css/game.css');
 </style>
 <div id="gameView" class="game-view full-window">
     <div id="dial" class="dial-box absolute">
         <div class="dial absolute"></div>
     </div>
-    <div id="overView" class="over-view absolute top_left_50">
-        <button id="replay">重玩</button>
-        <button id="goBack">返回</button>
-    </div>
     <div class="count-down absolute">
         30
     </div>
     <div class="left-top-icon absolute flex"></div>
-    <div class="progress-box absolute">
+    <div id="progressBox" class="progress-box absolute">
         <i class="gray"></i>
         <i class="gray"></i>
         <i class="gray"></i>
     </div>
     <div id="shootList" class="shoot-list absolute">
+    </div>
+    <!-- 失败结束界面 -->
+    <div id="loseView" class="lose-view absolute hide">
+        <div class="box absolute play-more top_left_50">
+            <h6>闯关失败</h6>
+            <b>再玩00次，获得00魅力币</b>
+            <p>游戏提示：获得游戏积分50</p>
+            <button id="replay" class="absolute replay">再玩一次</button>
+            <button class="absolute get-help hide">好友帮玩</button>
+            <em class="f22">邀请新朋友加入即得000金币</em>
+            <i id="goBack" class="icon absolute"></i>
+        </div>
+    </div>
+    <!-- 关卡显示界面 -->
+    <div id="progressView" class="progress-view absolute flex flexAlign">
+        <i></i>
+    </div>
+    <!-- 通关以后领取奖励界面 -->
+    <div id="rewards" class="rewards absolute hide">
+        <div class="top-banner"></div>
+        <div class="index-list-title" style="background-image:url('../res/game/choose-title.png');"></div>
+        <ul class="item-list">
+            <li>
+                <img class="lazy" src="" data-src="../res/15.jpg" alt="">
+                <h3 class="font-clip">标4545标题标题标题标题标题</h3>
+            </li>
+            <li>
+                <img class="lazy" src="" data-src="../res/15.jpg" alt="">
+                <h3 class="font-clip">标题标题标题标题标题</h3>
+            </li>
+        </ul>
+        <div id="chooseLpstick" class="choose-lipstick fixed flex">
+            <img class="lazy relative" src="" data-src="../res/15.jpg" alt="">
+            <div class="item-name">
+                <h6 class="font-clip">測試名稱測試名稱測試名稱測試名稱</h6>
+                <em>&yen;3000</em>
+            </div>
+            <button class="btn_red">确认领取</button>
+        </div>
+    </div>
+    <!-- 成功领取口红弹窗 -->
+    <div id="getReward" class="get-reward absolute">
+        <div class="box absolute top_left_50">
+            <i id="back" class="icon absolute"></i>
+            <em class="title absolute">恭喜你成功领取</em>
+            <em class="title name absolute">迪奥999口红</em>
+            <img class="absolute" src="../res/15.jpg" alt="">
+            <p class="absolute">已为您将奖品放入了奖品盒，可以随时提取</p>
+            <button class="btn_red absolute">分享得魅力币</button>
+        </div>
     </div>
 </div>

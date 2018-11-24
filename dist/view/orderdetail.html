@@ -1,0 +1,195 @@
+<style>
+    .orderdetailBox .orderaddress{
+        width: 7.5rem;
+        height: 1.95rem;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        border-bottom: .1rem solid #f9f9f9;
+    }
+    .orderdetailBox .orderaddress i.icon{
+       width: .52rem;
+       height: .56rem;
+        background-position: -1.25rem -3.23rem;
+        -ms-flex-item-align: center;
+        align-self: center;
+        margin-left: .3rem;
+    }
+    .orderdetailBox .orderaddress .info{
+        -ms-flex-item-align: center;
+        align-self: center;
+        margin-left: .2rem;
+        width: 6rem;
+    }
+    .orderdetailBox .orderaddress .info .name{
+        font-size: .3rem;
+    }
+    .orderdetailBox .orderaddress .info .name>span{
+        font-size: .18rem;
+        color: #777;
+    }
+    .orderdetailBox .orderaddress .info .address span{
+        background: #f5b5af;
+        padding: 0 .15rem;
+        color:#fff;
+        margin-right:.1rem;
+    }
+    .orderdetailBox .orderBody{
+        margin: 0 .3rem;
+    }
+    .orderdetailBox .orderBody .custIcon{
+        height: 1rem;
+        width: 100%;
+    }
+    .orderdetailBox .orderBody .custIcon{
+        position: relative;
+    }
+    .orderdetailBox .orderBody .custIcon i.icon{
+        width: .54rem;
+        height: .54rem;
+        background-position: -1.85rem -3.23rem; 
+        position: absolute;
+        top: .27rem;
+        left: 5.62rem;
+    }
+    .orderdetailBox .orderBody .comList .item{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-box-shadow: 0px 1px 4px #eee;
+        box-shadow: 0px 1px 4px #eee;
+   
+        margin-bottom: .24rem;
+    }
+    .orderdetailBox .orderBody .comList .item .imgbox{
+        width: 2.05rem;
+        height: 2.05rem;
+        margin-right: .2rem;
+    }
+    .orderdetailBox .orderBody .comList .item img{
+        display: block;
+        width: 2.05rem;
+        height: 2.05rem;
+
+    }
+    .orderdetailBox .orderBody .comList .item .infoword{
+        margin-top: .3rem;
+        position: relative;
+    }
+    .orderdetailBox .orderBody .comList .item .infoword p{
+        line-height: .4rem;
+        width: 100%;
+        display: -webkit-box;    
+        -webkit-box-orient: vertical;    
+        -webkit-line-clamp: 2;    
+        overflow: hidden;
+    }
+    .orderdetailBox .orderBody .comList .item .price{
+        position: absolute;
+        bottom: .2rem;
+        left: 0rem;
+        color: #ec4a59;
+    }
+    .distrInformTion{
+        margin-top: .4rem;
+    }
+    .distrInformTion .tip{
+        margin-bottom: .2rem;
+    }
+    .distrInformTion .tip .wl,
+    .distrInformTion .tip .num,
+    .distrInformTion .tip .fz{
+        color: #777;
+    }
+    .distrInformTion .tip .fz{
+        display: inline-block;
+        border:1px solid #777;
+        border-radius: 30px;
+        padding: .0rem .2rem;
+        line-height: .3rem;
+        margin-left: .22rem;
+    }
+    .distrInformTion .tip .num{
+        margin-left: .22rem;
+    };
+</style>
+<div class="view-title f38 relative">
+    <a id="goBack" href="javascirpit:void(0);" class="absolute back-btn f20">
+        <i class="icon"></i>
+    </a>
+    订单详细
+</div>
+<div class="orderdetailBox">
+    <div class="orderaddress">
+        <i class="icon"></i>
+        <div class="info">
+            <div class="name"> 姓名：<span>13565434565</span></div>
+            <div class="address"> <span>默认</span> 江苏省苏州市想成区税务打撒五楼501江苏设计科技</div>
+        </div>
+    </div>
+    <div class="orderBody">
+        <div class="custIcon">
+            <i class="icon"></i>
+        </div>
+        <ul class="comList">
+            <li class="item">
+                <div class="imgbox">
+                    <img src="../res/21.jpg" alt="">
+                </div>
+                <div class="infoword">
+                    <p>迪奥（DIRO）是分身乏术是水电费水电费萨发粉丝3.5g</p>
+                    <span class="price">市场参考价：¥200</span>
+                </div>
+            </li>
+            <li class="item">
+                <div class="imgbox">
+                    <img src="../res/21.jpg" alt="">
+                </div>
+                <div class="infoword">
+                    <p>迪奥（DIRO）是分身乏术是水电费水电费萨发粉丝3.5g</p>
+                    <span class="price">市场参考价：¥200</span>
+                </div>
+            </li>
+            <li class="item">
+                <div class="imgbox">
+                    <img src="../res/21.jpg" alt="">
+                </div>
+                <div class="infoword">
+                    <p>迪奥（DIRO）是分身乏术是水电费水电费萨发粉丝3.5g</p>
+                    <span class="price">市场参考价：¥200</span>
+                </div>
+            </li>
+
+        </ul>
+
+
+        <dl class="distrInformTion">
+            <dd class="tip">
+                配送信息：
+                <span class="wl">顺风</span>
+                <span class="num">23434546565656</span>
+                <span class="fz">复制</span>
+            </dd>
+            <dd class="tip">
+                订单编号：
+                <span class="wl">1232rerfg4455</span>
+                <span class="fz">复制</span>
+            </dd>
+            <dd class="tip">
+                订单时间：
+                <span class="wl">2018-11-14</span>
+              
+            </dd>
+
+        </dl>
+    </div>
+
+</div>

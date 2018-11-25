@@ -134,7 +134,7 @@ export default class GameLogic extends ViewBase {
 
     /**
      * 射击
-     * @param angle 
+     * @param angle  
      */
     private shoot(): void {
         let self = this;

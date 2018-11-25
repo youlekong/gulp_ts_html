@@ -1,3 +1,4 @@
+/*好友帮玩*/
 #friendsPlay{
     background: #f9f9f9;
 }
@@ -107,4 +108,103 @@
 }
 .friendsPlay-bottom .fribtn:last-child{
     margin-right: 0
+}
+
+/********求助他人*********/
+#helpOther{
+    background: #ffffff;
+}
+#helpOther .friendsPlay .content .tit{
+    width:2.04rem;
+} 
+.helpOther-bottom{
+    position: fixed;
+    bottom: 0;
+    width:7.5rem;
+    height: 3.78rem;
+    padding: 0 0.3rem;
+    background: #ffffff;
+    -webkit-box-shadow: 0 -1px #ddd;
+	-moz-box-shadow: 0 -1px #ddd;
+    box-shadow: 0 -1px #ddd;
+    line-height: 1;
+    z-index: 99;
+    box-sizing: border-box;
+}
+.helpOther-bottom .t{
+    padding: 0.3rem 0 0.28rem;
+}
+.helpOther-bottom .line{
+    display: flex;
+    margin-bottom: 0.4rem;
+    line-height: 1;
+}
+.helpOther-bottom p{
+    color: #333333;
+    font-size: 0.24rem;
+}
+.helpOther-bottom .price{
+    color: #ec4a58;
+    flex: 1;
+    text-align: right;
+}
+.helpOther-bottom .numprice{
+    position: relative;
+    flex: 1;
+    text-align: right;
+    overflow: hidden;
+    height: 0.29rem;
+    width:0.94rem;
+    line-height: 1;
+    font-size: 0;
+}
+.helpOther-bottom .numprice span{
+    display: inline-block;
+    vertical-align: middle
+}
+.helpOther-bottom .numprice span.addbtn{
+    background: url(../res/add.jpg) no-repeat 0 0 / 0.29rem 0.29rem;
+    width:0.29rem;
+    height: 0.29rem;
+    cursor: pointer;
+}
+.helpOther-bottom .numprice span.reducebtn{
+    background: url(../res/reduce.jpg) no-repeat 0 0 / 0.29rem 0.29rem;
+    width:0.29rem;
+    height: 0.29rem;
+    cursor: pointer;
+}
+.helpOther-bottom .numprice .num{
+    width: 0.36rem;
+    text-align: center;
+    line-height: 0.29rem;
+    color: #333333;
+    font-size: 0.24rem;
+    vertical-align: middle;
+    outline: none;
+    border: none;
+}
+.helpOther-bottom .line-last{
+    margin-top: 0.5rem;
+    display: flex;
+}
+.helpOther-bottom .line-last .c{
+    color: #333333;
+    font-size:0.2rem;
+    line-height: 0.4rem;
+    margin-top: -0.04rem;
+    width: 4.79rem;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+.helpOther-bottom .surebtn{
+    margin-left: 0.5rem;
+    width: 1.6rem;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    text-align: center;
+    background: #ec4a58;
+    color: #ffffff;
+    font-size: 0.24rem;
 }

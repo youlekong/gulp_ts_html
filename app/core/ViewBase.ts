@@ -18,6 +18,12 @@ export default class ViewBase extends Base implements viewBase {
     /** 是否已经添加到场景 */
     isAdd: boolean = false;
 
+    /**是否缓存界面数据 */
+    storage: boolean = false;
+
+    /**数据 */
+    data: any;
+
     /**模板数据 */
     private _template: string;
     get template() {
@@ -26,7 +32,6 @@ export default class ViewBase extends Base implements viewBase {
     set template(d: any) {
         // this._template = d.replace(/\<div/, `<div id=${this.name} `);///^\<div/
         this._template = d;
-        this.onCreate();
     }
 
     /** 当前节点 */
@@ -47,6 +52,7 @@ export default class ViewBase extends Base implements viewBase {
      * 添加到场景
      */
     add(parent: ZeptoCollection) {
+        this.onCreate();
         // console.log(this._template);
         parent.append(`<div id=${this.name} class="view absolute full-window">${this._template}</div>`);
         ; (parent[0] as HTMLDivElement).scrollTop = 0;//默认滚到最上面，后期根据需求优化
@@ -77,7 +83,7 @@ export default class ViewBase extends Base implements viewBase {
             transform: 'translateX(0)'
         }, 400, 'ease-out', () => {
             this.node.css({
-                transform:null
+                transform: null
             })
         });
     }

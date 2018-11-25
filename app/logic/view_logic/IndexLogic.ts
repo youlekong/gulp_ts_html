@@ -3,10 +3,37 @@ import Core from "../../core/Core";
 import ViewConfig from "../../common/ViewConfig";
 import Slider from "../component/Slider";
 import EventType from "../../common/EventType";
+import Config from "../../common/Config";
 
 export default class IndexLogic extends ViewBase {
+
     /**轮播图组件 */
     private slide: Slider;
+
+    onCreate() {
+        this.setBanner();
+        this.setBrand();
+    }
+
+    /**
+     * 设置banner数据
+     */
+    private setBanner() {
+        let banner: any[] = this.data['bannerList'],
+            html = '';
+        for (let x = 0, l = banner.length; x < l; x++) {
+            html += `<em><a href="javascirpt:void(0);" lazy="${Config.imgBase + banner[x]['src']}"></a></em>`
+        }
+        this.template = Core.utils.replaseData('banner', this.template, html);
+    }
+
+    /**
+     * 设置品牌
+     */
+    private setBrand() {
+        this.template = Core.utils.replaseData('itemList', this.template, '这是个测试');
+    }
+
     onEnable() {
         this.slide = new Slider('#banner');
         let images = document.querySelectorAll(".lazy");
@@ -15,6 +42,8 @@ export default class IndexLogic extends ViewBase {
         //更新底部导航状态
         Core.eventManager.event(EventType.updateBottomNav, { type: 'index' });
     }
+
+
 
     onClick(e: MouseEvent) {
         // console.log(e.target);

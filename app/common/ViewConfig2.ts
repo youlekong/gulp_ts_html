@@ -14,6 +14,10 @@ import NewsInfo from "../logic/view_logic/newsInfo";
 import Logistics from "../logic/view_logic/Logistics";
 import MyOrder from "../logic/view_logic/MyOrder";
 import FriendsPlay from "../logic/view_logic/FriendsPlay";
+import HelpOther from "../logic/view_logic/HelpOther";
+import PrizePoster from "../logic/view_logic/PrizePoster";
+// import MySign from "../logic/view_logic/MySign";
+import Customer from "../logic/view_logic/Customer";
 
 /**
  * 界面配置，路径，对应的类等等
@@ -50,4 +54,12 @@ export default class ViewConfig {
     static myOrder: viewConfig = { name: 'myOrder', class: MyOrder, skin: 'view/myOrder.html', closePre: true  };
     /**好友帮完*/
     static friendsPlay: viewConfig = { name: 'friendsPlay', class: FriendsPlay, skin: 'view/friendsPlay.html', closePre: true  };
+    /**求助他人*/
+    static helpOther: viewConfig = { name: 'helpOther', class: HelpOther, skin: 'view/helpOther.html', closePre: true  };
+    /**获奖海报 */
+    static prizePoster: viewConfig = { name: 'prizePoster', class: PrizePoster, skin: 'view/prizePoster.html', closePre: true  };
+    /**我的签到 */
+    // static mySign: viewConfig = { name: 'mySign', class: MySign, skin: 'view/mySign.html', closePre: true  };
+    /**客服 */
+    static customer: viewConfig = { name: 'customer', class: Customer, skin: 'view/customer.html', closePre: true  };
 }

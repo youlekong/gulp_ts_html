@@ -1,4 +1,5 @@
 import Core from "./Core";
+import { Net } from "../common/Net";
 
 /**
  * 界面管理器
@@ -25,10 +26,17 @@ export default class ViewManager {
         if (viewConfig.closePre && Core.preView) this.closeView(Core.preView);//是否需要关闭上一个打开的界面
 
         if (!view.isAdd) {
+            //获取添加页面时要添加的数据
+            if (!view.data) {
+                view.data = await Net.getData(viewConfig.name);
+            } else {
+                if (!view.storage)//如果不储存数据
+                    view.data = await Net.getData(viewConfig.name);
+            }
             if (view.add) view.add(Core.root);
             if (view.openAnimation && view.animation) view.openAnimation();
         }
-      
+
         // if (Core.preView) this.closeView(Core.preView);//是否需要关闭上一个打开的界面
         Core.preView = viewConfig;
         console.log('%c ==> ', 'color:#fff;font-weight:700;background-color:rgba(27, 144, 4, 0.7)', ` open ${viewConfig.name}`);
@@ -51,10 +59,10 @@ export default class ViewManager {
         // todo 不能给所有的界面添加关闭动画，这里会有问题，因为浏览器的点击返回或是手机的返回速度太快，会导致界面叠加等，后期有时间再优化
         if (view.closeAnimation && view.isCloseAnimation) {//isCloseAnimation 默认都是false  现在这个如果点的特别特别快是有问题的
             view.closeAnimation();
-        }else{
+        } else {
             view.remove();
         }
-        
+
         console.log('%c <== ', 'color:#fff;font-weight:700;background-color:rgba(255, 0, 0, 0.7)', ` close ${viewConfig.name}`);
     }
 

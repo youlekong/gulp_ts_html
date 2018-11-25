@@ -7,7 +7,7 @@ import EventType from "./EventType";
  */
 export class Api {
     /**首页 */
-    static index:apiData = { name: 'index', url: Config.baseUrl }
+    static index: apiData = { name: 'index', url: Config.baseUrl }
 }
 
 /**
@@ -21,7 +21,13 @@ export class Net {
      */
     static async getData(api: apiData, d?: any) {
         if (!api) return null;
-        let data = await Core.utils.ajax({ url: api.url, dataType: 'json', data: d });
+        let parameter = '';
+        if (d) {
+            for (let i in d) {
+                parameter += '/' + i + '-' + d[i];
+            }
+        }
+        let data = await Core.utils.ajax({ url: api.url + parameter, dataType: 'json' });
         if (data['code']) {//code不为零算异常处理
             Core.eventManager.event(EventType.error, data);
             return null;

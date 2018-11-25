@@ -1,5 +1,6 @@
 import Core from "./core/Core";
 import EventType from "./common/EventType";
+import Error from "./logic/error/Error";
 
 
 /**
@@ -18,6 +19,7 @@ class Main {
      * 初始化
      */
     private init() {
+        new Error();//开启错误信息处理
         Core.root = $('#root');//设置主场景
         Core.route.init();
         this.update();

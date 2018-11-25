@@ -21,7 +21,7 @@ interface viewConfig {
     /** 模板路径 */
     skin: string;
     /** 是否关闭上一个场景 */
-    closePre:boolean
+    closePre: boolean
 }
 
 /**
@@ -29,12 +29,16 @@ interface viewConfig {
  */
 interface viewBase {
     /**是否播放动画 */
-    animation:boolean;
-    isCloseAnimation:boolean;
+    animation: boolean;
+    isCloseAnimation: boolean;
     /**模板名称 */
-    name:string;
+    name: string;
     /**是否已经添加 */
-    isAdd:boolean;
+    isAdd: boolean;
+    /**是否缓存数据=>可以避免每次打开界面都去请求最新的数据，可以根据需求修改 */
+    storage: boolean;
+    /**数据 => 默认数据主要储存来自服务器的界面数据 */
+    data: any;
     /**模板 */
     template: any;
     add(parent: ZeptoCollection): void;
@@ -43,15 +47,15 @@ interface viewBase {
     /**播放移除到场景动画 */
     closeAnimation(): void;
     /**从父级删除 */
-    remove():void;
+    remove(): void;
 }
 
 /**
  * 坐标
  */
 interface pos {
-    x:number,
-    y:number
+    x: number,
+    y: number
 }
 
 declare var TWEEN: any

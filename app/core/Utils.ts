@@ -27,4 +27,15 @@ export default class Utils {
             y: center.y + radius * Math.sin(angle * Math.PI / 180)
         }
     }
+
+    /**
+     * 替换{{name}}为需要的数据 =>用于界面数据绑定
+     * @param name 要替换的对应的名称
+     * @param oldData 要被替换的老数据
+     * @param newData 要替换的内数据
+     */
+    static replaseData(name: string, oldData: string, newData: string) {
+        let reg = new RegExp(`{{${name}}}`);
+        return oldData.replace(reg, newData)
+    }
 }

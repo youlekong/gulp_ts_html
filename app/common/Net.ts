@@ -8,6 +8,8 @@ import EventType from "./EventType";
 export class Api {
     /**首页 */
     static index:apiData = { name: 'index', url: Config.baseUrl }
+    /**场次 */
+    static roomList:apiData = { name: 'roomList', url: Config.baseUrl + '/room/list' }
 }
 
 /**

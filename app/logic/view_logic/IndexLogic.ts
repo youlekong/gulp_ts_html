@@ -4,6 +4,7 @@ import ViewConfig from "../../common/ViewConfig";
 import Slider from "../component/Slider";
 import EventType from "../../common/EventType";
 import Config from "../../common/Config";
+import { Net, Api } from "../../common/Net";
 
 export default class IndexLogic extends ViewBase {
 
@@ -45,13 +46,17 @@ export default class IndexLogic extends ViewBase {
 
 
 
-    onEnable() {
+    async onEnable() {
         this.slide = new Slider('#banner');
         let images = document.querySelectorAll(".lazy");
         lazyload(images);
 
         //更新底部导航状态
         Core.eventManager.event(EventType.updateBottomNav, { type: 'index' });
+        Api.roomList.url = Api.roomList.url + '/themeId-0/page-0';
+        let wait = await Net.getData(Api.roomList)
+
+        console.log(Api.roomList)
 
         
     }

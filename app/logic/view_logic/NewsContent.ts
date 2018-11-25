@@ -20,6 +20,7 @@ export default class NewsContent extends ViewBase {
             // location.href = '#find';
             window.history.pushState({}, '', '#find');//临时用，后期优化
             Core.viewManager.openView(ViewConfig.find);
+            
         });
     }
 

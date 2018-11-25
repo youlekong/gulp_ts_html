@@ -10,7 +10,10 @@ export default class IndexLogic extends ViewBase {
     /**轮播图组件 */
     private slide: Slider;
 
+
+
     onCreate() {
+        console.log(this.data);
         this.setBanner();
         this.setBrand();
     }
@@ -31,8 +34,16 @@ export default class IndexLogic extends ViewBase {
      * 设置品牌
      */
     private setBrand() {
-        this.template = Core.utils.replaseData('itemList', this.template, '这是个测试');
+        let themelist: any[] = this.data['themeList'],
+        html = '';
+        for (let x = 0, l = themelist.length; x < l; x++) {
+            html += `<a><img class="lazy" data-src="${Config.imgBase + themelist[x]['src']}" alt=""><em>${themelist[x]['title']}</em></a> `
+        }
+
+        this.template = Core.utils.replaseData('itemList', this.template, html);
     }
+
+
 
     onEnable() {
         this.slide = new Slider('#banner');
@@ -41,6 +52,8 @@ export default class IndexLogic extends ViewBase {
 
         //更新底部导航状态
         Core.eventManager.event(EventType.updateBottomNav, { type: 'index' });
+
+        
     }
 
 

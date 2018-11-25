@@ -8,6 +8,8 @@ import EventType from "./EventType";
 export const Api = {
     /**首页 */
     index: Config.baseUrl,
+    /** 场次列表*/
+    roomlist:Config.baseUrl
 }
 
 /**

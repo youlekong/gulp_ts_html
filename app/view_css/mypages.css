@@ -1,0 +1,115 @@
+.mypagesBox{
+    width: 7.5rem;
+}
+.myinner .myhead{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin:.3rem;
+}
+.headportbox{
+    display: flex;
+    flex-direction: row;
+    
+}
+.myinner .myhead .headport{
+    width: 1.63rem;
+    height: 1.63rem;
+    margin-right: .4rem;
+}
+.myinner .myhead .headport img{
+    display: block;
+    width: 1.63rem;
+    height: 1.63rem;
+    border-radius: 100%;
+}
+.myinner .myhead .tit{
+    font-size: .4rem;
+    margin-top: .4rem;
+    /* margin-left: 4rem; */
+}
+.myinner .myhead .tit p{
+    font-size: .24rem;
+    margin-top: .3rem;
+
+}
+.myinner .myhead .regcahrgebtn{
+    width: 1.59rem;
+    height: .61rem;
+    text-align: center;
+    background: #fe0e4b;
+    color: #fff;
+    line-height: .61rem;
+    font-weight: bold;
+    margin-top: .6rem;
+}
+.myinner .headIcon{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: .5rem; 
+}
+.myinner .headIcon .item .icon{
+    width: .62rem;
+    height: .62rem;
+    background-position: 0 -1.86rem;
+    margin: 0 auto;
+    margin-bottom: .1rem;
+}
+.myinner .headIcon .item p{
+    text-align: center;
+    font-size: .24rem;
+}
+.myinner .headIcon .item:nth-child(2) .icon{
+   background-position: -.62rem -1.86rem;
+}
+.myinner .headIcon .item:nth-child(3) .icon{
+   background-position: -1.24rem -1.86rem;
+}
+.myinner .headIcon .item:nth-child(4) .icon{
+   background-position: -1.86rem -1.86rem;
+}
+.myinner .headIcon .item:nth-child(5) .icon{
+   background-position: -2.48rem -1.86rem;
+}
+.mybanner{
+    width: 7.5rem;
+    height: 2.13rem;
+}
+.mybanner img{
+    width: 100%;
+    height: 2.11rem;
+}
+.myicon2{
+    display: flex;
+    flex-wrap: wrap;
+}
+.myicon2 .itemIcon{
+    width: 33.3%;
+    height: 2.14rem;
+    border:1px solid #f5f5f5;
+    box-sizing: border-box;
+}
+.myicon2 .itemIcon .icon{
+    display: block;
+   width: .64rem;
+   height: .64rem;
+   background-position: 0 -2.56rem;
+   margin:0 auto;
+   margin-bottom: .1rem;
+   margin-top: .39rem;
+}
+.myicon2 .itemIcon p{
+    text-align: center;
+}
+.myicon2 .itemIcon:nth-child(2) .icon{
+   background-position: -.64rem -2.56rem;
+}
+.myicon2 .itemIcon:nth-child(3) .icon{
+   background-position: -1.28rem -2.56rem;
+}
+.myicon2 .itemIcon:nth-child(4) .icon{
+   background-position: -1.92rem -2.56rem;
+}
+.myicon2 .itemIcon:nth-child(5) .icon{
+   background-position: -2.56rem -2.56rem;
+}

@@ -11,6 +11,7 @@ import IntegralEx from "../logic/view_logic/IntegralEx";
 import OrderDetail from "../logic/view_logic/OrderDetail";
 import IntegralDetail from "../logic/view_logic/IntegralDetail";
 import AwardsBox from "../logic/view_logic/AwardsBox";
+import MyPages from "../logic/view_logic/MyPages";
 
 /**
  * 界面配置，路径，对应的类等等
@@ -42,4 +43,7 @@ export default class ViewConfig {
     static integraldetail: viewConfig = { name: 'integraldetail', class: IntegralDetail, skin: 'view/integraldetail.html', closePre: true };
     /**奖品柜 */
     static awardsbox: viewConfig = { name: 'awardsbox', class: AwardsBox, skin: 'view/awardsbox.html', closePre: true };
+    /**我的 */
+    static mypages: viewConfig = { name: 'mypages', class: MyPages, skin: 'view/mypages.html', closePre: true };
+
 }

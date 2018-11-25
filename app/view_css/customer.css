@@ -1,0 +1,116 @@
+/****我的客服****/
+#customer{
+    background: #f9f9f9;
+}
+.customer .message{
+    width:100%;
+    overflow: hidden;
+}
+.customer .message .time{
+    width: 1.44rem;
+    height: 0.39rem;
+    text-align: center;
+    background: #cfcece;
+    border-radius: 0.06rem;
+    font-size: 0.24rem;
+    color: #fffefe;
+    margin: 0.4rem auto;
+}
+.customer .message img{
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;   
+}
+.customer .message .con{
+    position: relative;
+    word-wrap: break-word;
+    word-break: break-all;
+    max-width: 4.35rem;
+    min-height: 0.81rem;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    text-align: left;
+    font-size: 0.24rem;
+    border-radius: 0.1rem;
+    margin: 0 0.44rem; 
+    line-height: 0.4rem;
+    color: #ffffff;
+}
+.customer .con .plain{
+    padding: 0.14rem 0.1rem
+}
+.customer .message.me{
+    float: right;
+    text-align: right;
+    clear: right;
+    margin-right: 0.3rem;
+}
+.customer .message.me .con{
+    background: #ec4a58;
+}
+.customer .message.me .con::after{
+    content: '';
+    position: absolute;
+    right: -0.12rem;
+    top: 0.14rem;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.12rem 0 0.12rem 0.12rem;
+    border-color: transparent transparent transparent #ec4a58;
+}
+.customer .message.me .avatar{
+    float: right;
+}
+.customer .message.you{
+    float: left;
+    text-align: left;
+    clear: left;
+    margin-left: 0.3rem;
+    margin-top: 0.48rem;
+}
+.customer .message.you .con{
+    background: #ffffff;
+    color: #333333;
+}
+.customer .message.you .con::after{
+    content: '';
+    position: absolute;
+    left: -0.12rem;
+    top: 0.14rem;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.12rem 0.12rem 0.12rem 0;
+    border-color: transparent #ffffff transparent transparent;
+}
+.mess-action{
+    position: fixed;
+    bottom: 0;
+    background: #f3f3f3;
+    width: 7.5rem;
+    height: 1.25rem;
+    display: flex;
+    z-index: 99;
+}
+.mess-action .sendc{
+    width: 6.18rem;
+    height: 0.74rem;
+    margin: 0.3rem 0.22rem 0;
+    background: #ffffff;
+    border-radius: 0.4rem;
+    color: #747474;
+    font-size: 0.28rem;
+    padding: 0 0.2rem 0 0.4rem;
+    border:none;
+    outline: none;
+    box-sizing: border-box;
+}
+.mess-action .icon{
+    background-position: -2.18rem -3.75rem;
+    width: 0.56rem;
+    height: 0.56rem;  
+    margin-top: 0.34rem;
+}
+

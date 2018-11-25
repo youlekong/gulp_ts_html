@@ -58,6 +58,16 @@ interface pos {
     y: number
 }
 
+/**
+ * api接口协议
+ */
+interface apiData {
+    /**方法名称 */
+    name: string,
+    /**地址 */
+    url: string
+}
+
 declare var TWEEN: any
 declare var lazyload: any
 

@@ -1,5 +1,5 @@
 import Core from "./Core";
-import { Net } from "../common/Net";
+import { Net, Api } from "../common/Net";
 
 /**
  * 界面管理器
@@ -28,10 +28,10 @@ export default class ViewManager {
         if (!view.isAdd) {
             //获取添加页面时要添加的数据
             if (!view.data) {
-                view.data = await Net.getData(viewConfig.name);
+                view.data = await Net.getData(Api[viewConfig.name]);
             } else {
                 if (!view.storage)//如果不储存数据
-                    view.data = await Net.getData(viewConfig.name);
+                    view.data = await Net.getData(Api[viewConfig.name]);
             }
             if (view.add) view.add(Core.root);
             if (view.openAnimation && view.animation) view.openAnimation();

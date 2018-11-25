@@ -9,7 +9,7 @@
 
 .item-list ul {
     width: 100%;
-    column-gap: 0px;
+    column-gap: .3rem;
     column-count: 2;
     height: auto;
 }

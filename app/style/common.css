@@ -168,6 +168,10 @@
     list-style: none;
   }
 
+  button {
+    border: none;
+  }
+
   .page-container {
     height: 100%;
     max-width: 7.5rem;
@@ -205,6 +209,10 @@
   .top_left_50 {
     left: 50%;
     top: 50%;
+  }
+
+  .hide {
+    display: none;
   }
 
   .flex {

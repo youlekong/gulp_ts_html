@@ -25,21 +25,21 @@ export default class ViewConfig {
     /**文件收藏 */
     static collect: viewConfig = { name: 'collect', class: CollectLogic, skin: 'view/collect.html', closePre: true };
     /**游戏 */
-    static game: viewConfig = { name: 'game', class: GameLogic, skin: 'view/game.html', closePre: false  };
+    static game: viewConfig = { name: 'game', class: GameLogic, skin: 'view/game.html', closePre: false };
     /**测试页 */
-    static alert: viewConfig = { name: 'alert', class: AlertLogic, skin: 'view/alert.html', closePre: true  };
-     /**充值 */
-     static recharge: viewConfig = { name: 'recharge', class: RecahrgeLogic, skin: 'view/recharge.html', closePre: true  };
-      /**充值成功 */
-      static rechargeSuccess: viewConfig = { name: 'rechargeSuccess', class: RecahrgeSuccess, skin: 'view/rechargeSuccess.html', closePre: true  };
-      /**充值记录 */
-      static recRcods: viewConfig = { name: 'recRcods', class: RecRcods, skin: 'view/recRcods.html', closePre: true  };
-      /**积分兑 */
-      static integralex: viewConfig = { name: 'integralex', class: IntegralEx, skin: 'view/integralex.html', closePre: true  };
-      /**订单详细 */
-      static orderdetail: viewConfig = { name: 'orderdetail', class: OrderDetail, skin: 'view/orderdetail.html', closePre: true  };
-      /**积分兑详细 */
-      static integraldetail: viewConfig = { name: 'integraldetail', class: IntegralDetail, skin: 'view/integraldetail.html', closePre: true  };
-      /**奖品柜 */
-      static awardsbox: viewConfig = { name: 'awardsbox', class: AwardsBox, skin: 'view/awardsbox.html', closePre: true  };
+    static alert: viewConfig = { name: 'alert', class: AlertLogic, skin: 'view/alert.html', closePre: true };
+    /**充值 */
+    static recharge: viewConfig = { name: 'recharge', class: RecahrgeLogic, skin: 'view/recharge.html', closePre: true };
+    /**充值成功 */
+    static rechargeSuccess: viewConfig = { name: 'rechargeSuccess', class: RecahrgeSuccess, skin: 'view/rechargeSuccess.html', closePre: true };
+    /**充值记录 */
+    static recRcods: viewConfig = { name: 'recRcods', class: RecRcods, skin: 'view/recRcods.html', closePre: true };
+    /**积分兑 */
+    static integralex: viewConfig = { name: 'integralex', class: IntegralEx, skin: 'view/integralex.html', closePre: true };
+    /**订单详细 */
+    static orderdetail: viewConfig = { name: 'orderdetail', class: OrderDetail, skin: 'view/orderdetail.html', closePre: true };
+    /**积分兑详细 */
+    static integraldetail: viewConfig = { name: 'integraldetail', class: IntegralDetail, skin: 'view/integraldetail.html', closePre: true };
+    /**奖品柜 */
+    static awardsbox: viewConfig = { name: 'awardsbox', class: AwardsBox, skin: 'view/awardsbox.html', closePre: true };
 }

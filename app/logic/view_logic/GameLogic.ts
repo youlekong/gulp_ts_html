@@ -1,5 +1,6 @@
 import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
+import ViewConfig from "../../common/ViewConfig";
 
 /**
  * 游戏逻辑
@@ -23,6 +24,8 @@ export default class GameLogic extends ViewBase {
     private randomAngle: number = 1;
     /**游戏是否开始 */
     private start: boolean = false;
+    /** 是否可点击 */
+    private click: boolean = false;
     /**三个关卡的口红数 */
     private lipstickNumbers: number[] = [
         8, 10, 12
@@ -41,6 +44,12 @@ export default class GameLogic extends ViewBase {
         this.addShootLipstick();
 
         this.onStart();
+
+      
+
+        let images = document.querySelectorAll(".lazy");
+        lazyload(images);
+
     }
 
 
@@ -48,11 +57,19 @@ export default class GameLogic extends ViewBase {
      * 游戏开始
      */
     private onStart(): void {
-
-        this.progress = 1;
-
-        this.angles = [];
         this.start = true;
+        this.setProgressState(true);
+        this.setProgress(1);
+        this.init();
+
+    }
+
+    /**
+     * 初始化
+     */
+    private init() {
+        this.angles = [];
+
         this.dial.find('.lipstick-box').remove();
         this.setLipstickNumbers();
     }
@@ -62,6 +79,7 @@ export default class GameLogic extends ViewBase {
      */
     private onOver(): void {
         this.start = false;
+        this.click = false;
         this.setOverViewState(true);
     }
 
@@ -70,7 +88,7 @@ export default class GameLogic extends ViewBase {
     * @param d 
     */
     onClick(d: Event) {
-        if (this.start) {
+        if (this.click && this.start) {
             this.shoot();
         } else {
             switch (d.target['id']) {
@@ -79,10 +97,28 @@ export default class GameLogic extends ViewBase {
                     this.setOverViewState(false);
                     break;
                 case 'goBack'://返回
-                    window.location.href = '#index';
+                    this.goBack();
                     break;
             }
         }
+    }
+
+    /**
+     * 返回主界面或是上层 
+     */
+    private goBack() {
+        window.history.pushState({}, '', '#');//临时用，后期优化
+        Core.viewManager.openView(ViewConfig.index);
+    }
+
+    /**
+     * 设置开始的头卡
+     * @param state 
+     */
+    private setProgress(progress) {
+        this.progress = progress;
+
+        this.setProgressView();
     }
 
     /**
@@ -90,15 +126,15 @@ export default class GameLogic extends ViewBase {
      */
     private setOverViewState(state: boolean): void {
         if (state) {
-            $('#overView').show();
+            $('#loseView').show();
         } else {
-            $('#overView').hide();
+            $('#loseView').hide();
         }
     }
 
     /**
      * 射击
-     * @param angle 
+     * @param angle  
      */
     private shoot(): void {
         let self = this;
@@ -174,7 +210,7 @@ export default class GameLogic extends ViewBase {
      */
     private setLipstickNumbers() {
         if (!this.progress) return;
-        let len = this.lipstickNumbers[this.progress],//获取口红数量
+        let len = this.lipstickNumbers[this.progress - 1],//获取口红数量
             html = '';
         for (let x = 0; x < len; x++) {
             html += '<i></i>'
@@ -188,18 +224,142 @@ export default class GameLogic extends ViewBase {
      */
     private setLipstickStatus() {
         this.lipsticks--;
-        let len = this.lipstickNumbers[this.progress];
+        let len = this.lipstickNumbers[this.progress - 1];
         $('#shootList').find('i').eq(len - this.lipsticks - 1).addClass('shoot');
         if (this.lipsticks <= 0) {
             console.log('游戏结束或是下一关');
-            this.start = false;
+            this.click = false;
+            setTimeout(() => {
+                this.next();
+            }, 400)
             return;
         }
+    }
 
+    /**
+     * 下一关
+     */
+    private next() {
+        if (this.progress == 3) {//已经通关
+            this.start = false;
+            this.click = false;
+            console.log('通关');
+            this.openRewards();//打开领奖界面
+            return;
+        }
+        if (!this.start) return;
+        this.progress++;
+        this.setProgress(this.progress);
+        this.init();;
+    }
+
+
+    /**
+     * 根据关卡进度打开进度开始界面
+     */
+    private setProgressView() {
+        if (!this.progress) return;
+        let icon: string;
+        switch (this.progress) {
+            case 1:
+                this.speed = 1;
+                icon = '../res/game/progress_lb_1.png';
+                break;
+            case 2:
+                this.speed = 3;
+                icon = '../res/game/progress_lb_2.png';
+                break;
+            case 3:
+                this.speed = 2;
+                icon = '../res/game/progress_lb_3.png';
+                break;
+        }
+
+        this.setProgressState();
+
+
+        //过度动画
+        let progressView = $('#progressView');
+        progressView.find('i').css('background-image', `url(${icon})`);
+        progressView.css({
+            opacity: '0',
+            display: 'flex',
+            transform: 'translate3d(0, -1.5rem, 0)'
+        });
+
+        progressView.animate({ opacity: 1, transform: 'translate3d(0, 0, 0)' }, 600, 'ease');
+
+        setTimeout(() => {
+            this.click = true;
+            progressView.animate({ opacity: 0, transform: 'translate3d(0, 1.5rem, 0)' }, 600, 'ease', () => {
+                progressView.css({
+                    display: 'hidden'
+                });
+            });
+        }, 2000)
+    }
+
+    /**
+     * 更新当前已经完成的进度状态显示
+     */
+    private setProgressState(init?: boolean) {
+        if (init) {//初始化所有状态
+            $('#progressBox').find('i').addClass('gray');
+            return;
+        }
+        $('#progressBox').find('i').eq(3 - this.progress).removeClass('gray');
+    }
+
+    /**
+     * 打开领取奖励界面
+     */
+    private openRewards() {
+        let rewards = $('#rewards');
+        let getReward = $('#getReward');
+        rewards.show();
+        rewards.on('click', 'li', function () {
+            $('#chooseLpstick').addClass('fadeIn');
+        });
+
+        //点击单个口红
+        rewards.on('click', 'li', function () {
+            $('#chooseLpstick').addClass('fadeIn');
+        });
+
+
+        //确认领取
+        rewards.on('click', 'button', function () {
+            $('#chooseLpstick').addClass('fadeIn');
+            getReward.show();
+        });
+
+
+        
+        //关闭时退出整个游戏界面 
+        getReward.on('click', '#back', ()=>{
+            this.goBack();
+        });
+        
+        //分享功能
+        getReward.on('click', 'button', function () {
+            console.log('分享功能');
+        });
+    }
+
+    /**
+     * 关闭领取奖励界面
+     */
+    private closeRewards() {
+        $('#rewards').off();
     }
 
     onUpdate() {
-        this.angle += (this.speed);// + this.angles.length * 0.2 加速度   * this.randomAngle 随机方向
+        // if (this.progress == 3) {//第三关
+        //     this.angle += (this.speed + this.angles.length * 0.2) * this.randomAngle;
+        // } else {
+        this.angle += this.speed;
+        // }
+        // + this.angles.length * 0.2 加速度   * this.randomAngle 随机方向
         if (this.angle > 360) this.angle = 0;
         if (this.dial) this.dial.css({ transform: `rotate(${this.angle}deg)` })
         if (this.dial) this.dial.css({ transform: `rotate(${this.angle}deg)` })

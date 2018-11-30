@@ -54,6 +54,10 @@ export default class IndexLogic extends ViewBase {
 
         //更新底部导航状态
         Core.eventManager.event(EventType.updateBottomNav, { type: 'index' });
+        
+        let wait = await Net.getData(Api.roomList,{themeId:0,page:0})
+
+        console.log(wait)
 
         let roomList = await Net.getData(Api.roomList, { themeId: 0 });
         console.log(roomList);

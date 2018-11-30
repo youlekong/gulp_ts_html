@@ -8,7 +8,7 @@ import { Net, Api } from "../../common/Net";
 
 export default class IndexLogic extends ViewBase {
 
-    /**轮播图组件 */
+    /**轮播图组件*/
     private slide: Slider;
 
 

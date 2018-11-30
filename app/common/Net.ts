@@ -34,7 +34,7 @@ export class Net {
             Core.eventManager.event(EventType.error, data);
             return null;
         }
-        console.log('%c <== ' + name, 'color:rgba(27, 144, 4, 1);font-weight:700;background-color:rgba(0,0,0, 0.1)', data['mes']);
+        console.log('%c <== ' + api.name, 'color:rgba(27, 144, 4, 1);font-weight:700;background-color:rgba(0,0,0, 0.1)', data['mes']);
         return data['mes'];
     }
 }

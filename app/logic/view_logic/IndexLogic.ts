@@ -5,6 +5,7 @@ import Slider from "../component/Slider";
 import EventType from "../../common/EventType";
 import Config from "../../common/Config";
 import { Net, Api } from "../../common/Net";
+import Data from "../../common/Data";
 
 export default class IndexLogic extends ViewBase {
 
@@ -27,9 +28,9 @@ export default class IndexLogic extends ViewBase {
             html = '';
         for (let x = 0, l = banner.length; x < l; x++) {
             if (!banner[x]['src']) continue;
-            html += `<em><a href="javascirpt:void(0);" lazy="${Config.imgBase + banner[x]['src']}"></a></em>`
+            html += `<em><a href="javascript:void(0);" lazy="${Config.imgBase + banner[x]['src']}"></a></em>`
         }
-        this.template = Core.utils.replaseData('banner', this.template, html);
+        this.template = Core.utils.replaceData('banner', this.template, html);
     }
 
     /**
@@ -42,7 +43,7 @@ export default class IndexLogic extends ViewBase {
             html += `<a><img class="lazy" data-src="${Config.imgBase + themelist[x]['src']}" alt=""><em>${themelist[x]['title']}</em></a> `
         }
 
-        this.template = Core.utils.replaseData('itemList', this.template, html);
+        this.template = Core.utils.replaceData('itemList', this.template, html);
     }
 
 
@@ -54,8 +55,10 @@ export default class IndexLogic extends ViewBase {
 
         //更新底部导航状态
         Core.eventManager.event(EventType.updateBottomNav, { type: 'index' });
+
         
-        let wait = await Net.getData(Api.roomList,{themeId:0,page:0})
+
+        let wait = await Net.getData(Api.roomList, { themeId: 0, page: 0 })
 
         console.log(wait)
 

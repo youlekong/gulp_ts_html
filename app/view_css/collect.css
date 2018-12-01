@@ -4,6 +4,7 @@
 
 .collect-content {
     width: 6.9rem;
+    height: 100%;
     overflow-y: auto;
     margin: 0 auto;
 }

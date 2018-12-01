@@ -18,9 +18,9 @@ export default class NewsContent extends ViewBase {
 
         $('#goBack').on('click', () => {
             // location.href = '#find';
-            window.history.pushState({}, '', '#find');//临时用，后期优化
-            Core.viewManager.openView(ViewConfig.find);
             
+            Core.viewManager.openView(ViewConfig.find);
+            window.history.pushState(null, '', '#find');//临时用，后期优化
         });
     }
 

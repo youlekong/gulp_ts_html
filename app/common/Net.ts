@@ -8,6 +8,10 @@ import EventType from "./EventType";
 export class Api {
     /**首页 */
     static index: apiData = { name: 'index', url: Config.baseUrl }
+    /**首页 场次列表 */
+    static roomList: apiData = { name: 'roomList', url: Config.baseUrl + '/room/list/' }
+    /** 场次详情  */
+    static roomInfo: apiData = { name: 'roomInfo', url: Config.baseUrl + '/room/info/' }
 }
 
 /**
@@ -28,6 +32,10 @@ export class Net {
             }
         }
         let data = await Core.utils.ajax({ url: api.url + parameter, dataType: 'json' });
+        if (!data) {
+            console.error(api.name + ' 没有数据返回!')
+            return null;
+        }
         if (data['code']) {//code不为零算异常处理
             Core.eventManager.event(EventType.error, data);
             return null;

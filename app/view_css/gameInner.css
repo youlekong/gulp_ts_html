@@ -1,0 +1,104 @@
+.innerGnameBox{
+    width: 7.5rem;
+}
+.innerGnameBox .banner,
+.innerGnameBox .banner img
+{
+    display: block;
+    width: 100%;
+    height: 3.77rem;
+}
+.innerGnameBox .gameinfoTip{
+    width: 100%;
+    height: 2.4rem;
+}
+.innerGnameBox .gameinfoTip img{
+
+    display: block;
+    width: 100%;
+    height: 2.4rem;
+}
+.gameinnerCont{
+    background: #f9f9f9;
+    margin-bottom: 1rem;
+}
+.gameinnerCont .title{
+    width: 1.76rem;
+    height: .58rem;
+    background: url('../res/gameinnertitle.png') no-repeat 0 center;
+    background-size: 1.76rem .58rem;
+    margin:0 auto; 
+    padding: .3rem 0;
+}
+.gameinnerCont .contBox{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.gameinnerCont .contBox .item{
+    width: 2.12rem;
+    margin-left: .3rem;
+    margin-bottom: .3rem;
+
+
+}
+.gameinnerCont .contBox .item img{
+    display: block;
+    width: 2.12rem;
+    height: 2.12rem;
+}
+.gameinnerCont .contBox .item p{
+    display: block;
+    width: 100%;
+    height: .56rem;
+    background: #fff;
+    text-align: center;
+    line-height: .56rem;
+}
+.gameInnerBottom{
+    width: 100%;
+    position:fixed;
+    bottom:0;
+    background: #fff;
+    display: flex;
+    justify-content:space-between;
+    height: .98rem;
+    border-top:1px solid #ddd;
+}
+.gameInnerBottom .left{
+    display: flex;
+    flex-direction: row;
+    margin-left: .3rem;
+}
+.gameInnerBottom .left .item{
+    width: .6rem;
+    text-align: center;
+    margin-right: .5rem;
+}
+.gameInnerBottom .left .item .icon{
+    display: block;
+    width: .6rem;
+    height: .6rem;
+    background-position: -1.24rem 0;
+    margin-top: .04rem;
+   
+}
+.gameInnerBottom .left .item:nth-child(2) .icon{
+    background-position: -1.24rem -.6rem;
+}
+.gameInnerBottom .left .item:nth-child(3) .icon{
+    background-position: -1.86rem -1.86rem;
+
+
+}
+.gameInnerBottom .right{
+    width: 2.02rem;
+    height: .6rem;
+    background: #fe0e4b;
+    color: #fff;
+    line-height: .6rem;
+    text-align: center;
+    margin-top: .2rem;
+    margin-right: .3rem;
+}
+

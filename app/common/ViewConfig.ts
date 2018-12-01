@@ -12,6 +12,7 @@ import OrderDetail from "../logic/view_logic/OrderDetail";
 import IntegralDetail from "../logic/view_logic/IntegralDetail";
 import AwardsBox from "../logic/view_logic/AwardsBox";
 import MyPages from "../logic/view_logic/MyPages";
+import GameInner from '../logic/view_logic/GameInner'
 
 /**
  * 界面配置，路径，对应的类等等
@@ -45,5 +46,7 @@ export default class ViewConfig {
     static awardsbox: viewConfig = { name: 'awardsbox', class: AwardsBox, skin: 'view/awardsbox.html', closePre: true };
     /**我的 */
     static mypages: viewConfig = { name: 'mypages', class: MyPages, skin: 'view/mypages.html', closePre: true };
+    /**第三关内页 */
+    static gameInner: viewConfig = { name: 'gameInner', class: GameInner, skin: 'view/gameInner.html', closePre: true };
 
 }

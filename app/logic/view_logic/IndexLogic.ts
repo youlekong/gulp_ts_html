@@ -4,16 +4,17 @@ import ViewConfig from "../../common/ViewConfig";
 import Slider from "../component/Slider";
 import EventType from "../../common/EventType";
 import Config from "../../common/Config";
+import { Net, Api } from "../../common/Net";
 
 export default class IndexLogic extends ViewBase {
 
-    /**轮播图组件 */
+    /**轮播图组件*/
     private slide: Slider;
 
 
 
     onCreate() {
-        console.log(this.data);
+        if (!this.data) return;
         this.setBanner();
         this.setBrand();
     }
@@ -25,6 +26,7 @@ export default class IndexLogic extends ViewBase {
         let banner: any[] = this.data['bannerList'],
             html = '';
         for (let x = 0, l = banner.length; x < l; x++) {
+            if (!banner[x]['src']) continue;
             html += `<em><a href="javascirpt:void(0);" lazy="${Config.imgBase + banner[x]['src']}"></a></em>`
         }
         this.template = Core.utils.replaseData('banner', this.template, html);
@@ -35,7 +37,7 @@ export default class IndexLogic extends ViewBase {
      */
     private setBrand() {
         let themelist: any[] = this.data['themeList'],
-        html = '';
+            html = '';
         for (let x = 0, l = themelist.length; x < l; x++) {
             html += `<a><img class="lazy" data-src="${Config.imgBase + themelist[x]['src']}" alt=""><em>${themelist[x]['title']}</em></a> `
         }
@@ -45,15 +47,22 @@ export default class IndexLogic extends ViewBase {
 
 
 
-    onEnable() {
+    async onEnable() {
         this.slide = new Slider('#banner');
         let images = document.querySelectorAll(".lazy");
         lazyload(images);
 
         //更新底部导航状态
         Core.eventManager.event(EventType.updateBottomNav, { type: 'index' });
-
         
+        let wait = await Net.getData(Api.roomList,{themeId:0,page:0})
+
+        console.log(wait)
+
+        let roomList = await Net.getData(Api.roomList, { themeId: 0 });
+        console.log(roomList);
+        let roomInfo = await Net.getData(Api.roomInfo, { id: 10 });
+        console.log(roomInfo);
     }
 
 

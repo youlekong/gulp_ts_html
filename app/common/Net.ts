@@ -12,6 +12,10 @@ export class Api {
     static roomList: apiData = { name: 'roomList', url: Config.baseUrl + '/room/list/' }
     /** 场次详情  */
     static roomInfo: apiData = { name: 'roomInfo', url: Config.baseUrl + '/room/info/' }
+    /**游戏开始 */
+    static gameStart:apiData = {name:'gameStart', url:Config.baseUrl + '/user/game/start/'}
+    /**游戏结束 */
+    static gameEnd:apiData = {name:'gameStart', url:Config.baseUrl + '/user/game/end/'}
 }
 
 /**

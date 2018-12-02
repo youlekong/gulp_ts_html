@@ -20,6 +20,8 @@ import AddressesLogic from "../logic/view_logic/AddressesLogic";
 import AddressLogic from "../logic/view_logic/AddressLogic";
 import Logistics from "../logic/view_logic/Logistics";
 import Customer from "../logic/view_logic/Customer";
+import MyShare from "../logic/view_logic/MyShare";
+import MySign from "../logic/view_logic/MySign";
 
 /**
  * 界面配置，路径，对应的类等等
@@ -69,5 +71,9 @@ export default class ViewConfig {
     static logistics: viewConfig = { name: 'logistics', class: Logistics, skin: 'view/logistics.html', closePre: true };
     /**客服 */
     static customer: viewConfig = { name: 'customer', class: Customer, skin: 'view/customer.html', closePre: true };
+    /**我的分享 */
+    static myShare: viewConfig = { name: 'myShare', class: MyShare, skin: 'view/myShare.html', closePre: true  };
+    /**我的签到 */
+    static mySign: viewConfig = { name: 'mySign', class: MySign, skin: 'view/mySign.html', closePre: true  };
 
 }

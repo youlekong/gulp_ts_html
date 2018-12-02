@@ -27,7 +27,7 @@ gulp.task('server', gulp.parallel(function () {
         // root: 'release/',
         host: '192.168.1.60',
         // livereload: true,
-        port: 2333,
+        port: 2222,
     });
 }));
 

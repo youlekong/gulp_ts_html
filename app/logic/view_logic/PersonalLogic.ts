@@ -10,7 +10,8 @@ export default class PersonalLoogic extends ViewBase {
         // Core.viewManager.closeView(Core.preView);
 
         //更新底部导航状态
-        Core.eventManager.event(EventType.updateBottomNav, { type: 'personal' });
+        // Core.eventManager.event(EventType.updateBottomNav, { type: 'personal' });
+        Core.eventManager.event(EventType.updateBottomNav, { hide: true });
 
         //返回上一个界面 或是 上一步
         $('#goBack').on('click', () => {
@@ -49,7 +50,10 @@ export default class PersonalLoogic extends ViewBase {
     private onClickEvent(target: HTMLElement) {
         let view: viewConfig;
         switch (target.id) {
-            case 'rechargeBtn':
+            case 'mySign'://我的签到
+                view = ViewConfig.mySign;
+                break
+            case 'rechargeBtn'://充值
                 view = ViewConfig.recharge;
                 break;
             case 'integralBtn'://积分
@@ -68,7 +72,7 @@ export default class PersonalLoogic extends ViewBase {
                 view = ViewConfig.collect;
                 break;
             case 'shareBtn'://我的分享
-                // view = ViewConfig.
+                view = ViewConfig.myShare;
                 break;
             case 'addressBtn'://地址管理
                 view = ViewConfig.addresses;

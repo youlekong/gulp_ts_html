@@ -39,6 +39,8 @@ interface viewBase {
     storage: boolean;
     /**数据 => 默认数据主要储存来自服务器的界面数据 */
     data: any;
+    /**打开界面时带入的数据 */
+    dataSource: any;
     /**模板 */
     template: any;
     add(parent: ZeptoCollection): void;

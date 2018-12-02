@@ -1,4 +1,6 @@
-
+/**
+ * 工具类
+ */
 export default class Utils {
     static async ajax(d: ZeptoAjaxSettings) {
         return await new Promise((resolve, reject) => {
@@ -37,5 +39,20 @@ export default class Utils {
     static replaceData(name: string, oldData: string, newData: string) {
         let reg = new RegExp(`{{${name}}}`);
         return oldData.replace(reg, newData)
+    }
+    /**
+     * 获取url里面的参数值
+     * @param  key 传进来的参数
+     * @param notMust 不是必须的参数 用来判断一些特殊的字段(如是否debug)
+     * http://192.168.4.206:8900/bin/index.html?userId=12312&roomId=1234545
+     */
+    static getValueByUrl(key: string, notMust?: boolean): any {
+        let value = location.hash.match(new RegExp("[?=?|?=&]" + key + "=([^&]*)"));
+        if (value === null) {
+            if (notMust) return null;
+            alert('lose ' + key);
+            return null;
+        };
+        return value[1];
     }
 }

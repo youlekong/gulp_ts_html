@@ -21,8 +21,11 @@ export default class ViewBase extends Base implements viewBase {
     /**是否缓存界面数据 */
     storage: boolean = false;
 
-    /**数据 */
+    /**数据=>服务端来的数据 */
     data: any;
+
+    /**打开界面时带入的数据 */
+    dataSource: any;
 
     /**模板数据 */
     private _template: string;
@@ -61,6 +64,7 @@ export default class ViewBase extends Base implements viewBase {
         this.node = $(`#${this.name}`);
         if (this.node) {
             this.node.on('click', (e) => {
+                e.stopPropagation();
                 this.onClick(e);
             });//绑定点击事件
 

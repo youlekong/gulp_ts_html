@@ -10,7 +10,7 @@ export default class RechargeLogic extends ViewBase {
     isCloseAnimation: boolean = true;
 
     onEnable() {
-        // Core.viewManager.closeView(Core.preView);
+        this.node.css({ zIndex: 200 });
         //关闭自己单独定义类名
         this.node.on('click', '.closeSelf', () => {
             Core.viewManager.closeView(ViewConfig.recharge);

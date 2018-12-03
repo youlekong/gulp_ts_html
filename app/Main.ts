@@ -1,6 +1,8 @@
 import Core from "./core/Core";
 import EventType from "./common/EventType";
 import Error from "./logic/error/Error";
+import Data from "./common/Data";
+import ViewConfig from "./common/ViewConfig";
 
 
 /**
@@ -23,6 +25,15 @@ class Main {
         Core.root = $('#root');//设置主场景
         Core.route.init();
         this.update();
+
+        $('#personalBtn').on('click', () => {
+            if (Data.isLogin) {
+                Core.viewManager.openView(ViewConfig.personal);
+                window.history.pushState(null, null, '#personal');//临时用，后期优化                
+            } else {
+                alert('请先登陆');
+            }
+        })
 
     }
 

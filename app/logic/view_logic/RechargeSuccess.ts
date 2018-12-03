@@ -1,11 +1,21 @@
 import ViewBase from "../../core/ViewBase";
+import Core from "../../core/Core";
+import ViewConfig from "../../common/ViewConfig";
 
 
 
-export default class RecahrgeSuccess extends ViewBase {
+export default class RechargeSuccess extends ViewBase {
 
-    onEnable(){
-        // Core.viewManager.closeView(Core.preView);
+    isCloseAnimation:boolean = true;
+
+    onEnable() {
+        
+        this.node.css({ zIndex: 300 });
+
+        this.node.on('click', '.closeSelf', () => {
+            Core.viewManager.closeView(ViewConfig.rechargeSuccess);
+        })
+        
     }
 
     onClick(e) {

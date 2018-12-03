@@ -192,6 +192,7 @@
   .full-window {
     height: 100%;
     width: 100%;
+    overflow-y: auto;
   }
 
   .relative {
@@ -369,7 +370,7 @@
   }
 
   .banner-point {
-    z-index: 999;
+    z-index: 50;
     left: 0;
     bottom: 0;
     width: 100%;

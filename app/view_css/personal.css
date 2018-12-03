@@ -59,16 +59,16 @@
     text-align: center;
     font-size: .24rem;
 }
-.myinner .headIcon .item:nth-child(2) .icon{
+.myinner .headIcon .item:nth-child(1) .icon{
    background-position: -.62rem -1.86rem;
 }
-.myinner .headIcon .item:nth-child(3) .icon{
+.myinner .headIcon .item:nth-child(2) .icon{
    background-position: -1.24rem -1.86rem;
 }
-.myinner .headIcon .item:nth-child(4) .icon{
+.myinner .headIcon .item:nth-child(3) .icon{
    background-position: -1.86rem -1.86rem;
 }
-.myinner .headIcon .item:nth-child(5) .icon{
+.myinner .headIcon .item:nth-child(4) .icon{
    background-position: -2.48rem -1.86rem;
 }
 .mybanner{

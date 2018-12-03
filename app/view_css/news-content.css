@@ -88,6 +88,8 @@
 }
 
 .items-btn {
+    background: -webkit-gradient(linear, left top, right top, from(#F1626B), to(#EB505E));
+    background: -webkit-linear-gradient(left, #F1626B, #EB505E);
     background: linear-gradient(90deg, #F1626B, #EB505E);
     right: 0;
     bottom: 2.16rem;
@@ -105,4 +107,49 @@
     background-position-x: -2.54rem;
     left: .22rem;
     top: .1rem;
+}
+
+
+
+/**********文章页弹窗***********/
+.newsDialog{
+    position: fixed;
+    top: 0;
+    width: 7.5rem;
+    height: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.15);
+   
+}
+.newsDialog .newsdialCon{
+    position: fixed;
+    bottom: 0;
+    width: 7.5rem;
+    max-height: 10.9rem;
+    background: #f9f9f9;
+    border-top-left-radius: 0.1rem;
+    border-top-right-radius: 0.1rem;
+    overflow-y: scroll;
+    z-index: 1001;
+}
+.newsDialog .newsdialCon .toptit{
+    height: 0.86rem;
+    line-height: 0.86rem;
+    padding: 0 0.3rem;
+    font-size: 0.26rem;
+    color: #333;
+    overflow: hidden;
+}
+.newsdialCon .toptit>.t{
+    float: left
+}
+.newsdialCon .toptit>.toggle{
+    color: #EC4A58;
+    float: right;
+}
+.newsDialog .item-list{
+    padding-top: 0
+}
+.newsDialog .item-list li{
+    background: #fff;
 }

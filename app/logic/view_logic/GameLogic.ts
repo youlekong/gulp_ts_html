@@ -1,6 +1,7 @@
 import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
 import ViewConfig from "../../common/ViewConfig";
+import EventType from "../../common/EventType";
 
 /**
  * 游戏逻辑
@@ -39,11 +40,23 @@ export default class GameLogic extends ViewBase {
 
     onEnable() {
         this.dial = $('#dial');
-        this.node.css({ zIndex: 999 });
+        this.node.css({ zIndex: 100 });
         this.gameView = $('#gameView');
         this.addShootLipstick();
 
         this.onStart();
+
+
+        //关闭自己单独定义类名
+        this.node.on('click', '.closeSelf', () => {
+
+            if(!Core.preView){
+                // Core.viewManager.openView(ViewConfig.index);
+                window.location.href = '#';
+            }
+            Core.viewManager.closeView(ViewConfig.game);
+            Core.eventManager.event(EventType.updateBottomNav, { hide: false });
+        });
 
       
 
@@ -60,7 +73,7 @@ export default class GameLogic extends ViewBase {
         this.start = true;
         this.setProgressState(true);
         this.setProgress(1);
-        this.init();
+        // this.init();
 
     }
 
@@ -96,20 +109,10 @@ export default class GameLogic extends ViewBase {
                     this.onStart();
                     this.setOverViewState(false);
                     break;
-                case 'goBack'://返回
-                    this.goBack();
-                    break;
             }
         }
     }
 
-    /**
-     * 返回主界面或是上层 
-     */
-    private goBack() {
-        window.history.pushState({}, '', '#');//临时用，后期优化
-        Core.viewManager.openView(ViewConfig.index);
-    }
 
     /**
      * 设置开始的头卡
@@ -263,6 +266,7 @@ export default class GameLogic extends ViewBase {
         switch (this.progress) {
             case 1:
                 this.speed = 1;
+                
                 icon = '../res/game/progress_lb_1.png';
                 break;
             case 2:
@@ -290,6 +294,7 @@ export default class GameLogic extends ViewBase {
         progressView.animate({ opacity: 1, transform: 'translate3d(0, 0, 0)' }, 600, 'ease');
 
         setTimeout(() => {
+            this.init();
             this.click = true;
             progressView.animate({ opacity: 0, transform: 'translate3d(0, 1.5rem, 0)' }, 600, 'ease', () => {
                 progressView.css({
@@ -333,12 +338,6 @@ export default class GameLogic extends ViewBase {
             getReward.show();
         });
 
-
-        
-        //关闭时退出整个游戏界面 
-        getReward.on('click', '#back', ()=>{
-            this.goBack();
-        });
         
         //分享功能
         getReward.on('click', 'button', function () {

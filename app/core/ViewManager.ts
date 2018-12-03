@@ -1,5 +1,6 @@
 import Core from "./Core";
 import { Net, Api } from "../common/Net";
+import EventType from "../common/EventType";
 
 /**
  * 界面管理器
@@ -11,7 +12,7 @@ export default class ViewManager {
     /**
      * 打开界面
      */
-    static async openView(viewConfig: viewConfig) {
+    static async openView(viewConfig: viewConfig, data?: any) {
         let view: viewBase = this.viewCache[viewConfig.name];
         if (!view) {//检测界面是否已经缓存实例
 
@@ -26,6 +27,10 @@ export default class ViewManager {
         if (viewConfig.closePre && Core.preView) this.closeView(Core.preView);//是否需要关闭上一个打开的界面
 
         if (!view.isAdd) {
+            //更新底部导航状态 => 默认打开所有界面下面菜单都隐藏
+            Core.eventManager.event(EventType.updateBottomNav, { hide: true });
+            //设置打开界面时带入的数据
+            view.dataSource = data;
             //获取添加页面时要添加的数据
             if (!view.data) {
                 view.data = await Net.getData(Api[viewConfig.name]);
@@ -38,7 +43,7 @@ export default class ViewManager {
         }
 
         // if (Core.preView) this.closeView(Core.preView);//是否需要关闭上一个打开的界面
-        Core.preView = viewConfig;
+        if (viewConfig.closePre) Core.preView = viewConfig;
         console.log('%c ==> ', 'color:#fff;font-weight:700;background-color:rgba(27, 144, 4, 0.7)', ` open ${viewConfig.name}`);
 
     }

@@ -2,6 +2,7 @@ import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
 import EventType from "../../common/EventType";
 import ViewConfig from "../../common/ViewConfig";
+import Config from "../../common/Config";
 
 /**
  * 文章收藏
@@ -15,11 +16,6 @@ export default class CollectLogic extends ViewBase {
         let images = document.querySelectorAll(".lazy");
         lazyload(images);
 
-        //更新底部导航状态
-        Core.eventManager.event(EventType.updateBottomNav, { type: 'personal' });
-
-        //更新底部导航状态
-        Core.eventManager.event(EventType.updateBottomNav, { hide: true });
 
 
         //导航选择
@@ -29,9 +25,7 @@ export default class CollectLogic extends ViewBase {
 
         //返回按钮功能
         $('#goBack').on('click', () => {
-            // location.href = location.origin + location.pathname + "#";
-            window.history.pushState({}, '', '#');//临时用，后期优化
-            Core.viewManager.openView(ViewConfig.index);
+           Core.viewManager.openView(ViewConfig.personal);
         });
     }
 

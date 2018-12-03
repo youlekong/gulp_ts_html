@@ -81,13 +81,15 @@
     height: .6rem;
     background-position: -1.24rem 0;
     margin-top: .04rem;
+
+
    
 }
 .gameInnerBottom .left .item:nth-child(2) .icon{
     background-position: -1.24rem -.6rem;
 }
 .gameInnerBottom .left .item:nth-child(3) .icon{
-    background-position: -1.86rem -1.86rem;
+    background-position:-5.78rem -3rem;
 
 
 }

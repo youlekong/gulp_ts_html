@@ -3,7 +3,9 @@ import Slider from "../component/Slider";
 import Core from "../../core/Core";
 import EventType from "../../common/EventType";
 import ViewConfig from "../../common/ViewConfig";
-
+import Config from "../../common/Config";
+import { Net, Api } from "../../common/Net";
+import Data from "../../common/Data";
 /**
  * 发现模板
  */

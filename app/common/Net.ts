@@ -2,20 +2,27 @@ import Config from "./Config";
 import Core from "../core/Core";
 import EventType from "./EventType";
 
+let baseUrl = Config.baseUrl;
+
 /**
  * api地址
  */
 export class Api {
     /**首页 */
-    static index: apiData = { name: 'index', url: Config.baseUrl + '/index/' }
+    static index: apiData = { name: 'index', url: baseUrl + '/index/' }
     /**首页 场次列表 */
-    static roomList: apiData = { name: 'roomList', url: Config.baseUrl + '/room/list/' }
+    static roomList: apiData = { name: 'roomList', url: baseUrl + '/room/list/' }
     /** 场次详情  */
-    static roomInfo: apiData = { name: 'roomInfo', url: Config.baseUrl + '/room/info/' }
+    static roomInfo: apiData = { name: 'roomInfo', url: baseUrl + '/room/info/' }
     /**游戏开始 */
-    static gameStart:apiData = {name:'gameStart', url:Config.baseUrl + '/user/game/start/'}
+    static gameStart:apiData = {name:'gameStart', url:baseUrl + '/user/game/start/'}
     /**游戏结束 */
-    static gameEnd:apiData = {name:'gameStart', url:Config.baseUrl + '/user/game/end/'}
+    static gameEnd:apiData = {name:'gameStart', url:baseUrl + '/user/game/end/'}
+
+    /**用户登陆 => 模拟登陆 */
+    static login:apiData = {name:'login', url:baseUrl + '/user/login'}
+    /** 用户信息 */
+    static userInfo:apiData = {name:'userInfo', url:baseUrl + '/user/info'}
 }
 
 /**

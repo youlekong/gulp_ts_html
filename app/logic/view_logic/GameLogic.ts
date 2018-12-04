@@ -2,6 +2,7 @@ import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
 import ViewConfig from "../../common/ViewConfig";
 import EventType from "../../common/EventType";
+import { Net, Api } from "../../common/Net";
 
 /**
  * 游戏逻辑
@@ -35,6 +36,8 @@ export default class GameLogic extends ViewBase {
     private progress: number;
     /**当前 关卡的口红数 */
     private lipsticks: number;
+    /** 是否通关 */
+    private pass: number = 0;
 
     isCloseAnimation: boolean = true;
 
@@ -49,16 +52,11 @@ export default class GameLogic extends ViewBase {
 
         //关闭自己单独定义类名
         this.node.on('click', '.closeSelf', () => {
-
-            if(!Core.preView){
-                // Core.viewManager.openView(ViewConfig.index);
-                window.location.href = '#';
-            }
             Core.viewManager.closeView(ViewConfig.game);
-            Core.eventManager.event(EventType.updateBottomNav, { hide: false });
+            Core.eventManager.event(EventType.updateBottomNav, { hide: true });
         });
 
-      
+
 
         let images = document.querySelectorAll(".lazy");
         lazyload(images);
@@ -90,10 +88,24 @@ export default class GameLogic extends ViewBase {
     /**
      * 游戏结束
      */
-    private onOver(): void {
+    private async onOver() {
         this.start = false;
         this.click = false;
-        this.setOverViewState(true);
+
+        console.log(this.dataSource)
+        let data = await Net.getData(Api.gameEnd, {
+            roomId: this.dataSource['roomId'],
+            sn: this.dataSource['sn'],
+            step: this.progress,
+            status: this.pass,
+        });
+        if (this.pass) {
+            this.openRewards();//打开领奖界面
+        } else {
+            this.setOverViewState(true);
+        }
+
+
     }
 
     /**
@@ -147,6 +159,8 @@ export default class GameLogic extends ViewBase {
         this.currentLipstick.animate({ transform: `translate3d(0,-${h - this.dial.css('height').match(/[0-9|\.]+/g)[0]}px,0) rotate(0deg);` }, 150, null, function () {
             let angle = self.getAngle();
             if (self.collision(angle)) {
+                self.pass = 0;
+
                 self.onOver();
                 console.log('碰撞');
                 $(this).animate({ transform: 'translate3d(6rem,10rem,0) rotate(1800deg);' }, 1000, null, function () {
@@ -244,10 +258,12 @@ export default class GameLogic extends ViewBase {
      */
     private next() {
         if (this.progress == 3) {//已经通关
-            this.start = false;
-            this.click = false;
+            this.pass = 1;
+            this.onOver();
+            // this.start = false;
+            // this.click = false;
             console.log('通关');
-            this.openRewards();//打开领奖界面
+            // this.openRewards();//打开领奖界面
             return;
         }
         if (!this.start) return;
@@ -266,7 +282,7 @@ export default class GameLogic extends ViewBase {
         switch (this.progress) {
             case 1:
                 this.speed = 1;
-                
+
                 icon = '../res/game/progress_lb_1.png';
                 break;
             case 2:
@@ -338,7 +354,7 @@ export default class GameLogic extends ViewBase {
             getReward.show();
         });
 
-        
+
         //分享功能
         getReward.on('click', 'button', function () {
             console.log('分享功能');

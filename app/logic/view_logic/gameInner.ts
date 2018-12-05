@@ -3,6 +3,7 @@ import Core from "../../core/Core";
 import Utils from "../../core/Utils";
 import { Net, Api } from "../../common/Net";
 import ViewConfig from "../../common/ViewConfig";
+import Config from "../../common/Config";
 
 
 export default class GameInner extends ViewBase {
@@ -20,7 +21,8 @@ export default class GameInner extends ViewBase {
 
         //获取场次id
         let roomId = Utils.getValueByUrl('id');
-        let roomInfo = await Net.getData(Api.roomInfo, { id: roomId });
+        let roomInfo = await Net.getData(Api.roomInfo, { id: roomId });//获取房间详情
+        this.setItemList(roomInfo['goodsList']);
 
         let userInfo = await Net.getData(Api.userInfo, {
             roomId: roomId,
@@ -45,6 +47,21 @@ export default class GameInner extends ViewBase {
             });
         })
 
+    }
+
+    /**
+     * 添加色号展示
+     */
+    private setItemList(list: any[]) {
+        let html: string = '';
+        for (let x = 0, l = list.length; x < l; x++) {
+            html += `<li class="item">
+            <img class="lazy" data-src="${Config.imgBase + list[x]['src']}" alt="">
+            <p>${list[x]['title']}</p>
+        </li>`
+        }
+        $('#contBox').html(html);
+        lazyload(document.querySelectorAll(".lazy"));
     }
 
     onClick(e) {

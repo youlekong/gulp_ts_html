@@ -97,7 +97,7 @@ export default class GameLogic extends ViewBase {
             roomId: this.dataSource['roomId'],
             sn: this.dataSource['sn'],
             step: this.progress,
-            status: this.pass,
+            status: this.pass ? 1 : 2,
         });
         if (this.pass) {
             this.openRewards();//打开领奖界面

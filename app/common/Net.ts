@@ -17,7 +17,7 @@ export class Api {
     /**游戏开始 */
     static gameStart:apiData = {name:'gameStart', url:baseUrl + '/user/game/start/'}
     /**游戏结束 */
-    static gameEnd:apiData = {name:'gameStart', url:baseUrl + '/user/game/end/'}
+    static gameEnd:apiData = {name:'gameEnd', url:baseUrl + '/user/game/end/'}
 
     /**用户登陆 => 模拟登陆 */
     static login:apiData = {name:'login', url:baseUrl + '/user/login'}

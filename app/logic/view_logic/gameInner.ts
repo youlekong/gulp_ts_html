@@ -4,9 +4,16 @@ import Utils from "../../core/Utils";
 import { Net, Api } from "../../common/Net";
 import ViewConfig from "../../common/ViewConfig";
 import Config from "../../common/Config";
+import Slider from "../component/Slider";
 
 
+/**
+ * 场次详情
+ */
 export default class GameInner extends ViewBase {
+
+    /**轮播图组件*/
+    private slide: Slider;
 
     async onEnable() {
         $('#goBack').on('click', () => {
@@ -23,6 +30,7 @@ export default class GameInner extends ViewBase {
         let roomId = Utils.getValueByUrl('id');
         let roomInfo = await Net.getData(Api.roomInfo, { id: roomId });//获取房间详情
         this.setItemList(roomInfo['goodsList']);
+        this.setBanner(roomInfo['bannerList']);
 
         let userInfo = await Net.getData(Api.userInfo, {
             roomId: roomId,
@@ -50,6 +58,23 @@ export default class GameInner extends ViewBase {
     }
 
     /**
+     * 设置banner
+     */
+    private setBanner(list: any[]) {
+        let html = '';
+        for (let x = 0, l = list.length; x < l; x++) {
+            if (!list[x]['src']) continue;
+            html += `<em><a href="javascript:void(0);" lazy="${Config.imgBase + list[x]['src']}"></a></em>`
+        }
+        console.log(list)
+        console.log(html)
+        $('#banner').html(Core.utils.replaceData('banner', $('#banner').html(), html));
+
+        this.slide = new Slider('#banner');
+
+    }
+
+    /**
      * 添加色号展示
      */
     private setItemList(list: any[]) {
@@ -70,5 +95,7 @@ export default class GameInner extends ViewBase {
 
     onRemove() {
         $('#gameStartBtn').off();
+        this.slide.clearTime();
+        this.slide = null;
     }
 }   

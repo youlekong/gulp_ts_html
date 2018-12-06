@@ -112,17 +112,47 @@ export default class GameLogic extends ViewBase {
     * 点击事件
     * @param d 
     */
-    onClick(d: Event) {
+    async onClick(d: Event) {
         if (this.click && this.start) {
             this.shoot();
         } else {
             switch (d.target['id']) {
                 case 'replay'://重玩
-                    this.onStart();
-                    this.setOverViewState(false);
+                    this.replay();
                     break;
             }
         }
+    }
+
+    /**
+     * 重玩
+     */
+    private async replay() {
+        let userInfo = await Net.getData(Api.userInfo, {
+            roomId: this.dataSource['roomId'],
+            game: 1
+        });//获取用户信息
+
+        //发起游戏开始请求
+        let data = await Net.getData(Api.gameStart, {
+            gid: userInfo['gameInfo']['gid'],
+            roomId: this.dataSource['roomId'],
+            sign: userInfo['gameInfo']['sign'],
+            apiKey: userInfo['gameInfo']['apiKey']
+        });
+
+        this.dataSource = {
+            gid: userInfo['gameInfo']['gid'],//游戏id
+            apiKey: userInfo['gameInfo']['apiKey'],
+            sign: userInfo['gameInfo']['sign'],//签名
+            roomId: this.dataSource['roomId'],//场次id
+            goodsId: userInfo['gameInfo']['goodsId'],//道具id， 目前是 15， 直通第三关道具
+            sn: data['sn'],//订单号
+            coin: data['coin'],//剩余积分
+        }
+
+        this.onStart();
+        this.setOverViewState(false);
     }
 
 

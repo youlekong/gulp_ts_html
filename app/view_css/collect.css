@@ -38,6 +38,9 @@
 }
 
 /******商品列表*****/
+.itemTab{
+    display: none;
+}
 .item-list {
     /* padding-top: .42rem; */
     overflow-x: hidden;
@@ -104,6 +107,104 @@
     top: 0;
     left: 6.9rem;
 }
-.item-list .edit li{
+.item-list li.edit{
+    transform: translate3d(-1.22rem, 0, 0);
+}
+
+/****************** 商品列表 *****************/
+
+.item-list-box {
+    width: 6.9rem;
+    height: auto;
+    margin: 0 auto;
+    padding-bottom: .98rem;
+}
+
+.item-list-box li {
+    position: relative;
+    height: 5rem;
+    background: #fff;
+}
+
+.item-list-box li>a {
+    float: left;
+    height: 3.45;
+    width: 6.9rem;
+    display: inline-block;
+}
+
+.item-list-box img {
+    width: 6.9rem;
+    height: 3.45rem;
+    float: left;
+}
+
+.item-list-box h3 {
+    font-size: .28rem;
+    color: #333;
+    padding-bottom: .1rem;
+}
+
+.item-list-box .item-msg {
+    width: 100%;
+    float: left;
+    height: .6rem;
+    padding: .3rem 0 .5rem 0;
+}
+
+.item-list-box .left {
+    width: 5.1rem;
+    float: left;
+}
+
+.item-list-box .left span {
+    line-height: .3rem;
+}
+
+.item-list-box .right {
+    float: right;
+}
+
+.item-list-box .need-btn {
+    margin-top: .15rem;
+}
+
+.item-list-box del {
+    color: #bbb;
+    vertical-align: middle;
+}
+
+.item-list-box .price {
+    color: #EC4A58;
+    padding-right: .25rem;
+}
+
+.item-list-box .game-status {
+    color: #fff;
+    text-align: center;
+    top: .2rem;
+    left: .2rem;
+    font-style: normal;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: .4rem;
+    width: 1.6rem;
+    height: .45rem;
+    line-height: .45rem;
+}
+.roomItem{
+    transition: transform 0.3s ease;
+}
+.roomItem .del-btn{
+    width: 1.22rem;
+    height: 100%;
+    background-color: #EC4A58;
+    text-align: center;
+    line-height: 5rem;
+    color: #fff;
+    top: 0;
+    left: 6.9rem;
+}
+.roomItem.edit {
+    -webkit-transform: translate3d(-1.22rem, 0, 0);
     transform: translate3d(-1.22rem, 0, 0);
 }

@@ -15,14 +15,49 @@ export class Api {
     /** 场次详情  */
     static roomInfo: apiData = { name: 'roomInfo', url: baseUrl + '/room/info/' }
     /**游戏开始 */
-    static gameStart:apiData = {name:'gameStart', url:baseUrl + '/user/game/start/'}
+    static gameStart: apiData = { name: 'gameStart', url: baseUrl + '/user/game/start/' }
     /**游戏结束 */
-    static gameEnd:apiData = {name:'gameEnd', url:baseUrl + '/user/game/end/'}
+    static gameEnd: apiData = { name: 'gameEnd', url: baseUrl + '/user/game/end/' }
 
     /**用户登陆 => 模拟登陆 */
-    static login:apiData = {name:'login', url:baseUrl + '/user/login'}
+    static login: apiData = { name: 'login', url: baseUrl + '/user/login' }
     /** 用户信息 */
-    static userInfo:apiData = {name:'userInfo', url:baseUrl + '/user/info'}
+    static userInfo: apiData = { name: 'userInfo', url: baseUrl + '/user/info' }
+
+    /**发现首页 */
+   static find:apiData = {name:'find', url:baseUrl + '/article/'}
+   /**发现列表 */
+   static findList:apiData={name:'findList',url:baseUrl+ '/article/list'}
+   /**发现详情 */
+   static articleInfo:apiData={name:'articleInfo',url:baseUrl+ '/article/info'} 
+   /**用户消息 */ 
+   static messageList:apiData={name:'messageList',url:baseUrl+ '/user/mes/index'}
+   /**用户消息详情 */
+   static newsInfo:apiData={name:'newsInfo',url:baseUrl+ '/user/mes/info'}
+   /**用户地址列表 */
+   static addressList:apiData={name:'addressList',url:baseUrl+ '/user/address'}
+   /**用户添加收货地址 */
+   static addressAdd:apiData={name:'addressAdd',url:baseUrl+ '/user/address/add'}
+   /**地址编辑 */
+   static addressUpdate:apiData={name:'addressUpdate',url:baseUrl+ '/user/address/update'}
+   /**删除地址 */
+   static addressDel:apiData={name:'addressDel',url:baseUrl+ '/user/address/del'}
+   /**用户收藏文章 */
+   static articleFav:apiData={name:'articleFav',url:baseUrl+ '/user/collect/article'}
+   /**用户收藏列表 */
+   static favList:apiData={name:'favList',url:baseUrl+ '/user/collectList/article'}
+   /**用户收藏场次列表 */
+   static favRoomList:apiData={name:'favRoomList',url:baseUrl+ '/user/collectList/room'}
+   //用户收藏场次
+   static roomFav:apiData={name:'roomFav',url:baseUrl+ '/user/collect/room'}
+   /**用户分享 */
+   static articleShare:apiData={name:'articleShare',url:baseUrl+ '/user/share/article/'}
+    /**我的签到 */
+    static signList:apiData={name:'signList',url:baseUrl+ '/signature/list'}
+    /**签到 */
+    static signature:apiData={name:'signature',url:baseUrl+ '/user/signature'}
+    /**充值首页 */
+    static recharge:apiData={name:'recharge',url:baseUrl+ '/rcharge/'}
 }
 
 /**
@@ -48,7 +83,10 @@ export class Net {
             return null;
         }
         if (data['code']) {//code不为零算异常处理
-            Core.eventManager.event(EventType.error, data);
+            Core.eventManager.event(EventType.error, {
+                data: data,
+                api: api.name
+            });
             return null;
         }
         console.log('%c <== ' + api.name, 'color:rgba(27, 144, 4, 1);font-weight:700;background-color:rgba(0,0,0, 0.1)', data['mes']);

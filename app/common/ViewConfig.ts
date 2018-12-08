@@ -22,6 +22,7 @@ import Logistics from "../logic/view_logic/Logistics";
 import Customer from "../logic/view_logic/Customer";
 import MyShare from "../logic/view_logic/MyShare";
 import MySign from "../logic/view_logic/MySign";
+import UpdateAddress from "../logic/view_logic/UpdateAddress";
 
 /**
  * 界面配置，路径，对应的类等等
@@ -65,6 +66,8 @@ export default class ViewConfig {
     static newsInfo: viewConfig = { name: 'newsInfo', class: NewsInfo, skin: 'view/newsInfo.html', closePre: true };
     /**收货地址 */
     static addresses: viewConfig = { name: 'addresses', class: AddressesLogic, skin: 'view/addresses.html', closePre: true };
+    /**地址编辑 */
+    static updateAddress: viewConfig = { name: 'updateAddress', class: UpdateAddress, skin: 'view/updateAddress.html', closePre: true  };
     /**新增收货地址 */
     static address: viewConfig = { name: 'address', class: AddressLogic, skin: 'view/address.html', closePre: true };
     /**物流信息*/

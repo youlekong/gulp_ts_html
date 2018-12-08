@@ -4,6 +4,7 @@
 .item-list {
     /* padding-top: .42rem; */
     overflow-x: hidden;
+    padding-bottom: 0.95rem;
 }
 
 .item-list li  {
@@ -80,7 +81,7 @@
     float: right;
     height: 0.96rem;
     margin-top: 0.18rem;
-    border-left: 0.01rem solid #333;
+    border-left: 1px solid #747474;
 }
 
 .item-list li .right span {
@@ -95,7 +96,7 @@
 .add_addr_btn {
     height: 0.95rem;
     width: 100%;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     text-align: center;

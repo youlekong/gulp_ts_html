@@ -72,6 +72,7 @@ interface apiData {
 
 declare var TWEEN: any
 declare var lazyload: any
-
+declare var Picker: any
+declare var city: any
 
 

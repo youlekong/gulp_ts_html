@@ -25,9 +25,9 @@ gulp.task('server', gulp.parallel(function () {
     return connect.server({
         root: 'dist/',
         // root: 'release/',
-        host: '192.168.3.2',
+        host: '192.168.1.60',
         // livereload: true,
-        port: 2222,
+        port: 2221,
     });
 }));
 
@@ -85,12 +85,12 @@ gulp.task('watch', gulp.parallel(function () {
 //编译ts
 gulp.task("build-ts", gulp.parallel(function () {
     return browserify({
-            // basedir: '.',
-            debug: true,
-            entries: ['app/Main.ts'],
-            cache: {},
-            packageCache: {}
-        })
+        // basedir: '.',
+        debug: true,
+        entries: ['app/Main.ts'],
+        cache: {},
+        packageCache: {}
+    })
         .plugin(tsify)
         .bundle()
         .pipe(source('bundle.js'))
@@ -99,18 +99,26 @@ gulp.task("build-ts", gulp.parallel(function () {
 
 //合并js 
 gulp.task("concat-js", gulp.parallel(function () {
-    return gulp.src(['libs/zepto.min.js', 'libs/fx.js','libs/lazyload.min.js','libs/Tween.min.js'])//, 'libs/*.js'
+    return gulp.src(['libs/zepto.min.js', 'libs/fx.js', 'libs/lazyload.min.js', 'libs/Tween.min.js'])//, 'libs/*.js'
         .pipe(concat('library.js'))
         .pipe(gulp.dest("dist"));
+}));
+
+//复制scr目录下的js
+gulp.task('copy-js', gulp.parallel(function () {
+    return del(['dist/src/*']).then(function () { //先删除
+        return gulp.src('src/*.js')
+            .pipe(gulp.dest("dist/src"));
+    });
 }));
 
 //合并css =>仅合并 style 目录下的
 gulp.task("concat-css", gulp.parallel(function () {
     return gulp.src([
-            'app/style/normalize.css',
-            'app/style/common.css',
-            'app/style/*.css'
-        ])
+        'app/style/normalize.css',
+        'app/style/common.css',
+        'app/style/*.css'
+    ])
         .pipe(concat('style.css'))
         .pipe(postcss([autoprefixer({
             browsers: ['last 2 versions', 'Android >= 4.0'], //http://www.ydcss.com/archives/94
@@ -128,10 +136,11 @@ gulp.task("default", gulp.series("build-ts", "postcss", gulp.parallel( // "revIm
         "watch",
         "concat-css",
         "file-include",
+        "copy-js",
         "copy-img"
     ]), function () {
-    console.log(23232)
-}));
+        console.log(23232)
+    }));
 // gulp.task("default", gulp.series(),gulp.parallel(['concat-js']));
 
 // 在上面代码开发中的时候，不执行版本管理，所以不做hash处理

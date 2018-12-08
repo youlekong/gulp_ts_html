@@ -158,7 +158,7 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    opacity: 0;
+    display: none;
 }
 
 .signDialog .signCon{
@@ -250,7 +250,10 @@
     top: 50%;
     left: 50%;
     margin: -2.72rem 0 0 -2.91rem;
-    z-index: 100;
+    opacity: 0;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    z-index: 1000;
 }
 .signSucess .monGet{
     padding-top: 1.98rem;

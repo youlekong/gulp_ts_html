@@ -37,7 +37,8 @@ export default class NewsContent extends ViewBase {
          //判断当前用户是否收藏该文章
          this.favNum = await Net.getData(Api.articleFav,{id:Utils.getValueByUrl('id'),action:3});
          $("#fav").find("span").text(this.favNum['count']);
-         if(this.favNum['count']>0){
+         console.log(this.favNum['collect']);
+         if(this.favNum['collect']==1){
             $("#fav").addClass("shareCur");
          }
          

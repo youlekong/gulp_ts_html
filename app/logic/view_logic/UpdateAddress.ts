@@ -1,5 +1,6 @@
 import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
+import EventType from "../../common/EventType";
 import ViewConfig from "../../common/ViewConfig";
 import { Net, Api } from "../../common/Net";
 import Picker from "../component/CityPicker";
@@ -8,6 +9,10 @@ export default class UpdateAddress extends ViewBase {
 
     /**地址组件*/
     cityPicke: Picker;
+
+    onAwake() {
+        Core.eventManager.on(EventType.error, this, this.onError);
+    }
 
     async  onEnable() {
 

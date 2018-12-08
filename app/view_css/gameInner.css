@@ -89,18 +89,29 @@
     background-position: -1.24rem -.6rem;
 }
 .gameInnerBottom .left .item:nth-child(3) .icon{
-    background-position:-5.78rem -3rem;
+    background-position:-2.86rem -3.75rem;
 
 
 }
 .gameInnerBottom .right{
     width: 2.02rem;
     height: .6rem;
-    background: #fe0e4b;
+    background: #EC4A58;
     color: #fff;
     line-height: .6rem;
     text-align: center;
     margin-top: .2rem;
     margin-right: .3rem;
 }
+.gameInnerBottom .left .shareCur .shareFavico{
+    background-position: -2.17rem -4.47rem;
+}
+.gameInnerBottom .left .shareCur:nth-child(2) .icon{
+    background-position: -1.24rem -1.2rem;
+}
+.gameInnerBottom .left .shareCur span{
+    color: #EC4A58;
+}
+
+
 

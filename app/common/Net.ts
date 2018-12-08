@@ -50,9 +50,11 @@ export class Api {
    static favRoomList:apiData={name:'favRoomList',url:baseUrl+ '/user/collectList/room'}
    //用户收藏场次
    static roomFav:apiData={name:'roomFav',url:baseUrl+ '/user/collect/room'}
-   /**用户分享 */
+   /**用户分享文章 */
    static articleShare:apiData={name:'articleShare',url:baseUrl+ '/user/share/article/'}
-    /**我的签到 */
+   /**用户分享场次 */
+   static roomShare:apiData={name:'roomShare',url:baseUrl+ '/user/share/room'}
+   /**我的签到 */
     static signList:apiData={name:'signList',url:baseUrl+ '/signature/list'}
     /**签到 */
     static signature:apiData={name:'signature',url:baseUrl+ '/user/signature'}

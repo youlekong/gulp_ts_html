@@ -23,7 +23,7 @@ export default class AddressesLogic extends ViewBase {
         let addressList = await Net.getData(Api.addressList)
         this.getAddressList(addressList)
 
-        //地址编辑
+        //地址编辑...
         $("#addressList").on('click','.right',function(){
      
            Core.viewManager.openView(ViewConfig.updateAddress,{

@@ -5,6 +5,7 @@ import { Net, Api } from "../../common/Net";
 import ViewConfig from "../../common/ViewConfig";
 import Config from "../../common/Config";
 import Slider from "../component/Slider";
+import UserData from "../../common/UserData";
 
 
 /**
@@ -37,6 +38,7 @@ export default class GameInner extends ViewBase {
             game: 1
         });//获取用户信息
 
+        $('#gameStartBtn').text(userInfo['ticketInfo']['id'] == 15 ? '直通挑战第3关' : '闯关');
         $('#gameStartBtn').on('click', async () => {
             let data = await Net.getData(Api.gameStart, {
                 gid: userInfo['gameInfo']['gid'],
@@ -44,6 +46,7 @@ export default class GameInner extends ViewBase {
                 sign: userInfo['gameInfo']['sign'],
                 apiKey: userInfo['gameInfo']['apiKey']
             });
+            UserData.preset = data['reStatus'];
             Core.viewManager.openView(ViewConfig.game, {
                 gid: userInfo['gameInfo']['gid'],//游戏id
                 apiKey: userInfo['gameInfo']['apiKey'],
@@ -52,6 +55,7 @@ export default class GameInner extends ViewBase {
                 goodsId: userInfo['gameInfo']['goodsId'],//道具id， 目前是 15， 直通第三关道具
                 sn: data['sn'],//订单号
                 coin: data['coin'],//剩余积分
+                progress: userInfo['ticketInfo']['id'] == 15 ? 3 : 1,//进度默认为1
             });
         })
 
@@ -66,8 +70,6 @@ export default class GameInner extends ViewBase {
             if (!list[x]['src']) continue;
             html += `<em><a href="javascript:void(0);" lazy="${Config.imgBase + list[x]['src']}"></a></em>`
         }
-        console.log(list)
-        console.log(html)
         $('#banner').html(Core.utils.replaceData('banner', $('#banner').html(), html));
 
         this.slide = new Slider('#banner');
@@ -90,7 +92,7 @@ export default class GameInner extends ViewBase {
     }
 
     onClick(e) {
-        console.log(e)
+        // console.log(e)
     }
 
     onRemove() {

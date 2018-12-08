@@ -3,6 +3,8 @@ import Core from "../../core/Core";
 import ViewConfig from "../../common/ViewConfig";
 import EventType from "../../common/EventType";
 import { Net, Api } from "../../common/Net";
+import UserData from "../../common/UserData";
+import Config from "../../common/Config";
 
 /**
  * 游戏逻辑
@@ -38,6 +40,9 @@ export default class GameLogic extends ViewBase {
     private lipsticks: number;
     /** 是否通关 */
     private pass: number = 0;
+    /** 倒计时定时器 */
+    private countDown: any;
+
 
     isCloseAnimation: boolean = true;
 
@@ -63,14 +68,13 @@ export default class GameLogic extends ViewBase {
 
     }
 
-
     /**
      * 游戏开始
      */
     private onStart(): void {
         this.start = true;
         this.setProgressState(true);
-        this.setProgress(1);
+        this.setProgress(this.dataSource['progress'] ? this.dataSource['progress'] : 1);
         // this.init();
 
     }
@@ -83,16 +87,21 @@ export default class GameLogic extends ViewBase {
 
         this.dial.find('.lipstick-box').remove();
         this.setLipstickNumbers();
+
+        this.createCountDown();
     }
 
     /**
      * 游戏结束
      */
     private async onOver() {
+        if (!this.start) return;
         this.start = false;
         this.click = false;
 
-        console.log(this.dataSource)
+        console.log(this.dataSource);
+        this.clearCountDown();
+
         let data = await Net.getData(Api.gameEnd, {
             roomId: this.dataSource['roomId'],
             sn: this.dataSource['sn'],
@@ -100,9 +109,9 @@ export default class GameLogic extends ViewBase {
             status: this.pass ? 1 : 2,
         });
         if (this.pass) {
-            this.openRewards();//打开领奖界面
+            this.openRewards(data['list'], data['gameCode']);//打开领奖界面
         } else {
-            this.setOverViewState(true);
+            this.setOverViewState(true, data);
         }
 
 
@@ -141,6 +150,8 @@ export default class GameLogic extends ViewBase {
             apiKey: userInfo['gameInfo']['apiKey']
         });
 
+        UserData.preset = data['reStatus'];
+
         this.dataSource = {
             gid: userInfo['gameInfo']['gid'],//游戏id
             apiKey: userInfo['gameInfo']['apiKey'],
@@ -168,12 +179,18 @@ export default class GameLogic extends ViewBase {
 
     /**
      * 设置结束界面显示状态
+     * @param state 状态
+     * @param list 结束返回数据
      */
-    private setOverViewState(state: boolean): void {
+    private setOverViewState(state: boolean, list?: any): void {
+        let loseView = $('#loseView');
         if (state) {
-            $('#loseView').show();
+
+            loseView.find('.getCoin').text(`再玩0次，获得${list['give_coin']}魅力币`);
+
+            loseView.show();
         } else {
-            $('#loseView').hide();
+            loseView.hide();
         }
     }
 
@@ -197,8 +214,16 @@ export default class GameLogic extends ViewBase {
                     $(this).remove();
                 });
             } else {
-                this.remove();
-                self.dialAddLipstick(angle);
+                if (self.progress == 3 && UserData.preset == 2 && self.lipsticks <= 1) {//如果第三关 并且不允许赢
+                    self.pass = 0;
+                    self.onOver();
+                    $(this).animate({ transform: 'translate3d(6rem,10rem,0) rotate(1800deg);' }, 1000, null, function () {
+                        $(this).remove();
+                    });
+                } else {
+                    this.remove();
+                    self.dialAddLipstick(angle);
+                }
             }
 
             self.randomAngle = (Math.random() < 0.4 ? -1 : 1)
@@ -311,16 +336,20 @@ export default class GameLogic extends ViewBase {
         let icon: string;
         switch (this.progress) {
             case 1:
-                this.speed = 1;
+                this.speed = 3;
 
                 icon = '../res/game/progress_lb_1.png';
                 break;
             case 2:
-                this.speed = 3;
+                this.speed = 5;
                 icon = '../res/game/progress_lb_2.png';
                 break;
             case 3:
-                this.speed = 2;
+                if (UserData.point == 2) {
+                    this.speed = 2.5;
+                } else {
+                    this.speed = 3;
+                }
                 icon = '../res/game/progress_lb_3.png';
                 break;
         }
@@ -363,23 +392,58 @@ export default class GameLogic extends ViewBase {
 
     /**
      * 打开领取奖励界面
+     * @param list 奖励列表 
+     * @param gameCode 游戏 code
      */
-    private openRewards() {
+    private openRewards(list: any[], gameCode: any) {
         let rewards = $('#rewards');
-        let getReward = $('#getReward');
+        let getReward = $('#getReward'),
+            itemList = rewards.find('#itemList');
+
+        itemList.html('');
+
+        //生成商品列表
+        let html: any = '';
+        for (let x = 0, l = list.length; x < l; x++) {
+            html += `<li data-id=${list[x]['id']}>
+            <img class="lazy" src="${Config.imgBase + list[x]['src']}" alt="">
+            <h3 class="font-clip">${list[x]['title']}</h3>
+        </li>`;
+        }
+        itemList.html(html);
+
         rewards.show();
-        rewards.on('click', 'li', function () {
-            $('#chooseLpstick').addClass('fadeIn');
-        });
+
+        let chooseLipstick = $('#chooseLipstick'),
+            index: number;
+        chooseLipstick.find('img')[0].src = '';
 
         //点击单个口红
         rewards.on('click', 'li', function () {
-            $('#chooseLpstick').addClass('fadeIn');
+            index = $(this).index();
+            //设置选种口红纹理
+            chooseLipstick.find('img')[0].src = Config.imgBase + list[index]['src'];
+            chooseLipstick.find('.font-clip').text(list[index]['title']);
+            chooseLipstick.find('.coin').text('有问题');
+
+            chooseLipstick.addClass('fadeIn');
         });
 
 
         //确认领取
-        rewards.on('click', 'button', function () {
+
+        rewards.on('click', 'button', async function () {
+            //领取选择口红
+            await Net.getData(Api.gameReward, {
+                gameCode: gameCode,
+                id: list[index]['id']
+            });
+
+            //设置成功领取口红弹窗信息
+            getReward.find('img')[0].src = Config.imgBase + list[index]['src'];
+            chooseLipstick.find('.name').text(list[index]['title']);
+
+
             $('#chooseLpstick').addClass('fadeIn');
             getReward.show();
         });
@@ -399,15 +463,59 @@ export default class GameLogic extends ViewBase {
     }
 
     onUpdate() {
-        // if (this.progress == 3) {//第三关
-        //     this.angle += (this.speed + this.angles.length * 0.2) * this.randomAngle;
-        // } else {
-        this.angle += this.speed;
-        // }
+        if (this.progress == 3) {//第三关
+            if (UserData.preset == 2) {//必不中逻辑增加难度 
+                this.angle += (this.speed + this.angles.length * 0.3) * this.randomAngle;
+            } else {
+                this.angle += (this.speed + this.angles.length * 0.1) * this.randomAngle;
+            }
+        } else {
+            this.angle += this.speed;
+        }
         // + this.angles.length * 0.2 加速度   * this.randomAngle 随机方向
         if (this.angle > 360) this.angle = 0;
         if (this.dial) this.dial.css({ transform: `rotate(${this.angle}deg)` })
         if (this.dial) this.dial.css({ transform: `rotate(${this.angle}deg)` })
+    }
+
+
+    /**
+     * 设置定时器显示
+     */
+    private updateCountLabel(time: number) {
+        $('#countDown').text(time + '');
+    }
+
+    /**
+     * 创建定时器
+     */
+    private createCountDown() {
+        let self = this;
+
+        this.clearCountDown();
+        let time: number = 30;//倒计时
+        this.updateCountLabel(time);
+        this.countDown = setTimeout(countDown, 1000);
+
+        function countDown() {
+            time--;
+            if (time <= 0) {
+                self.pass = 0;
+                self.onOver();
+                time = 0;
+            }
+            self.updateCountLabel(time);
+            self.clearCountDown();
+            if (time) self.countDown = setTimeout(countDown, 1000);
+
+        }
+    }
+
+    /**
+     * 关闭定时器
+     */
+    private clearCountDown() {
+        if (this.countDown) clearTimeout(this.countDown);
     }
 
     onRemove() {

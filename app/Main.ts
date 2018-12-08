@@ -31,6 +31,9 @@ class Main {
 
         $('#personalBtn').on('click', () => {
             if (Data.isLogin) {
+                if($('#bottomNav').find('.personal').hasClass('cur')){
+                    return;
+                } 
                 Core.viewManager.openView(ViewConfig.personal);
                 window.history.pushState(null, null, '#personal');//临时用，后期优化                
             } else {

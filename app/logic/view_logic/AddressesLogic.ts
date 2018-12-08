@@ -5,6 +5,7 @@ import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
 import ViewConfig from "../../common/ViewConfig";
 import { Net, Api } from "../../common/Net";
+import Utils from "../../core/Utils";
 
 
 export default class AddressesLogic extends ViewBase {
@@ -20,7 +21,15 @@ export default class AddressesLogic extends ViewBase {
             Core.viewManager.openView(ViewConfig.address);
         })
 
-        let addressList = await Net.getData(Api.addressList)
+        let addressList = await Net.getData(Api.addressList);
+        await Utils.ajax({
+            url:'/src/address.js',
+            dataType:'script'
+        });
+        await Utils.ajax({
+            url: '/src/picker.min.js',
+            dataType:'script'
+        });
         this.getAddressList(addressList)
 
         //地址编辑..

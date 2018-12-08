@@ -38,10 +38,16 @@ export default class CollectLogic extends ViewBase {
         //删除收藏文章列表
         $("#favArticleList").on("click", '.del-btn', function () {
             $(".sureDialog").show();
-            //this.articleId = $(item.target).parent().data('id');
             this.articleId = $(this).parent().data('id');
             $(".del").click(async()=> {
                 await Net.getData(Api.articleFav, { id: this.articleId, action: 2 });
+
+                $("#favArticleList").find("li").forEach(item => {
+                    if($(item).data('id')==this.articleId){
+                        $(item).remove();
+                    }
+                })
+                
                 $(".sureDialog").hide();
             })
            
@@ -57,6 +63,11 @@ export default class CollectLogic extends ViewBase {
             this.roomId= $(this).parent().data('id');
             $(".del").click(async()=> {
                 await Net.getData(Api.roomFav, { id: this.roomId, action: 2 });
+                $("#roomList").find("li").forEach(item => {
+                    if($(item).data('id')==this.roomId){
+                        $(item).remove();
+                    }
+                })
                 $(".sureDialog").hide();
             })
         })

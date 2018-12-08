@@ -124,6 +124,7 @@
     position: relative;
     height: 5rem;
     background: #fff;
+    margin-bottom: 0.36rem;
 }
 
 .item-list-box li>a {
@@ -146,10 +147,8 @@
 }
 
 .item-list-box .item-msg {
-    width: 100%;
     float: left;
-    height: .6rem;
-    padding: .3rem 0 .5rem 0;
+    padding: .3rem 0.1rem .5rem;
 }
 
 .item-list-box .left {

@@ -24,6 +24,8 @@ export default class UpdateAddress extends ViewBase {
          //地址弹窗
         let picker = this.cityPicke;
         $("#addressSel").click(function(){
+            document.activeElement['blur']();
+            $("input[readonly='readonly']").blur();
             picker.show();     
         })
 
@@ -47,7 +49,10 @@ export default class UpdateAddress extends ViewBase {
             parmar.address=$("#addressArea").val();
             parmar.flag = $('#switch').prop('checked')==true ? '1' :'2';        
             let addressUpdate = await Net.getData(Api.addressUpdate,parmar);
-            Core.viewManager.openView(ViewConfig.addresses);
+            //信息正确跳转
+            if(addressUpdate){
+                Core.viewManager.openView(ViewConfig.addresses);
+            }   
         })
 
         /**
@@ -98,6 +103,39 @@ export default class UpdateAddress extends ViewBase {
                        </p>
                    </div>  `
        $("#updateAddr").html(html);  
+    }
+
+    /**
+     * 错误弹窗显示
+     * @param data  错误提示信息
+     */
+
+    private onError(data: any) {
+        switch (data['api']) {
+            case Api.addressUpdate.name: 
+                this.errorDialog(data['data']['mes']);
+                this.errorTip();    
+            break;
+        }
+    }
+
+    /**
+     * 错误提示HTML
+     */
+    private errorDialog(txt: any){
+        let html=`<div id="toast" class="toast" >
+                    ${txt}
+                 </div>`
+        $("#updateAddress").append(html);
+    }
+
+    /**
+     * 错误提示弹窗隐藏
+     */
+    private errorTip(){
+        setTimeout(() => {
+            $("#toast").remove();
+        }, 1000);
     }
 
 

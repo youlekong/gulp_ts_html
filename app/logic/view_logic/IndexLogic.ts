@@ -66,23 +66,25 @@ export default class IndexLogic extends ViewBase {
         this.setRoomList(roomList['list']);
 
         //签到弹窗
-        this.setSignDialog();
+        let sign = await Net.getData(Api.signature);
+        this.setSignDay(sign['dayList']);
+
+
         //我的签到
         let signList = await Net.getData(Api.signList);
         //按照Id倒序排序
         let signOrder = signList['list'].sort(function (a, b) {
             return a.id - b.id;
         });
-        this.getSignList(signOrder);
+        this.getSignList(signOrder, sign['dayList']);
 
         //签到
         $(".sinBtn").click(async () => {
             let sign = await Net.getData(Api.signature, { action: 1 });
             //签到成功操作
-            if(sign){
+            if (sign) {
                 $('#signDialog').find(".signCon").remove();
-                let html=`
-                            <div class="mask"></div>
+                let html = ` <div class="mask"></div>
                             <div class="signSucess">
                                 <div class="monGet">
                                     <span class="icon"></span>
@@ -91,15 +93,16 @@ export default class IndexLogic extends ViewBase {
                                 <p class="tips">恭喜您获得10欢乐币</p>
                                 <div class="okayBtn">确定</div>
                             </div>`
-              $('#signDialog').append(html);
-              $('#signDialog').find(".mask").show();  
-              $('#signDialog').find(".signSucess").addClass("slideInDown");
+                $('#signDialog').append(html);
+                $('#signDialog').find(".mask").show();
+                $('#signDialog').find(".signSucess").addClass("slideInDown");
+
             }
         })
 
         //签到成功关闭
-        $("#signDialog").on("click",'.okayBtn',function(){
-            $('#signDialog').find(".mask").remove();
+        $("#signDialog").on("click", '.okayBtn', function () {
+            $('#signDialog').find(".mask").hide();
             $('#signDialog').find(".signSucess").remove();
         })
 
@@ -151,18 +154,21 @@ export default class IndexLogic extends ViewBase {
      */
     private setSignDialog() {
         $('#signDialog').find(".mask").show();
-        $('#signDialog').find(".signCon").addClass("slideInDown");
+        $('#signDialog').find(".signCon").addClass('slideInDown');
 
     }
 
     /**
      * 我的签到
+     * @param list 
+     * @param dayList 已经签到列表
      */
-    private getSignList(list: any) {
+    private getSignList(list: any, dayList: any[]) {
         let html = '';
         for (let x = 0; x < list.length; x++) {
-            html += `<li class="days-small">
-                        <div class="t">第${x + 1}天</div>
+            html += `<li class="days-small ${dayList[x] ? 'days-disable' : ''}" data-id="${list[x]['id']}">
+                        <div class="t">第${x + 1}天</div>  
+                        <div class="${dayList[x] ? 'complete' : ''}"></div>                      
                         <p class="signicon"></p>
                         <p class="money">${list[x]['title']}</p>
                     </li>`
@@ -170,9 +176,35 @@ export default class IndexLogic extends ViewBase {
         $("#mySignDays").html(html);
         $("#mySignDays").children("li").eq(2).addClass("days-big");
         $("#mySignDays").children("li").eq(6).addClass("days-big");
+
+
+
     }
 
-   
+    /**
+     * 判断当天是否有签到
+     */
+    async setSignDay(list: any) {
+        let myDate = new Date();
+        let year = myDate.getFullYear();
+        let month = (myDate.getMonth() + 1).toString().replace(/^(\d)$/, "0$1");
+        let date = myDate.getDate().toString().replace(/^(\d)$/, "0$1");
+        let nowTime = Date.parse(year + '-' + month + '-' + date);
+        if (list.length == 0) { this.setSignDialog(); return; }
+        for (let x = 0; x < list.length; x++) {
+            let time = Date.parse(list[x]['c_date']);
+            if (time == nowTime) {
+                $('#signDialog').find(".mask").hide();
+                $(".signCon").remove();
+                break;
+            } else {
+                this.setSignDialog();
+
+            }
+        }
+    }
+
+
     /**
     * 错误弹窗显示
     * @param data  错误提示信息
@@ -195,7 +227,7 @@ export default class IndexLogic extends ViewBase {
                     ${txt}
                  </div>`
         $("#index").append(html);
-        $('#signDialog').find(".mask").remove();
+        $('#signDialog').find(".mask").hide();
         $(".signCon").remove();
     }
 
@@ -220,7 +252,7 @@ export default class IndexLogic extends ViewBase {
 
 
     onClick(e: MouseEvent) {
-       
+
     }
 
     onUpdate() {

@@ -32,7 +32,7 @@ export default class MySign extends ViewBase {
         for (let x = 0; x < list.length; x++) {
             html += `<li class="days-small">
                         <div class="t">第${x + 1}天</div>
-                        <img class="pic" src="${Config.imgBase + list[x]['src']}" />
+                        <p class="signicon"></p>
                         <p class="money">${list[x]['title']}</p>
                     </li>`
         }

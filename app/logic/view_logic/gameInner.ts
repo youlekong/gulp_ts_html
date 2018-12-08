@@ -15,6 +15,8 @@ export default class GameInner extends ViewBase {
 
     /**轮播图组件*/
     private slide: Slider;
+    private favId: Number;  //1.收藏, 2.取消
+    private favNum: Number;
 
     async onEnable() {
         $('#goBack').on('click', () => {
@@ -59,6 +61,21 @@ export default class GameInner extends ViewBase {
             });
         })
 
+        //判断当前用户是否收藏该场次
+        this.favNum = await Net.getData(Api.roomFav, { id: roomId, action: 3 });
+        if (this.favNum['collect'] == 1) {
+            $("#fav").addClass("shareCur");
+        }
+
+
+        //用户分享文章
+        $("#shareA").click(async () => {
+            let share = this.node.find("#shareA");
+            share.addClass("shareCur");
+            let roomShare = await Net.getData(Api.roomShare, { id: roomId });
+        })
+
+
     }
 
     /**
@@ -91,8 +108,27 @@ export default class GameInner extends ViewBase {
         lazyload(document.querySelectorAll(".lazy"));
     }
 
-    onClick(e) {
-        // console.log(e)
+    /**
+    * 点赞
+    */
+    async favVote() {
+        let fav = this.node.find("#fav");
+        fav.hasClass("shareCur") ? fav.removeClass("shareCur") : fav.addClass("shareCur");
+        if (fav.hasClass("shareCur")) {
+            this.favId = 1;
+        } else {
+            this.favId = 2;
+        }
+        let roomFav = await Net.getData(Api.roomFav, { id: Utils.getValueByUrl('id'), action: this.favId });
+    }
+
+
+    onClick(e: Event) {
+        switch (e.target['className']) {
+            case 'icon shareFavico'://点赞
+                this.favVote();
+                break
+        }
     }
 
     onRemove() {

@@ -12,7 +12,9 @@ export default class IndexLogic extends ViewBase {
     /**轮播图组件*/
     private slide: Slider;
 
-
+    onAwake() {
+        Core.eventManager.on(EventType.error, this, this.onError);
+    }
 
     onCreate() {
         if (!this.data) return;
@@ -74,12 +76,34 @@ export default class IndexLogic extends ViewBase {
         this.getSignList(signOrder);
 
         //签到
-        $(".sinBtn").click(async ()=>{
-            $('#signDialog').find(".mask").css({opacity:0});
-            $(".signCon").removeClass("slideInDown");
-            console.log(await Net.getData(Api.signature,{action:1}))
-
+        $(".sinBtn").click(async () => {
+            let sign = await Net.getData(Api.signature, { action: 1 });
+            //签到成功操作
+            if(sign){
+                $('#signDialog').find(".signCon").remove();
+                let html=`
+                            <div class="mask"></div>
+                            <div class="signSucess">
+                                <div class="monGet">
+                                    <span class="icon"></span>
+                                    <span class="num">x10</span>
+                                </div>
+                                <p class="tips">恭喜您获得10欢乐币</p>
+                                <div class="okayBtn">确定</div>
+                            </div>`
+              $('#signDialog').append(html);
+              $('#signDialog').find(".mask").show();  
+              $('#signDialog').find(".signSucess").addClass("slideInDown");
+            }
         })
+
+        //签到成功关闭
+        $("#signDialog").on("click",'.okayBtn',function(){
+            $('#signDialog').find(".mask").remove();
+            $('#signDialog').find(".signSucess").remove();
+        })
+
+
 
         this.setLazyLoad();
     }
@@ -125,10 +149,10 @@ export default class IndexLogic extends ViewBase {
     /**
      * 签到弹窗显示
      */
-    private setSignDialog(){
-        $('#signDialog').find(".mask").css({opacity:1});
-        $(".signCon").addClass("slideInDown");
-        
+    private setSignDialog() {
+        $('#signDialog').find(".mask").show();
+        $('#signDialog').find(".signCon").addClass("slideInDown");
+
     }
 
     /**
@@ -139,7 +163,7 @@ export default class IndexLogic extends ViewBase {
         for (let x = 0; x < list.length; x++) {
             html += `<li class="days-small">
                         <div class="t">第${x + 1}天</div>
-                        <img class="pic" src="${Config.imgBase + list[x]['src']}" />
+                        <p class="signicon"></p>
                         <p class="money">${list[x]['title']}</p>
                     </li>`
         }
@@ -148,13 +172,41 @@ export default class IndexLogic extends ViewBase {
         $("#mySignDays").children("li").eq(6).addClass("days-big");
     }
 
+   
     /**
-     * 关闭签到弹窗
-     */
-     private closeSignDialog(){
-        console.log(11111111111)
-     }
+    * 错误弹窗显示
+    * @param data  错误提示信息
+    */
 
+    private onError(data: any) {
+        switch (data['api']) {
+            case Api.signature.name:
+                this.errorDialog(data['data']['mes']);
+                this.errorTip();
+                break;
+        }
+    }
+
+    /**
+     * 错误提示HTML
+     */
+    private errorDialog(txt: any) {
+        let html = `<div id="toast" class="toast"  style="bottom:20%;">
+                    ${txt}
+                 </div>`
+        $("#index").append(html);
+        $('#signDialog').find(".mask").remove();
+        $(".signCon").remove();
+    }
+
+    /**
+     * 错误提示弹窗隐藏
+     */
+    private errorTip() {
+        setTimeout(() => {
+            $("#toast").remove();
+        }, 1000);
+    }
 
 
 
@@ -168,11 +220,7 @@ export default class IndexLogic extends ViewBase {
 
 
     onClick(e: MouseEvent) {
-        switch (e.target['className']) {
-            case 'sinBtn'://签到功能
-                 this.closeSignDialog();
-                 break
-        }
+       
     }
 
     onUpdate() {

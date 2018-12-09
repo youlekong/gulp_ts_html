@@ -13,6 +13,7 @@ export default class ViewBase extends Base implements viewBase {
 
     /** 是否播放动画 */
     animation: boolean = true;
+    /** 是否播放关闭时的过度动画 */
     isCloseAnimation: boolean = false;
 
     /** 是否已经添加到场景 */

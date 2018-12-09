@@ -3,6 +3,9 @@ import EventType from "./common/EventType";
 import Error from "./logic/error/Error";
 import Data from "./common/Data";
 import ViewConfig from "./common/ViewConfig";
+import Utils from "./core/Utils";
+import { Net, Api } from "./common/Net";
+import UserData from "./common/UserData";
 
 
 /**
@@ -20,7 +23,7 @@ class Main {
     /**
      * 初始化
      */
-    private init() {
+    private async init() {
         new Error();//开启错误信息处理
         Core.root = $('#root');//设置主场景
         Core.route.init();
@@ -28,12 +31,23 @@ class Main {
 
         $('#personalBtn').on('click', () => {
             if (Data.isLogin) {
+                if($('#bottomNav').find('.personal').hasClass('cur')){
+                    return;
+                } 
                 Core.viewManager.openView(ViewConfig.personal);
                 window.history.pushState(null, null, '#personal');//临时用，后期优化                
             } else {
                 alert('请先登陆');
             }
-        })
+        });
+
+        await Net.getData(Api.login, { uid: 1 });//模拟登陆
+        Data.isLogin = true;
+       
+        // UserData.data = userInfo;
+        // //用户信息映射 值转换
+        // UserData.coin = parseInt(userInfo['coin']);
+        // UserData.point = parseInt(userInfo['point']);
 
     }
 

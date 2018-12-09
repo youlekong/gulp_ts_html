@@ -86,6 +86,18 @@
 .news-bottom-nav .share {
     background-position: -1.24rem -0.6rem;
 }
+.news-bottom-nav .shareCur .collect{
+    background-position: -2.17rem -4.47rem;
+}
+.news-bottom-nav .shareCur .share{
+    background-position: -1.24rem -1.2rem;
+}
+#fav span{
+    display: block;
+}
+.news-bottom-nav .shareCur  em,.news-bottom-nav .shareCur  span{  
+    color: #EC4A58;
+}
 
 .items-btn {
     background: -webkit-gradient(linear, left top, right top, from(#F1626B), to(#EB505E));
@@ -115,11 +127,16 @@
 .newsDialog{
     position: fixed;
     top: 0;
+    z-index: 999;
+}
+.newsDialog .mask{
+    position: fixed;
+    top: 0;
     width: 7.5rem;
     height: 100%;
     z-index: 1000;
     background: rgba(0, 0, 0, 0.15);
-   
+    display: none;
 }
 .newsDialog .newsdialCon{
     position: fixed;
@@ -131,6 +148,7 @@
     border-top-right-radius: 0.1rem;
     overflow-y: scroll;
     z-index: 1001;
+    display: none;
 }
 .newsDialog .newsdialCon .toptit{
     height: 0.86rem;
@@ -152,4 +170,35 @@
 }
 .newsDialog .item-list li{
     background: #fff;
+}
+.fadeInUp{
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-name: fadeInUp
+}
+.fadeIn{
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: fadeIn
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translate3d(0,100%,0)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
 }

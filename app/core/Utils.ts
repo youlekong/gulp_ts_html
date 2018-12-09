@@ -9,6 +9,9 @@ export default class Utils {
                 url: d.url,
                 data: d.data,
                 dataType: d.dataType,
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: (data) => {
                     resolve(data);
                 }

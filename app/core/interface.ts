@@ -30,6 +30,7 @@ interface viewConfig {
 interface viewBase {
     /**是否播放动画 */
     animation: boolean;
+    /** 是否播放关闭时的过度动画 */
     isCloseAnimation: boolean;
     /**模板名称 */
     name: string;
@@ -72,6 +73,7 @@ interface apiData {
 
 declare var TWEEN: any
 declare var lazyload: any
-
+declare var Picker: any
+declare var city: any
 
 

@@ -12,7 +12,9 @@ export default class IndexLogic extends ViewBase {
     /**轮播图组件*/
     private slide: Slider;
 
-
+    onAwake() {
+        Core.eventManager.on(EventType.error, this, this.onError);
+    }
 
     onCreate() {
         if (!this.data) return;
@@ -47,7 +49,6 @@ export default class IndexLogic extends ViewBase {
     }
 
 
-
     async onEnable() {
         this.slide = new Slider('#banner');
 
@@ -60,9 +61,52 @@ export default class IndexLogic extends ViewBase {
             Core.viewManager.openView(ViewConfig.recharge);
         });
 
+        //用户信息
+        let userInfo = await Net.getData(Api.userInfo,{uid:1});
+        let coin: any = userInfo['coin'] / 100;
+        let coins: any = parseInt(coin);
+        $(".rechargeBtn em").text(coins);
+
         //设置房间列表
         let roomList = await Net.getData(Api.roomList, { themeId: 0, page: 0 })
         this.setRoomList(roomList['list']);
+
+        //我的签到
+        let sign = await Net.getData(Api.signature);
+        //按照Id倒序排序
+        let signOrder = sign['list'].sort(function (a, b) {
+            return a.id - b.id;
+        });
+        this.getSignList(signOrder, sign['dayList']);
+
+        //点击签到
+        $(".sinBtn").click(async () => {
+            let sign = await Net.getData(Api.signature, { action: 1 });
+            //签到成功操作
+            if (sign) {
+                $('#signDialog').find(".signCon").remove();
+                let html = ` <div class="mask"></div>
+                            <div class="signSucess">
+                                <div class="monGet">
+                                    <span class="icon"></span>
+                                    <span class="num">x10</span>
+                                </div>
+                                <p class="tips">恭喜您获得10欢乐币</p>
+                                <div class="okayBtn">确定</div>
+                            </div>`
+                $('#signDialog').append(html);
+                $('#signDialog').find(".mask").show();
+                $('#signDialog').find(".signSucess").addClass("slideInDown");
+
+            }
+        })
+
+        //签到成功关闭
+        $("#signDialog").on("click", '.okayBtn', function () {
+            $('#signDialog').find(".mask").hide();
+            $('#signDialog').find(".signSucess").remove();
+        })
+
         this.setLazyLoad();
     }
 
@@ -97,12 +141,106 @@ export default class IndexLogic extends ViewBase {
         }
         $('#roomList').html(html);
         //打开场次详情
-        $('#roomList').on('click', '.room-info', function(){
+        $('#roomList').on('click', '.room-info', function () {
             console.log($(this).data('id'))
             location.href = '#gameInner?id=' + $(this).data('id');
             // Core.viewManager.openView(ViewConfig.gameInner, $(this).data('id'));
         });
     }
+
+    /**
+     * 签到弹窗显示
+     */
+    private setSignDialog() {
+        $('#signDialog').find(".mask").show();
+        $('#signDialog').find(".signCon").addClass('slideInDown');
+
+    }
+
+    /**
+     * 我的签到
+     * @param list 
+     * @param dayList 已经签到列表
+     */
+    private getSignList(list: any, dayList: any[]) {
+        let html = '';
+        let num;
+        if(dayList[0]['num']){
+            num =parseInt(dayList[0]['num']);
+        }
+        for (let x = 0; x < list.length; x++) {
+            
+            html += `<li class="days-small ${num>0 ? 'days-disable' : ''}" data-id="${list[x]['id']}">
+                        <div class="t">第${x + 1}天</div>  
+                        <div class="${num>0  ? 'complete' : ''}"></div>                      
+                        <p class="signicon"></p>
+                        <p class="money">${list[x]['title']}</p>
+                    </li>`;
+            num--;
+        }
+
+        $("#mySignDays").html(html);
+        $("#mySignDays").children("li").eq(2).addClass("days-big");
+        $("#mySignDays").children("li").eq(6).addClass("days-big");
+
+
+        //判断当天是否有签到
+        let myDate = new Date();
+        let year = myDate.getFullYear();
+        let month = (myDate.getMonth() + 1).toString().replace(/^(\d)$/, "0$1");
+        let date = myDate.getDate().toString().replace(/^(\d)$/, "0$1");
+        let nowTime = Date.parse(year + '-' + month + '-' + date);
+        if (dayList.length == 0) { this.setSignDialog(); return; }
+        for (let x = 0; x < dayList.length; x++) {
+            let time = Date.parse(dayList[x]['c_date']);
+            if (time == nowTime) {
+                $('#signDialog').find(".mask").hide();
+                $(".signCon").remove();
+                break;
+            } else {
+                this.setSignDialog();
+
+            }
+        }
+
+    }
+
+
+    /**
+    * 错误弹窗显示
+    * @param data  错误提示信息
+    */
+
+    private onError(data: any) {
+        switch (data['api']) {
+            case Api.signature.name:
+                this.errorDialog(data['data']['mes']);
+                this.errorTip();
+                break;
+        }
+    }
+
+    /**
+     * 错误提示HTML
+     */
+    private errorDialog(txt: any) {
+        let html = `<div id="toast" class="toast"  style="bottom:20%;">
+                    ${txt}
+                 </div>`
+        $("#index").append(html);
+        $('#signDialog').find(".mask").hide();
+        $(".signCon").remove();
+    }
+
+    /**
+     * 错误提示弹窗隐藏
+     */
+    private errorTip() {
+        setTimeout(() => {
+            $("#toast").remove();
+        }, 1000);
+    }
+
 
     /**
      * 设置懒加载 
@@ -111,10 +249,8 @@ export default class IndexLogic extends ViewBase {
         lazyload(document.querySelectorAll(".lazy"));
     }
 
-
-
     onClick(e: MouseEvent) {
-        // console.log(e.target);
+
     }
 
     onUpdate() {

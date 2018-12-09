@@ -2,16 +2,18 @@ import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
 import EventType from "../../common/EventType";
 import ViewConfig from "../../common/ViewConfig";
+import Config from "../../common/Config";
+import { Net, Api } from "../../common/Net";
 
 
 export default class PersonalLoogic extends ViewBase {
 
-    onEnable() {
+  async  onEnable() {
         // Core.viewManager.closeView(Core.preView);
 
         //更新底部导航状态
-        // Core.eventManager.event(EventType.updateBottomNav, { type: 'personal' });
-        Core.eventManager.event(EventType.updateBottomNav, { hide: true });
+        Core.eventManager.event(EventType.updateBottomNav, { type: 'personal' });
+        //Core.eventManager.event(EventType.updateBottomNav, { hide: true });
 
         //返回上一个界面 或是 上一步
         $('#goBack').on('click', () => {
@@ -23,6 +25,25 @@ export default class PersonalLoogic extends ViewBase {
             }
         });
         this.bindClick();
+
+        //用户信息
+        let userInfo = await Net.getData(Api.userInfo,{uid:1})
+        this.setUserInfo(userInfo)
+    }
+
+    /**
+     * 用户信息
+     */
+    private setUserInfo(userInfo:any[]){
+        let html='';
+        html=`<div class="headport">
+                 <img src="${Config.imgBase + userInfo['avatar']}" alt="">
+            </div>
+            <div class="tit">
+                <h3>${userInfo['nick_name']}</h3>
+                <p>我的魅力币：${userInfo['coin']}</p>
+            </div>`
+       $("#headportbox").html(html);
     }
 
     /**

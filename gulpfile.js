@@ -27,7 +27,7 @@ gulp.task('server', gulp.parallel(function () {
         // root: 'release/',
         host: '192.168.1.60',
         // livereload: true,
-        port: 2222,
+        port: 2221,
     });
 }));
 
@@ -55,7 +55,7 @@ gulp.task('file-include', gulp.parallel(function () {
 
 //复制图片
 gulp.task('copy-img', gulp.parallel(function () {
-    return del(['dist/res/**/*']).then(function () { //先删除
+    return del(['dist/res/**/*']).then(function () { //先删除 删除是异步的，会导致一些编译顺序问题，后续需要调整下
         return gulp.src('./app/res/**/*')
             .pipe(gulp.dest('./dist/res'));
     });
@@ -76,7 +76,6 @@ gulp.task('watch', gulp.parallel(function () {
     gulp.watch('app/*.html', gulp.parallel('copy-html')); //监听首页html
     gulp.watch(['app/*.ts', 'app/**/*.ts'], gulp.series('build-ts', "concat-js")); //监听ts
     gulp.watch('app/style/*.css', gulp.parallel('concat-css')); //监听css
-    // gulp.watch('app/res/*', gulp.series('revImage', 'revHtmlCss', 'file-include'));//监听图片
     gulp.watch('app/res/**/*', gulp.series('copy-img')); //监听图片
     gulp.watch(['app/view_css/*.css', 'app/view/*.html'], gulp.series("postcss", "file-include")); //监听库修改
     // gulp.watch('libs/*.js', ['concat-js']);//监听库修改
@@ -85,12 +84,12 @@ gulp.task('watch', gulp.parallel(function () {
 //编译ts
 gulp.task("build-ts", gulp.parallel(function () {
     return browserify({
-            // basedir: '.',
-            debug: true,
-            entries: ['app/Main.ts'],
-            cache: {},
-            packageCache: {}
-        })
+        // basedir: '.',
+        debug: true,
+        entries: ['app/Main.ts'],
+        cache: {},
+        packageCache: {}
+    })
         .plugin(tsify)
         .bundle()
         .pipe(source('bundle.js'))
@@ -99,18 +98,26 @@ gulp.task("build-ts", gulp.parallel(function () {
 
 //合并js 
 gulp.task("concat-js", gulp.parallel(function () {
-    return gulp.src(['libs/zepto.min.js', 'libs/fx.js','libs/lazyload.min.js','libs/Tween.min.js'])//, 'libs/*.js'
+    return gulp.src(['libs/zepto.min.js', 'libs/fx.js', 'libs/lazyload.min.js', 'libs/Tween.min.js'])//, 'libs/*.js'
         .pipe(concat('library.js'))
         .pipe(gulp.dest("dist"));
+}));
+
+//复制scr目录下的js
+gulp.task('copy-js', gulp.parallel(function () {
+    return del(['dist/src/*']).then(function () { //先删除 删除是异步的，会导致一些编译顺序问题，后续需要调整下
+        return gulp.src('src/*.js')
+            .pipe(gulp.dest("dist/src"));
+    });
 }));
 
 //合并css =>仅合并 style 目录下的
 gulp.task("concat-css", gulp.parallel(function () {
     return gulp.src([
-            'app/style/normalize.css',
-            'app/style/common.css',
-            'app/style/*.css'
-        ])
+        'app/style/normalize.css',
+        'app/style/common.css',
+        'app/style/*.css'
+    ])
         .pipe(concat('style.css'))
         .pipe(postcss([autoprefixer({
             browsers: ['last 2 versions', 'Android >= 4.0'], //http://www.ydcss.com/archives/94
@@ -128,10 +135,11 @@ gulp.task("default", gulp.series("build-ts", "postcss", gulp.parallel( // "revIm
         "watch",
         "concat-css",
         "file-include",
+        "copy-js",
         "copy-img"
     ]), function () {
-    console.log(23232)
-}));
+        console.log(23232)
+    }));
 // gulp.task("default", gulp.series(),gulp.parallel(['concat-js']));
 
 // 在上面代码开发中的时候，不执行版本管理，所以不做hash处理
@@ -140,64 +148,146 @@ gulp.task("default", gulp.series("build-ts", "postcss", gulp.parallel( // "revIm
 // 然后再走正常的发布流程  gulp还不是特别熟悉，暂时多两步操作
 
 
+//release 发布流程
+/**
+ *  =========== 资源和css组合发布流程 ============
+ *  1,图片资源全部添加hash，【从app目录导出】 ==> revImage
+ *  2,压缩css 【从dist导出】 ==> minCss
+ *  3,替换css里面原始的资源路径为带Hash的地址, 【从release目录导出】，并压缩css ==> revHtmlCss
+ *  4,把css和html组合合并到一起【从dist目录导出】 ==> include-release
+ * 
+ *  =========== ts发布 重新导出 并混淆 ============
+ *  1, 从app目录把最新的ts编译成js ==> build-ts-release
+ *  2, 混淆js 目前只需要 混淆bundle.js ==> minJs
+ *  
+ *  =========== 其它流程操作 ============
+ *  1,复制首页到release ==> minHtml
+ *  2,复制第三方库[不预加载的库] ==> copy-js-release
+ *  3,合并第三方库 需要用到的库 前期需要先加载 ==> concat-js-release
+ * 
+ * 发布命令 ==> gulp release 
+ * 
+ */
+
+
+
 
 //将所有的图片名称hash
 gulp.task('revImage', gulp.series(function () { //=> 这两个功能在发布线上版本的时候再用，现在好像有问题
-    // return del(['dist/res/*']).then(function () {//先删除
-    return gulp.src('./app/res/*')
+    // return del(['release/res/*']).then(function () {//先删除 todo  这里删除文件异步的时候 会有问题
+    return gulp.src(['./app/**/*.png', './app/**/*.jpg'])
         .pipe(rev()) //文件名称生成hash
-        .pipe(gulp.dest('./dist/res'))
+        .pipe(gulp.dest('release/'))
         .pipe(rev.manifest()) //必须有这个方法=>生成对应的rev-manifest.json用来映射路径
-        .pipe(gulp.dest('./dist/res'));
+        .pipe(gulp.dest('release/'));
     // });
 }));
 
 //目前暂时所有的图片都写在css文件里面，所以这里只需要替换对应的css文件即可 => 这两个功能在发布线上版本的时候再用，现在好像有问题
 gulp.task('revHtmlCss', gulp.series(function () {
-    return gulp.src(['./dist/**/*.json', 'app/view_css/*.css'])
+    return gulp.src(['./release/**/*.json', 'release/**/*.css'])
         .pipe(revCollector({
-            replaceReved: true
+            // replaceReved: true
         })) //rev-manifest.json 文件中的对应替换到css里
-        .pipe(gulp.dest('dist/view_css/')); //输出到该文件夹中
+        .pipe(gulp.dest('release/'))//输出到该文件夹中
 }));
 
-//压缩html
+//css压缩  
+gulp.task('minCss', gulp.series(function () {
+
+    const postcss = require('gulp-postcss'), //css兼容适配
+        autoprefixer = require('autoprefixer'),
+        cssMin = require('gulp-minify-css'); //压缩
+
+    return gulp.src('dist/**/*.css')
+        .pipe(postcss([autoprefixer()]))
+        .pipe(cssMin())
+        .pipe(gulp.dest('release/'))//输出到该文件夹中
+}))
+
+//css和html 组合 到一起
+gulp.task('include-release', gulp.series(function () {
+    return gulp.src(['./app/view/*.html']) //从app/view 目录
+        .pipe(fileInclude({
+            prefix: '@', //变量前缀 @include
+            basepath: './release/view_css/', //引用文件路径
+            indent: true //保留文件的缩进
+        }))
+        .pipe(htmlmin({//压缩html
+            removeComments: true,//清除HTML注释
+            collapseWhitespace: true//压缩HTML
+        }))
+        .pipe(gulp.dest('./release/view/')); //输出文件路径
+}))
+
+
+//压缩首页
 gulp.task('minHtml', gulp.parallel(function () {
-    return gulp.src(['dist/**/*html', 'dist/*.html'])
+    return gulp.src(['dist/index.html'])
         .pipe(htmlmin({
+            minifyJS: true,//压缩页面JS
+            removeComments: true,//清除HTML注释
             collapseWhitespace: true
         }))
         .pipe(gulp.dest('release'));
 }));
 
-//混淆js => 这个方法暂时不要用，最好还是把原来的ts 编译以后再和库合并，然后再发布
+
+//复制scr目录下的js
+gulp.task('copy-js-release', gulp.parallel(function () {
+    return del(['release/src/*']).then(function () { //先删除  删除是异步的，会导致一些编译顺序问题，后续需要调整下
+        return gulp.src('src/*.js')
+            .pipe(gulp.dest("release/src"));
+    });
+}));
+
+
+
+//编译ts
+gulp.task("build-ts-release", gulp.parallel(function () {
+    return browserify({
+        // basedir: '.',
+        debug: false,
+        entries: ['app/Main.ts'],
+        cache: {},
+        packageCache: {}
+    })
+        .plugin(tsify)
+        .bundle()
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest("release"));
+}));
+
+// //合并js 
+gulp.task("concat-js-release", gulp.parallel(function () {
+    return gulp.src(['libs/zepto.min.js', 'libs/fx.js', 'libs/lazyload.min.js', 'libs/Tween.min.js'])//, 'libs/*.js'
+        .pipe(concat('library.js'))
+        .pipe(gulp.dest("release"));
+}));
+
+//混淆js => 最好还是把原来的ts 编译以后再和库合并，然后再发布  目前只混bundle
 gulp.task('minJs', gulp.parallel(function () {
-    return gulp.src('./dist/bundle.js')
+    return gulp.src('./release/bundle.js')
         .pipe(uglify())
         .pipe(gulp.dest('release'));
 }));
 
-// gulp.task("concat-js", gulp.parallel(function () {
-//     return gulp.src(['libs/zepto.min.js', 'libs/fx.js', 'libs/*.js', './dist/bundle.js'])
-//         .pipe(concat('library.js'))
-//         .pipe(gulp.dest("dist"));
-// }));
-
-//压缩css
-gulp.task('minCss', gulp.parallel(function () {
-    const postcss = require('gulp-postcss'), //css兼容适配
-        autoprefixer = require('autoprefixer'),
-        cssMin = require('gulp-minify-css'); //压缩
-    return gulp.src('./dist/**/*.css')
-        .pipe(postcss([autoprefixer()]))
-        .pipe(cssMin())
-        .pipe(gulp.dest('release'));
+// //测试环境
+gulp.task('server-re', gulp.parallel(function () {
+    return connect.server({
+        root: 'release/',
+        // root: 'release/',
+        host: '192.168.1.60',
+        // livereload: true,
+        port: 2221,
+    });
 }));
 
-//复制图片
-gulp.task('copy-img-release', gulp.parallel(function () {
-    return gulp.src('./dist/res/*')
-        .pipe(gulp.dest('release/res'));
-}));
 
-gulp.task('release', gulp.parallel('minHtml', 'minJs', 'minCss', 'copy-img-release'));
+gulp.task('release', gulp.series(
+    'revImage',
+    'minCss',
+    'revHtmlCss', 'include-release',
+    'build-ts-release', 'minJs',
+    gulp.parallel('minHtml', 'copy-js-release', 'concat-js-release')
+));

@@ -3,6 +3,9 @@ import Slider from "../component/Slider";
 import Core from "../../core/Core";
 import EventType from "../../common/EventType";
 import ViewConfig from "../../common/ViewConfig";
+import Config from "../../common/Config";
+import { Net, Api } from "../../common/Net";
+
 
 /**
  * 发现模板
@@ -10,10 +13,35 @@ import ViewConfig from "../../common/ViewConfig";
 export default class FindLogic extends ViewBase {
     /**轮播图组件 */
     private slide: Slider;
-    onEnable() {
+
+    onCreate() {
+        this.setBanner();
+    }
+
+
+    /**
+     * 发现banner数据
+     */
+    private setBanner(){
+        let banner: any[]=this.data['bannerList'],
+            html='';  
+        for(let x in banner){
+           if(!banner[x]['src']) return;
+            html +=`<em><a href="#alert" lazy="${Config.imgBase +banner[x]['src']}"></a></em>`
+        }
+
+        // Object.keys(banner).map(function(arry){
+        //     if(!banner[arry]['src']) return;
+        //     html +=`<em><a href="#alert" lazy="${Config.imgBase +banner[arry]['src']}"></a></em>`
+        // });
+         this.template =Core.utils.replaceData('banner',this.template,html);
+        
+    }
+
+
+    async onEnable() {
         this.slide = new Slider('#banner');
-        let images = document.querySelectorAll(".lazy");
-        lazyload(images);
+        this.setLazyLoad();
 
         //充值按钮绑定
         this.node.on('click', '.rechargeBtn', () => {
@@ -22,7 +50,48 @@ export default class FindLogic extends ViewBase {
 
         //更新底部导航状态
         Core.eventManager.event(EventType.updateBottomNav, { type: 'find' });
+
+        //发现列表
+        let findList = await Net.getData(Api.findList)
+        this.setFindList(findList['list']);
+        this.setLazyLoad();
     }
+
+    /**
+     * 发现列表
+     * @param list
+     */
+    private setFindList(list: any[]){
+        let html='';
+        for(let x=0;x<list.length;x++){
+            html+=`<li data-id="${list[x]['id']}">
+                    <a href="javascript:void(0);">
+                    <img class="lazy" src="" data-src="${Config.imgBase + list[x]['src']}" alt="">
+                        <h3>${list[x]['title']}</h3>
+                        <span class="hot-status f18"><i class="icon"></i><em>${list[x]['browse']}</em></span>
+                    </a>
+                </li>`
+        }
+        $('#findList').html(html);
+        
+        //打开发现列表详情
+        $('#findList').on('click','li',function(){
+            location.href = '#newsContent?id=' + $(this).data('id');
+        })
+        
+    }
+
+    /**
+     * 设置懒加载 
+     */
+    private setLazyLoad() {
+        lazyload(document.querySelectorAll(".lazy"));
+    }
+
+
+
+
+
 
     onClick(e: MouseEvent) {
         // console.log(e.target);

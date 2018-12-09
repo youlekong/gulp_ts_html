@@ -1,3 +1,6 @@
+.index-list-title{
+    background-image:url('../res/index-title.png');
+}
 /******************* 热门道县 ************************/
 .hot-item {
     width: 100%;

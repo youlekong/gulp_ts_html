@@ -12,18 +12,18 @@ export default class PersonalLoogic extends ViewBase {
         // Core.viewManager.closeView(Core.preView);
 
         //更新底部导航状态
-        Core.eventManager.event(EventType.updateBottomNav, { type: 'personal' });
-        //Core.eventManager.event(EventType.updateBottomNav, { hide: true });
+        Core.eventManager.event(EventType.updateBottomNav, { hide: true });
 
         //返回上一个界面 或是 上一步
         $('#goBack').on('click', () => {
-            if (history.length) {
-                history.go(-1);
+            if (Core.preView) {
+                window.location.href =  '#' + Core.preView.name;
             } else {
-                Core.viewManager.openView(ViewConfig.index);
-                window.history.pushState(null, null, '#index');//临时用，后期优化
+                window.location.href = '#index';
             }
+           
         });
+      
         this.bindClick();
 
         //用户信息

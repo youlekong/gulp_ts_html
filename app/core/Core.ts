@@ -6,7 +6,9 @@ import Route from "./Route";
 export default class Core {
     /**主场景 */
     static root: ZeptoCollection;
-    /**每次打开一个新的界面，就会被刷新 已经打开的界面，仅限直接添加到主场景的，弹穿不算 */
+    /**当前打开界面 */
+    static currentView:viewConfig;
+    /**上一个关闭的界面 */
     static preView:viewConfig;
     /** 界面管理 */
     static viewManager = ViewManager;

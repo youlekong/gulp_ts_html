@@ -64,6 +64,8 @@ export class Api {
     static recharge: apiData = { name: 'recharge', url: baseUrl + '/recharge/' }
     /**奖品柜 */
     static awardsBox: apiData = { name: 'awardsBox', url: baseUrl + '/user/goods' }
+    /**用户奖品下单 */
+    static goodsOrder: apiData = { name: 'goodsOrder', url: baseUrl + '/user/order/create' }
 }
 
 /**

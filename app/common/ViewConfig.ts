@@ -23,6 +23,7 @@ import Customer from "../logic/view_logic/Customer";
 import MyShare from "../logic/view_logic/MyShare";
 import MySign from "../logic/view_logic/MySign";
 import UpdateAddress from "../logic/view_logic/UpdateAddress";
+import OrderSubmit from "../logic/view_logic/OrderSubmit";
 
 /**
  * 界面配置，路径，对应的类等等
@@ -52,6 +53,8 @@ export default class ViewConfig {
     static myOrder: viewConfig = { name: 'myOrder', class: MyOrder, skin: 'view/myOrder.html', closePre: true };
     /**订单详细 */
     static orderDetail: viewConfig = { name: 'orderDetail', class: OrderDetail, skin: 'view/orderDetail.html', closePre: true };
+    /**提交订单 */
+    static orderSubmit: viewConfig = { name: 'orderSubmit', class: OrderSubmit, skin: 'view/orderSubmit.html', closePre: true };
     /**积分兑详细 */
     static integralDetail: viewConfig = { name: 'integralDetail', class: IntegralDetail, skin: 'view/integralDetail.html', closePre: true };
     /**奖品柜 */

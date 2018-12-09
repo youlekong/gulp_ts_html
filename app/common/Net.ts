@@ -55,13 +55,15 @@ export class Api {
     /**用户分享 */
     static articleShare: apiData = { name: 'articleShare', url: baseUrl + '/user/share/article/' }
     /**我的签到 */
-    static signList: apiData = { name: 'signList', url: baseUrl + '/signature/list' }
+   static signList: apiData = { name: 'signList', url: baseUrl + '/signature/list' }
    /**用户分享场次 */
    static roomShare:apiData={name:'roomShare',url:baseUrl+ '/user/share/room'}
     /**签到 */
     static signature: apiData = { name: 'signature', url: baseUrl + '/user/signature' }
     /**充值首页 */
-    static recharge: apiData = { name: 'recharge', url: baseUrl + '/rcharge/' }
+    static recharge: apiData = { name: 'recharge', url: baseUrl + '/recharge/' }
+    /**奖品柜 */
+    static awardsBox: apiData = { name: 'awardsBox', url: baseUrl + '/user/goods' }
 }
 
 /**

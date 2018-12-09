@@ -14,27 +14,33 @@ export default class MySign extends ViewBase {
         })
 
         //我的签到
-        let signList = await Net.getData(Api.signList);
+        let sign = await Net.getData(Api.signature);
         //按照Id倒序排序
-        let signOrder = signList['list'].sort(function (a, b) {
+        let signOrder = sign['list'].sort(function (a, b) {
             return a.id - b.id;
         });
-        this.getSignList(signOrder);
+        this.getSignList(signOrder, sign['dayList']);
 
-       
+
     }
 
     /**
      * 我的签到
      */
-    private getSignList(list: any) {
+    private getSignList(list: any, dayList: any[]) {
         let html = '';
+        let num;
+        if (dayList[0]['num']) {
+            num = parseInt(dayList[0]['num']);
+        }
         for (let x = 0; x < list.length; x++) {
-            html += `<li class="days-small">
+            html += `<li class="days-small ${num > 0 ? 'days-disable' : ''}">
                         <div class="t">第${x + 1}天</div>
+                        <div class="${num > 0 ? 'complete' : ''}"></div>    
                         <p class="signicon"></p>
                         <p class="money">${list[x]['title']}</p>
                     </li>`
+            num--;
         }
         $("#mySignDays").html(html);
         $("#mySignDays").children("li").eq(2).addClass("days-big");

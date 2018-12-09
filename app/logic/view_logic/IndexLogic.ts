@@ -61,24 +61,25 @@ export default class IndexLogic extends ViewBase {
             Core.viewManager.openView(ViewConfig.recharge);
         });
 
+        //用户信息
+        let userInfo = await Net.getData(Api.userInfo,{uid:1});
+        let coin: any = userInfo['coin'] / 100;
+        let coins: any = parseInt(coin);
+        $(".rechargeBtn em").text(coins);
+
         //设置房间列表
         let roomList = await Net.getData(Api.roomList, { themeId: 0, page: 0 })
         this.setRoomList(roomList['list']);
 
-        //签到弹窗
-        let sign = await Net.getData(Api.signature);
-        this.setSignDay(sign['dayList']);
-
-
         //我的签到
-        let signList = await Net.getData(Api.signList);
+        let sign = await Net.getData(Api.signature);
         //按照Id倒序排序
-        let signOrder = signList['list'].sort(function (a, b) {
+        let signOrder = sign['list'].sort(function (a, b) {
             return a.id - b.id;
         });
         this.getSignList(signOrder, sign['dayList']);
 
-        //签到
+        //点击签到
         $(".sinBtn").click(async () => {
             let sign = await Net.getData(Api.signature, { action: 1 });
             //签到成功操作
@@ -105,8 +106,6 @@ export default class IndexLogic extends ViewBase {
             $('#signDialog').find(".mask").hide();
             $('#signDialog').find(".signSucess").remove();
         })
-
-
 
         this.setLazyLoad();
     }
@@ -165,34 +164,35 @@ export default class IndexLogic extends ViewBase {
      */
     private getSignList(list: any, dayList: any[]) {
         let html = '';
+        let num;
+        if(dayList[0]['num']){
+            num =parseInt(dayList[0]['num']);
+        }
         for (let x = 0; x < list.length; x++) {
-            html += `<li class="days-small ${dayList[x] ? 'days-disable' : ''}" data-id="${list[x]['id']}">
+            
+            html += `<li class="days-small ${num>0 ? 'days-disable' : ''}" data-id="${list[x]['id']}">
                         <div class="t">第${x + 1}天</div>  
-                        <div class="${dayList[x] ? 'complete' : ''}"></div>                      
+                        <div class="${num>0  ? 'complete' : ''}"></div>                      
                         <p class="signicon"></p>
                         <p class="money">${list[x]['title']}</p>
-                    </li>`
+                    </li>`;
+            num--;
         }
+
         $("#mySignDays").html(html);
         $("#mySignDays").children("li").eq(2).addClass("days-big");
         $("#mySignDays").children("li").eq(6).addClass("days-big");
 
 
-
-    }
-
-    /**
-     * 判断当天是否有签到
-     */
-    async setSignDay(list: any) {
+        //判断当天是否有签到
         let myDate = new Date();
         let year = myDate.getFullYear();
         let month = (myDate.getMonth() + 1).toString().replace(/^(\d)$/, "0$1");
         let date = myDate.getDate().toString().replace(/^(\d)$/, "0$1");
         let nowTime = Date.parse(year + '-' + month + '-' + date);
-        if (list.length == 0) { this.setSignDialog(); return; }
-        for (let x = 0; x < list.length; x++) {
-            let time = Date.parse(list[x]['c_date']);
+        if (dayList.length == 0) { this.setSignDialog(); return; }
+        for (let x = 0; x < dayList.length; x++) {
+            let time = Date.parse(dayList[x]['c_date']);
             if (time == nowTime) {
                 $('#signDialog').find(".mask").hide();
                 $(".signCon").remove();
@@ -202,6 +202,7 @@ export default class IndexLogic extends ViewBase {
 
             }
         }
+
     }
 
 
@@ -241,15 +242,12 @@ export default class IndexLogic extends ViewBase {
     }
 
 
-
     /**
      * 设置懒加载 
      */
     private setLazyLoad() {
         lazyload(document.querySelectorAll(".lazy"));
     }
-
-
 
     onClick(e: MouseEvent) {
 

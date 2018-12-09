@@ -1,6 +1,9 @@
 #find{
     background-color: #F9F9F9;
 }
+.index-list-title{
+    background-image: url(../res/index-title.png);
+}
 .item-list {
     width: 6.9rem;
     padding-bottom: .98rem;

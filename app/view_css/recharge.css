@@ -74,10 +74,10 @@
 }
 .rechargeBox .rechargeBanner>i.icon01{
     display: block;
-    width: .36rem;
-    height: .36rem;
+    width: .51rem;
+    height: .51rem;
     background: url('../res/recharge01.png') no-repeat top center;
-    background-size: .36rem .36rem;
+    background-size: .51rem .51rem;
     position: absolute;
     left: .3rem;
     top: .2rem;

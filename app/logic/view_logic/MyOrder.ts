@@ -1,11 +1,15 @@
 import ViewBase from "../../core/ViewBase";
 import Core from "../../core/Core";
 import ViewConfig from "../../common/ViewConfig";
+import EventType from "../../common/EventType";
+import { Net, Api } from "../../common/Net";
+import Config from "../../common/Config";
+import Utils from "../../core/Utils";
 
 
 export default class MyOrder extends ViewBase {
 
-    onEnable() {
+  async  onEnable() {
         // Core.viewManager.closeView(Core.preView);
         $('#goBack').on('click', () => {
             Core.viewManager.openView(ViewConfig.personal);
@@ -18,6 +22,11 @@ export default class MyOrder extends ViewBase {
             Core.viewManager.openView(ViewConfig.logistics);
             e.stopPropagation();
         })
+
+        let OrderList = await Net.getData(Api.OrderList);
+        console.log(OrderList)
+
+
     }
 
     onClick(e) {

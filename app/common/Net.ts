@@ -66,6 +66,11 @@ export class Api {
     static awardsBox: apiData = { name: 'awardsBox', url: baseUrl + '/user/goods' }
     /**用户奖品下单 */
     static goodsOrder: apiData = { name: 'goodsOrder', url: baseUrl + '/user/order/create' }
+    /**订单详情 */
+    static OrderInfo: apiData = { name: 'OrderInfo', url: baseUrl + '/user/order/info' }
+    /**我的订单 */
+    static OrderList: apiData = { name: 'OrderList', url: baseUrl + '/user/order' }
+
 }
 
 /**

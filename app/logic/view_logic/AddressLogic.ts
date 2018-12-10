@@ -14,6 +14,7 @@ export default class AddressLogic extends ViewBase {
 
     /**地址组件*/
     cityPicke: Picker;
+    private orderId;
 
     onAwake() {
         Core.eventManager.on(EventType.error, this, this.onError);
@@ -21,12 +22,21 @@ export default class AddressLogic extends ViewBase {
 
     async onEnable() {
 
+         //奖品柜列表id
+         this.orderId=[];
+         this.orderId=this.dataSource ? this.dataSource.orderlistId : [];
+
+        console.log(this.dataSource.orderlistId )
+       
         $('#goBack').on('click', () => {
-            Core.viewManager.openView(ViewConfig.addresses);
+            Core.viewManager.openView(ViewConfig.addresses,{
+                orderlistId:this.orderId
+            });
         })
 
         this.cityPicke = new Picker();
 
+        
         /**
          * 保存
          */
@@ -53,7 +63,8 @@ export default class AddressLogic extends ViewBase {
             //信息正确跳转
             if (addressAdd) {
                 Core.viewManager.openView(ViewConfig.addresses, {
-                    cityValue: $("#addressLocation").val()
+                    cityValue: $("#addressLocation").val(),
+                    orderlistId:this.orderId
                 });
             }
         })

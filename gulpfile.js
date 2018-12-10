@@ -25,9 +25,9 @@ gulp.task('server', gulp.parallel(function () {
     return connect.server({
         root: 'dist/',
         // root: 'release/',
-        host: '192.168.3.2',
+        host: '192.168.1.25',
         // livereload: true,
-        port: 2225,
+        port: 2125,
     });
 }));
 

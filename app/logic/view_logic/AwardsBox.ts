@@ -16,6 +16,8 @@ export default class AwardsBox extends ViewBase {
 
         this.setLazyLoad();
 
+        let $this=this;
+        let orderId=[];
         $('#goBack').on('click', () => {
             Core.viewManager.openView(ViewConfig.personal);
         });
@@ -25,7 +27,7 @@ export default class AwardsBox extends ViewBase {
 
         //奖品柜
         let awardsBox = await Net.getData(Api.awardsBox);
-        this.awardsGood(awardsBox);
+        this.awardsGood(awardsBox);             
 
         //勾选按钮
         $(".awardsBox").find(".gou").forEach(function(item){
@@ -40,23 +42,22 @@ export default class AwardsBox extends ViewBase {
          })
 
          //反选
-
          this.selectAll();
 
+         
          //提交订单 
          $(".aw_bottom .right").click(function(){
-            //  let arrId = [];
-            // let item = $("#selAwardbox").find(".item");
-            // for(let x=0;x<item.length;x++){
-            //     let itemCheck = $(item[x]).find(".gou");
-            //     if(itemCheck.hasClass("sel")==true){
-            //         arrId=$(item[x]).data("id");
-            //     }
-            // }
-            // console.log(arrId)
-                // Core.viewManager.openView(ViewConfig.orderSubmit,{
-                //     id:this.awardsId
-                // });
+            let item = $("#selAwardbox").find(".item");
+            for(let x=0;x<item.length;x++){
+                let itemCheck = $(item[x]).find(".gou");
+                if(itemCheck.hasClass("sel")==true){
+                    //orderId[x]=$(item[x]).data("id");
+                    orderId.push($(item[x]).data("id"));
+                }
+            }
+            Core.viewManager.openView(ViewConfig.orderSubmit,{
+                orderlistId: orderId
+            });
          })
         
         this.setLazyLoad();
@@ -89,8 +90,11 @@ export default class AwardsBox extends ViewBase {
      */
     private checkAll() {
         let item = $("#selAwardbox").find(".item");
-        for(let x=0;x<item.length;x++){
+        for(let x=0;x<item.length;x++){  
             $(".aw_bottom .gou").hasClass("sel") ? $(item[x]).find(".gou").addClass("sel") : $(item[x]).find(".gou").removeClass("sel");
+            let len: any =item.find(".sel").length;
+            let html=`共选中${len}样礼品`;
+            $("#txtNum").html(html);           
         }  
     }
 
@@ -103,13 +107,16 @@ export default class AwardsBox extends ViewBase {
             let itemCheck = $(item[x]).find(".gou");
             itemCheck.click(function(){
                 if($(this).hasClass("sel")){
-                   this.awardsId=$(item[x]).data("id");
+                    this.awardsId=$(item[x]).data("id");
                 }
+                let len: any =item.find(".sel").length;
                 if(item.find(".sel").length==item.length){
                     $(".aw_bottom .gou").addClass("sel");
                 }else{
                     $(".aw_bottom .gou").removeClass("sel");
-                }               
+                } 
+                let html=`共选中${len}样礼品`;
+                $("#txtNum").html(html);
             })
         }
     }

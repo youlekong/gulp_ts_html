@@ -16,7 +16,6 @@
     text-align: right
 }
 .myOrder-Wrap li .con{ 
-    height: 3.1rem;
     -webkit-box-shadow: 0 0 0.06rem rgba(81,81,81,.08);
 	-moz-box-shadow: 0 0 0.06rem rgba(81,81,81,.08);
 	box-shadow: 0 0 0.06rem rgba(81,81,81,.08);
@@ -25,6 +24,7 @@
     display: flex;
     position: relative;
     height: 2.05rem;
+    margin-bottom: 0.2rem;
 }
 .myOrder-Wrap li .con .pic{
     width: 2.05rem;

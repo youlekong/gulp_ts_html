@@ -37,6 +37,9 @@
 .orderdetailBox .orderBody .custIcon{
     height: 1rem;
     width: 100%;
+    text-align: right;
+    line-height: 1rem;  
+    color: #ec4a59;
 }
 .orderdetailBox .orderBody .custIcon{
     position: relative;
@@ -46,8 +49,8 @@
     height: .54rem;
     background-position: -1.85rem -3.23rem; 
     position: absolute;
-    top: .27rem;
-    left: 5.62rem;
+    top: .26rem;
+    right: 1.2rem;
 }
 .orderdetailBox .orderBody .comList .item{
     display: flex;

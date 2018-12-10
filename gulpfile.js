@@ -290,7 +290,6 @@ gulp.task('del', gulp.series(function (fb) {
     });
 }))
 
-
 gulp.task('release', gulp.series(
     'revImage',
     'minCss',

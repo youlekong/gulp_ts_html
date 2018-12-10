@@ -18,6 +18,8 @@ class Main {
 
         //更新底部导航状态
         Core.eventManager.on(EventType.updateBottomNav, this, this.bottomNavEvent);
+        //设置禁用滚动
+        Core.eventManager.on(EventType.viewScroll, this, this.setScorllStop);
     }
 
     /**
@@ -31,9 +33,9 @@ class Main {
 
         $('#personalBtn').on('click', () => {
             if (Data.isLogin) {
-                if($('#bottomNav').find('.personal').hasClass('cur')){
+                if ($('#bottomNav').find('.personal').hasClass('cur')) {
                     return;
-                } 
+                }
                 Core.viewManager.openView(ViewConfig.personal);
                 window.history.pushState(null, null, '#personal');//临时用，后期优化                
             } else {
@@ -43,7 +45,7 @@ class Main {
 
         await Net.getData(Api.login, { uid: 1 });//模拟登陆
         Data.isLogin = true;
-       
+
         // UserData.data = userInfo;
         // //用户信息映射 值转换
         // UserData.coin = parseInt(userInfo['coin']);
@@ -75,9 +77,12 @@ class Main {
                 bottom: '0'
             })
         }
-        bottomNav.find('a').removeClass('cur');
+
+        if (data['type']) bottomNav.find('a').removeClass('cur');
+
         switch (data['type']) {
             case 'index':
+
                 bottomNav.find('.index').addClass('cur');
                 break;
             case 'find':
@@ -87,6 +92,13 @@ class Main {
                 bottomNav.find('.personal').addClass('cur');
                 break;
         }
+    }
+
+    /**
+     * 对body和html设置overflow:hidden 禁用滚动
+     */
+    private setScorllStop(state: boolean) {
+        $('body').css('overflow', state ? 'hidden' : 'auto')
     }
 }
 

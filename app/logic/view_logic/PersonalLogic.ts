@@ -17,7 +17,8 @@ export default class PersonalLoogic extends ViewBase {
         //返回上一个界面 或是 上一步
         $('#goBack').on('click', () => {
             if (Core.preView) {
-                window.location.href =  '#' + Core.preView.name;
+                // window.location.href =  '#' + Core.preView.name;
+                history.go(-1);
             } else {
                 window.location.href = '#index';
             }

@@ -10,6 +10,7 @@ export default class EmailLogic extends ViewBase{
 
     async  onEnable(){
         $('#goBack').on('click', ()=>{
+            // history.go(-1);
             Core.viewManager.openView(ViewConfig.personal);
             window.history.pushState(null, '', '#personal'); //临时用，后期优化
         });

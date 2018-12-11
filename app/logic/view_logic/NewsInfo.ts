@@ -11,7 +11,6 @@ export default class NewsInfo extends ViewBase {
 
 
    async  onEnable(){
-        // Core.viewManager.closeView(Core.preView);
 
         $('#goBack').on('click', ()=>{
             Core.viewManager.openView(ViewConfig.email);
@@ -19,7 +18,7 @@ export default class NewsInfo extends ViewBase {
         })
 
         //获取消息id
-        let newsInfoId = Utils.getValueByUrl('id');
+        let newsInfoId = this.dataSource['id'];
         let messageList = await Net.getData(Api.messageList);
         let newsInfo = await Net.getData(Api.newsInfo,{id:newsInfoId});
         this.newsInfo(messageList['list']); 
@@ -31,7 +30,7 @@ export default class NewsInfo extends ViewBase {
     private newsInfo(list: any[]){
         let html='';
         for(let x=0;x<list.length;x++){
-            if(list[x]['id']==Utils.getValueByUrl('id')){
+            if(list[x]['id']==this.dataSource['id']){
                         html = `<div class="newst">
                             <p class="t">${list[x]['title']}</p>
                             <p class="time">${list[x]['c_time']}</p>

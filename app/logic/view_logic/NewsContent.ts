@@ -21,21 +21,19 @@ export default class NewsContent extends ViewBase {
         //更新底部导航状态
         Core.eventManager.event(EventType.updateBottomNav, { hide: true });
 
-        $('#goBack').on('click', () => {
-            // location.href = '#find';
-            
+        $('#goBack').on('click', () => {          
             Core.viewManager.openView(ViewConfig.find);
             window.history.pushState(null, '', '#find');//临时用，后期优化
         });
 
         //获取文章id
-        let articleId = Utils.getValueByUrl('id');
+        let articleId = this.dataSource;
         let articleInfo = await Net.getData(Api.articleInfo,{id:articleId});
         this.setArticleInfo(articleInfo);
         this.setShopList(articleInfo['advLits']);
         
          //判断当前用户是否收藏该文章
-         this.favNum = await Net.getData(Api.articleFav,{id:Utils.getValueByUrl('id'),action:3});
+         this.favNum = await Net.getData(Api.articleFav,{id:articleId,action:3});
          $("#fav").find("span").text(this.favNum['count']);
          console.log(this.favNum['collect']);
          if(this.favNum['collect']==1){
@@ -73,7 +71,7 @@ export default class NewsContent extends ViewBase {
         }else{
             this.favId=2;
         }
-       let articleFav = await Net.getData(Api.articleFav,{id:Utils.getValueByUrl('id'),action:this.favId}); 
+       let articleFav = await Net.getData(Api.articleFav,{id:this.dataSource,action:this.favId}); 
        fav.find("span").text(articleFav['count']);
     }
 

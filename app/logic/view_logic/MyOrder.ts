@@ -9,14 +9,18 @@ import Utils from "../../core/Utils";
 
 export default class MyOrder extends ViewBase {
 
-  async  onEnable() {
+    private orderNum; //物流号
+    async  onEnable() {
         // Core.viewManager.closeView(Core.preView);
         $('#goBack').on('click', () => {
             Core.viewManager.openView(ViewConfig.personal);
         })
 
-        $('#orderList').on('click', 'li', () => {
-            Core.viewManager.openView(ViewConfig.orderDetail);
+        $('#orderList').on('click', '.infot', function () {
+            this.orderNum = $(this).data('sn');
+            Core.viewManager.openView(ViewConfig.orderDetail, {
+                orderNum: this.orderNum
+            });
         })
         $('#orderList').on('click', '.logis-btn', (e) => {
             Core.viewManager.openView(ViewConfig.logistics);
@@ -25,9 +29,9 @@ export default class MyOrder extends ViewBase {
 
         let OrderList = await Net.getData(Api.OrderList);
         let awardsBox = await Net.getData(Api.awardsBox);
-        this.setOrderList(OrderList,awardsBox);
+        this.setOrderList(OrderList, awardsBox);
 
-       
+
 
     }
 
@@ -38,39 +42,45 @@ export default class MyOrder extends ViewBase {
      * @param awardsBox  奖品柜列表
      */
 
-    private setOrderList(OrderList: any,awardsBox: any){
-        let html='';
-        let htm1='';
-        for(let x=0;x<OrderList.length;x++){         
-            html+=`<li>
+    private setOrderList(OrderList: any, awardsBox: any) {
+        let html = '';
+        let html1 = '';
+        let num = [];
+
+        for (let x = 0; x < OrderList.length; x++) {
+            num.push(x)
+            html += `<li>
                     <div class="top">
                         <p class="time">${OrderList[x]['time']}</p>
                     </div>
                     <div class="con">
-                        <div class="list"></div>
+                        <div class="list">`
+            let goodLists = OrderList[x]['goodLists'];  //订单
+            let goodId = [];
+            for (let y = 0; y < goodLists.length; y++) {           //订单id
+                goodId.push(parseInt(goodLists[y]['user_goods_id']));
+            }
+            let orderGoods = goodId.sort(function (a, b) {   //倒序
+                return b - a;
+            });
+            for (let z = 0; z < orderGoods.length; z++) {
+                if (orderGoods[z] == awardsBox[z]['id']) {
+                    html += `<div class="infot" data-sn='${OrderList[x]['sn']}' data-id="${num[x]}">
+                                                <div class="pic"><img src="${Config.imgBase + awardsBox[z]['src']}" /></div>
+                                                <div class="info">
+                                                    <p class="t">${awardsBox[z]['title']}</p>
+                                                </div>
+                                            </div>`
+                }
+            }
+            html += `</div>
                         <div class="bottom">
                             <span>共计${OrderList[x]['goodLists'].length}件商品</span>
                         </div>
                     </div>
                 </li>`
-            for(let y=0;y<OrderList[y]['goodLists'].length;y++){
-                let goodLists=OrderList[y]['goodLists'];
-                if (awardsBox[y]['id'] == goodLists[y]['user_goods_id']) {
-                    htm1+=`<div class="infot">
-                            <div class="pic"><img src="${Config.imgBase +awardsBox[y]['src']}" /></div>
-                            <div class="info">
-                                <p class="t">${awardsBox[y]['title']}</p>
-                            </div>
-                        </div>`
-                }
-            }
-            
         }
         $("#orderList").html(html);
-        $("#orderList li").forEach(function(item){
-            $(item).find(".list").append(htm1);
-        })
-        
     }
 
     onClick(e) {

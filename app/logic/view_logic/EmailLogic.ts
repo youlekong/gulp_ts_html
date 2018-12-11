@@ -51,7 +51,9 @@ export default class EmailLogic extends ViewBase{
 
         //查看消息详情
         $('#emailList').on('click','.detail',function(){
-           location.href = '#newsInfo?id=' + $(this).parents('li').data('id');
+            Core.viewManager.openView(ViewConfig.newsInfo,{
+                id:$(this).parents('li').data('id')
+            })
         })
     }
 

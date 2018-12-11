@@ -29,12 +29,7 @@ export default class FindLogic extends ViewBase {
            if(!banner[x]['src']) return;
             html +=`<em><a href="#alert" lazy="${Config.imgBase +banner[x]['src']}"></a></em>`
         }
-
-        // Object.keys(banner).map(function(arry){
-        //     if(!banner[arry]['src']) return;
-        //     html +=`<em><a href="#alert" lazy="${Config.imgBase +banner[arry]['src']}"></a></em>`
-        // });
-         this.template =Core.utils.replaceData('banner',this.template,html);
+        this.template =Core.utils.replaceData('banner',this.template,html);
         
     }
 
@@ -51,9 +46,16 @@ export default class FindLogic extends ViewBase {
         //更新底部导航状态
         Core.eventManager.event(EventType.updateBottomNav, { type: 'find' });
 
+        //用户信息
+        let userInfo = await Net.getData(Api.userInfo);
+        let coin: any = userInfo['coin'] / 100;
+        let coins: any = parseInt(coin);
+        $(".rechargeBtn em").text(coins);
+
         //发现列表
         let findList = await Net.getData(Api.findList)
         this.setFindList(findList['list']);
+
         this.setLazyLoad();
     }
 
@@ -76,7 +78,7 @@ export default class FindLogic extends ViewBase {
         
         //打开发现列表详情
         $('#findList').on('click','li',function(){
-            location.href = '#newsContent?id=' + $(this).data('id');
+            Core.viewManager.openView(ViewConfig.newsContent, $(this).data('id'));
         })
         
     }

@@ -53,7 +53,7 @@ export class Api {
     //用户收藏场次
     static roomFav: apiData = { name: 'roomFav', url: baseUrl + '/user/collect/room' }
     /**用户分享 */
-    static articleShare: apiData = { name: 'articleShare', url: baseUrl + '/user/share/article/' }
+    static articleShare: apiData = { name: 'articleShare', url: baseUrl + '/user/share/article' }
     /**我的签到 */
    static signList: apiData = { name: 'signList', url: baseUrl + '/signature/list' }
    /**用户分享场次 */

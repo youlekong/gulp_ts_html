@@ -22,6 +22,7 @@ export default class OrderDetail extends ViewBase {
         });
 
         //订单详情
+        console.log(this.dataSource)
         let awardsBox = await Net.getData(Api.awardsBox);  
         let orderNum = this.dataSource['orderNum'];
         let OrderInfo = await Net.getData(Api.OrderInfo, {

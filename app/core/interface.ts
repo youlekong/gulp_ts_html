@@ -20,8 +20,10 @@ interface viewConfig {
     class: any;
     /** 模板路径 */
     skin: string;
-    /** 是否关闭上一个场景 */
-    closePre: boolean
+    /** 是否关闭上一个场景 如果不关闭，则加入 absolute属性 */
+    closePre: boolean,
+    /** 是否浮动 */
+    float?: boolean
 }
 
 /**
@@ -44,7 +46,11 @@ interface viewBase {
     dataSource: any;
     /**模板 */
     template: any;
-    add(parent: ZeptoCollection): void;
+    /**
+     * 
+     * @param float 是否浮动，加入 absolute 浮在上层
+     */
+    add(parent: ZeptoCollection, float?: boolean): void;
     /**播放加入到场景动画 */
     openAnimation(): void;
     /**播放移除到场景动画 */
@@ -75,5 +81,4 @@ declare var TWEEN: any
 declare var lazyload: any
 declare var Picker: any
 declare var city: any
-
 

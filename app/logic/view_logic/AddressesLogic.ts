@@ -11,14 +11,25 @@ import Utils from "../../core/Utils";
 export default class AddressesLogic extends ViewBase {
 
 
+    private orderId=[];
+
     async  onEnable() {
 
-        $('#goBack').on('click', () => {
-            Core.viewManager.openView(ViewConfig.personal);
-        })
+        //列表id
+        let $this=this;
+        $this.orderId=this.dataSource ? this.dataSource.orderlistId : [];
 
+        $('#goBack').on('click', () => {
+            Core.viewManager.openView(ViewConfig.personal,{
+               orderlistId:$this.orderId
+            });
+        })  
+
+        //添加地址
         $('#addAddressBtn').on('click', () => {
-            Core.viewManager.openView(ViewConfig.address);
+            Core.viewManager.openView(ViewConfig.address,{
+                orderlistId:$this.orderId
+            });
         })
 
         let addressList = await Net.getData(Api.addressList);
@@ -32,10 +43,27 @@ export default class AddressesLogic extends ViewBase {
         });
         this.getAddressList(addressList)
 
+        //地址选择      
+        $("#addressList").on("click",".content",function(){
+            Core.viewManager.openView(ViewConfig.orderSubmit,{
+                orderlistId:$this.orderId,
+                id:$(this).parent().parent().data('id'),
+                name:$(this).parent().find(".name").text(),
+                phone:$(this).parent().find(".phone").text(),
+                province:$(this).parent().find(".addressL").data('province'),
+                city:$(this).parent().find(".addressL").data('city'),
+                area:$(this).parent().find(".addressL").data('area'),
+                cityAssress:$(this).parent().find(".addressL").text(),
+                address:$(this).parent().find(".addressM").text(),
+                flag:$(this).parent().find(".type").data('flag')
+           });
+            
+        })
+
         //地址编辑..
         $("#addressList").on('click','.right',function(){
-     
            Core.viewManager.openView(ViewConfig.updateAddress,{
+                orderlistId:$this.orderId,
                 id:$(this).parent().parent().data('id'),
                 name:$(this).parent().find(".name").text(),
                 phone:$(this).parent().find(".phone").text(),
@@ -113,13 +141,6 @@ export default class AddressesLogic extends ViewBase {
         }
         $("#addressList").html(html);
 
-    }
-
-    /**
-     * 编辑
-     */
-    private updateAddress(){
-        console.log(1)
     }
 
 }

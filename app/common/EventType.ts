@@ -11,4 +11,6 @@ export default {
     //====================== 界面事件
     /**更新底部导航状态 */
     updateBottomNav: 'updateBottomNav',
+    /** 对body和html设置overflow:hidden 禁用滚动 */
+    viewScroll: 'viewScroll',
 }

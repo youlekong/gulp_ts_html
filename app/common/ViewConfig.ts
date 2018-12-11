@@ -23,6 +23,8 @@ import Customer from "../logic/view_logic/Customer";
 import MyShare from "../logic/view_logic/MyShare";
 import MySign from "../logic/view_logic/MySign";
 import UpdateAddress from "../logic/view_logic/UpdateAddress";
+import OrderSubmit from "../logic/view_logic/OrderSubmit";
+import FriendRecharge from "../logic/view_logic/FriendRecharge";
 
 /**
  * 界面配置，路径，对应的类等等
@@ -46,12 +48,16 @@ export default class ViewConfig {
     static rechargeSuccess: viewConfig = { name: 'rechargeSuccess', class: RechargeSuccess, skin: 'view/rechargeSuccess.html', closePre: false };
     /**充值记录 */
     static rechargeRecord: viewConfig = { name: 'rechargeRecord', class: RechargeRecordLogic, skin: 'view/rechargeRecord.html', closePre: false };
+    /**好友代充 */
+    static friendRecharge: viewConfig = { name: 'friendRecharge', class: FriendRecharge, skin: 'view/friendRecharge.html', closePre: false };
     /**积分兑 */
     static integral: viewConfig = { name: 'integral', class: IntegralLogic, skin: 'view/integral.html', closePre: true };
     /**我的订单*/
     static myOrder: viewConfig = { name: 'myOrder', class: MyOrder, skin: 'view/myOrder.html', closePre: true };
     /**订单详细 */
     static orderDetail: viewConfig = { name: 'orderDetail', class: OrderDetail, skin: 'view/orderDetail.html', closePre: true };
+    /**提交订单 */
+    static orderSubmit: viewConfig = { name: 'orderSubmit', class: OrderSubmit, skin: 'view/orderSubmit.html', closePre: true };
     /**积分兑详细 */
     static integralDetail: viewConfig = { name: 'integralDetail', class: IntegralDetail, skin: 'view/integralDetail.html', closePre: true };
     /**奖品柜 */

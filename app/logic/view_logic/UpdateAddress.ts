@@ -9,6 +9,7 @@ export default class UpdateAddress extends ViewBase {
 
     /**地址组件*/
     cityPicke: Picker;
+    private orderId;
 
     onAwake() {
         Core.eventManager.on(EventType.error, this, this.onError);
@@ -18,13 +19,22 @@ export default class UpdateAddress extends ViewBase {
 
         this.cityPicke = new Picker();
 
-        $('#goBack').on('click', () => {
-            Core.viewManager.openView(ViewConfig.addresses);
-        })
-
+        
         //编辑地址传值
         let dataAddress = this.dataSource;
         this.updateVal(dataAddress);
+
+        //奖品柜列表id
+        this.orderId=[];
+        this.orderId=dataAddress.hasOwnProperty("orderlistId") ? dataAddress.orderlistId : [];
+
+        //返回
+        $('#goBack').on('click', () => {
+            Core.viewManager.openView(ViewConfig.addresses,{
+                orderlistId:this.orderId
+            });
+        })
+       
 
          //地址弹窗
         let picker = this.cityPicke;
@@ -56,7 +66,9 @@ export default class UpdateAddress extends ViewBase {
             let addressUpdate = await Net.getData(Api.addressUpdate,parmar);
             //信息正确跳转
             if(addressUpdate){
-                Core.viewManager.openView(ViewConfig.addresses);
+                Core.viewManager.openView(ViewConfig.addresses,{
+                    orderlistId:this.orderId
+                });
             }   
         })
 
@@ -75,8 +87,6 @@ export default class UpdateAddress extends ViewBase {
             $(".sureDialog").hide();
             Core.viewManager.openView(ViewConfig.addresses);
         })
-        
-
 
     }
 

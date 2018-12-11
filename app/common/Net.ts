@@ -53,7 +53,7 @@ export class Api {
     //用户收藏场次
     static roomFav: apiData = { name: 'roomFav', url: baseUrl + '/user/collect/room' }
     /**用户分享 */
-    static articleShare: apiData = { name: 'articleShare', url: baseUrl + '/user/share/article/' }
+    static articleShare: apiData = { name: 'articleShare', url: baseUrl + '/user/share/article' }
     /**我的签到 */
    static signList: apiData = { name: 'signList', url: baseUrl + '/signature/list' }
    /**用户分享场次 */
@@ -64,6 +64,13 @@ export class Api {
     static recharge: apiData = { name: 'recharge', url: baseUrl + '/recharge/' }
     /**奖品柜 */
     static awardsBox: apiData = { name: 'awardsBox', url: baseUrl + '/user/goods' }
+    /**用户奖品下单 */
+    static goodsOrder: apiData = { name: 'goodsOrder', url: baseUrl + '/user/order/create' }
+    /**订单详情 */
+    static OrderInfo: apiData = { name: 'OrderInfo', url: baseUrl + '/user/order/info' }
+    /**我的订单 */
+    static OrderList: apiData = { name: 'OrderList', url: baseUrl + '/user/order' }
+
 }
 
 /**

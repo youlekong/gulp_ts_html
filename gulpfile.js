@@ -25,9 +25,9 @@ gulp.task('server', gulp.parallel(function () {
     return connect.server({
         root: 'dist/',
         // root: 'release/',
-        host: '192.168.1.60',
+        host: '192.168.1.25',
         // livereload: true,
-        port: 2221,
+        port: 2225,
     });
 }));
 
@@ -277,17 +277,24 @@ gulp.task('server-re', gulp.parallel(function () {
     return connect.server({
         root: 'release/',
         // root: 'release/',
-        host: '192.168.1.60',
+        host: '192.168.3.2',
         // livereload: true,
         port: 2221,
     });
 }));
 
+//删除不需要的目录
+gulp.task('del', gulp.series(function (fb) {
+    return del(['release/view_css','release/rev-manifest.json']).then(function () { //先删除 删除是异步的，会导致一些编译顺序问题，后续需要调整下
+        fb();
+    });
+}))
 
 gulp.task('release', gulp.series(
     'revImage',
     'minCss',
     'revHtmlCss', 'include-release',
     'build-ts-release', 'minJs',
-    gulp.parallel('minHtml', 'copy-js-release', 'concat-js-release')
+    gulp.parallel('minHtml', 'copy-js-release', 'concat-js-release'),
+    'del'
 ));

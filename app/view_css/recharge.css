@@ -1,4 +1,4 @@
-#recharge{
+#recharge,#friendRecharge{
     background-color: #f9f9f9;
 }
 .rechargeBox .rechargeBanner{
@@ -31,6 +31,7 @@
     height: 1.89rem;
     margin-left: .3rem;
     margin-bottom: .3rem; 
+    overflow: hidden;
 }
 
 .recMonList .list .item>a{
@@ -41,8 +42,28 @@
     background-size: 3.09rem 1.89rem;
     position: relative;
 }
+.recMonList .list .item .icon{
+    position: absolute;
+    top:0;
+    left: 0;
+    width:0.84rem;
+    height: 0.84rem;
+    color: #fff;
+    font-size: 0.1rem;
+    background-position: -4.28rem 0;
+    border-top-left-radius: 0.1rem;
+    line-height: 1;
+}
+.recMonList .list .item .icon em{
+    padding: 0 0.01rem;
+    display: block;
+    transform: rotate(-45deg);
+}
 .recMonList .list .item.cur>a{
     background-image: url('../res/rechargeH.png');
+}
+.recMonList .list .item.cur .icon{
+    background-position: -5.12rem 0;
 }
 .recMonList .list .item>a span.price{
     position: absolute;
@@ -74,10 +95,10 @@
 }
 .rechargeBox .rechargeBanner>i.icon01{
     display: block;
-    width: .36rem;
-    height: .36rem;
+    width: .51rem;
+    height: .51rem;
     background: url('../res/recharge01.png') no-repeat top center;
-    background-size: .36rem .36rem;
+    background-size: .51rem .51rem;
     position: absolute;
     left: .3rem;
     top: .2rem;

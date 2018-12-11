@@ -10,6 +10,7 @@ export default class EmailLogic extends ViewBase{
 
     async  onEnable(){
         $('#goBack').on('click', ()=>{
+            // history.go(-1);
             Core.viewManager.openView(ViewConfig.personal);
             window.history.pushState(null, '', '#personal'); //临时用，后期优化
         });
@@ -50,7 +51,9 @@ export default class EmailLogic extends ViewBase{
 
         //查看消息详情
         $('#emailList').on('click','.detail',function(){
-           location.href = '#newsInfo?id=' + $(this).parents('li').data('id');
+            Core.viewManager.openView(ViewConfig.newsInfo,{
+                id:$(this).parents('li').data('id')
+            })
         })
     }
 

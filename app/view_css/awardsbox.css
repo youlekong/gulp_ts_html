@@ -1,4 +1,7 @@
 /* 奖品柜 */
+#awardsBox{
+    background: #f9f9f9;
+}
 .awardsBox{
     width: 7.5rem;
     position: relative;
@@ -25,7 +28,7 @@
    
 }
 .awardsBox .selAwardbox .item .sel{
-    background-position: -.35rem -3.23rem;
+    background-position: -.36rem -3.23rem;
 }
 .awardsBox .selAwardbox .item .img{
     width: 2.05rem;
@@ -40,10 +43,24 @@
     padding-left: .3rem;
     font-size: .24rem;
     box-shadow: 1px 1px 1px #ddd;
+    background: #fff;
+    width: 4.41rem;
+    box-sizing: border-box;
 }
 .awardsBox .selAwardbox .item .word .tit{
-    line-height: .6rem;
+    padding-top: 0.3rem;
+    padding-right: 0.6rem;
+    font-size: 0.24rem;
+    color: #333;
+    line-height: 0.52rem;
     margin-bottom: .3rem;
+    overflow: hidden;
+    text-overflow: -o-ellipsis-lastline;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 .awardsBox .selAwardbox .item .word .price{
     color: #fe0e4b;
@@ -75,9 +92,10 @@
 .aw_bottom .left i.gou{
     width: .35rem;
     height: .35rem;
-    background-position: 0 -3.23rem;
-    
-    
+    background-position: 0 -3.23rem;      
+}
+.aw_bottom .left i.sel{
+    background-position: -.36rem -3.23rem;
 }
 .aw_bottom .left .word{
     align-self:center;

@@ -54,11 +54,12 @@ export default class ViewBase extends Base implements viewBase {
 
     /**
      * 添加到场景
+     * @param float 是否浮动，加入 absolute 浮在上层
      */
-    add(parent: ZeptoCollection) {
+    add(parent: ZeptoCollection, float: boolean = false) {
         this.onCreate();
         // console.log(this._template);
-        parent.append(`<div id=${this.name} class="view absolute full-window">${this._template}</div>`);
+        parent.append(`<div id=${this.name} class="view ${float ? 'absolute' : ''} full-window">${this._template}</div>`);
         ; (parent[0] as HTMLDivElement).scrollTop = 0;//默认滚到最上面，后期根据需求优化
         this.isAdd = true;
         // this.node = parent.querySelector(`#${this.name}`);

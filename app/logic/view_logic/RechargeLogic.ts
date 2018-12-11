@@ -15,13 +15,15 @@ export default class RechargeLogic extends ViewBase {
 
     async  onEnable() {
 
+
+
         this.setLazyLoad();
 
-        this.node.css({ zIndex: 200 });
+        this.node.css({ zIndex: 200, 'height': '100%' });
         //关闭自己单独定义类名
         this.node.on('click', '.closeSelf', () => {
             Core.viewManager.closeView(ViewConfig.recharge);
-            Core.eventManager.event(EventType.updateBottomNav, { hide: false });
+            if(Core.currentView.name != 'personal')Core.eventManager.event(EventType.updateBottomNav, { hide: false });
         });
 
         //充值成功按钮
@@ -35,7 +37,7 @@ export default class RechargeLogic extends ViewBase {
         })
 
         //当前魅力币
-        let userInfo = await Net.getData(Api.userInfo,{uid:1});
+        let userInfo = await Net.getData(Api.userInfo, { uid: 1 });
         let coin: any = userInfo['coin'] / 100;
         let coins: any = parseInt(coin);
         $(".wordList dd").eq(0).find("span").text(coins);
@@ -53,8 +55,15 @@ export default class RechargeLogic extends ViewBase {
             $(this).addClass("cur").siblings().removeClass('cur');
         })
 
+        //好友代充跳转
+        this.node.on('click', '#rechargeLink', () => {
+            Core.viewManager.openView(ViewConfig.friendRecharge);
+        });
+   
+
         this.setLazyLoad();
 
+        Core.eventManager.event(EventType.viewScroll, true);
     }
 
     /**
@@ -62,7 +71,7 @@ export default class RechargeLogic extends ViewBase {
      * @param bannerList 
      */
     private setBanner(bannerList: any) {
-        let html = `<img class="lazy" data-src="${Config.imgBase+bannerList[0]['src']}" >`;
+        let html = `<img class="lazy" data-src="${Config.imgBase + bannerList[0]['src']}" >`;
         $("#rechargeBanner").append(html);
     }
 
@@ -92,5 +101,9 @@ export default class RechargeLogic extends ViewBase {
 
     onClick(e) {
         console.log(e)
+    }
+
+    onRemove() {
+        Core.eventManager.event(EventType.viewScroll, false);
     }
 } 

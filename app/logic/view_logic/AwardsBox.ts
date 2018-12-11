@@ -3,15 +3,21 @@ import Core from "../../core/Core";
 import ViewConfig from "../../common/ViewConfig";
 import EventType from "../../common/EventType";
 import { Net, Api } from "../../common/Net";
-
+import Config from "../../common/Config";
 
 /**
  * 奖励柜逻辑
  */
 export default class AwardsBox extends ViewBase {
 
+    private awardsId: any; //订单参数
+
     async   onEnable() {
-        // Core.viewManager.closeView(Core.preView);
+
+        this.setLazyLoad();
+
+        let $this=this;
+        let orderId=[];
         $('#goBack').on('click', () => {
             Core.viewManager.openView(ViewConfig.personal);
         });
@@ -21,17 +27,108 @@ export default class AwardsBox extends ViewBase {
 
         //奖品柜
         let awardsBox = await Net.getData(Api.awardsBox);
-        this.awardsGood(awardsBox);
+        this.awardsGood(awardsBox);             
+
+        //勾选按钮
+        $(".awardsBox").find(".gou").forEach(function(item){
+            $(item).click(function(){
+                $(item).hasClass("sel") ?  $(item).removeClass('sel') : $(item).addClass('sel');
+            })
+        })
+
+        //全选
+        $(".aw_bottom .gou").click(() =>{
+            this.checkAll();
+         })
+
+         //反选
+         this.selectAll();
+
+         
+         //提交订单 
+         $(".aw_bottom .right").click(function(){
+            let item = $("#selAwardbox").find(".item");
+            for(let x=0;x<item.length;x++){
+                let itemCheck = $(item[x]).find(".gou");
+                if(itemCheck.hasClass("sel")==true){
+                    //orderId[x]=$(item[x]).data("id");
+                    orderId.push($(item[x]).data("id"));
+                }
+            }
+            Core.viewManager.openView(ViewConfig.orderSubmit,{
+                orderlistId: orderId
+            });
+         })
+        
+        this.setLazyLoad();
     }
 
     /**
      * 奖品柜列表
      */
-    private awardsGood(awardsBox){
-        
+    private awardsGood(awardsBox: any) {
+        let html = ''
+        for (let x = 0; x < awardsBox.length; x++) {
+            html += `<div class="item" data-id="${awardsBox[x]['id']}">
+                    <div class="goubox">
+                        <div class="gou icon"></div>
+                    </div>
+                    <div class="img">
+                        <img class="lazy" data-src="${Config.imgBase + awardsBox[x]['src']}" alt="">
+                    </div>
+                    <div class="word">
+                        <h3 class="tit">${awardsBox[x]['title']} </h3>
+                    </div>
+                </div>`
+        }
+        $("#selAwardbox").html(html);
     }
 
-    onClick(e) {
-        console.log(e)
+
+    /**
+     * 商品全选
+     */
+    private checkAll() {
+        let item = $("#selAwardbox").find(".item");
+        for(let x=0;x<item.length;x++){  
+            $(".aw_bottom .gou").hasClass("sel") ? $(item[x]).find(".gou").addClass("sel") : $(item[x]).find(".gou").removeClass("sel");
+            let len: any =item.find(".sel").length;
+            let html=`共选中${len}样礼品`;
+            $("#txtNum").html(html);           
+        }  
+    }
+
+    /**
+     * 商品反选
+     */
+    private selectAll(){
+        let item = $("#selAwardbox").find(".item");
+        for(let x=0;x<item.length;x++){
+            let itemCheck = $(item[x]).find(".gou");
+            itemCheck.click(function(){
+                if($(this).hasClass("sel")){
+                    this.awardsId=$(item[x]).data("id");
+                }
+                let len: any =item.find(".sel").length;
+                if(item.find(".sel").length==item.length){
+                    $(".aw_bottom .gou").addClass("sel");
+                }else{
+                    $(".aw_bottom .gou").removeClass("sel");
+                } 
+                let html=`共选中${len}样礼品`;
+                $("#txtNum").html(html);
+            })
+        }
+    }
+
+
+    /**
+     * 设置懒加载 
+     */
+    private setLazyLoad() {
+        lazyload(document.querySelectorAll(".lazy"));
+    }
+
+    onClick(e: Event) {
     }
 } 

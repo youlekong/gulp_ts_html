@@ -12,23 +12,25 @@ export default class PersonalLoogic extends ViewBase {
         // Core.viewManager.closeView(Core.preView);
 
         //更新底部导航状态
-        Core.eventManager.event(EventType.updateBottomNav, { type: 'personal' });
-        //Core.eventManager.event(EventType.updateBottomNav, { hide: true });
+        Core.eventManager.event(EventType.updateBottomNav, { hide: true });
 
         //返回上一个界面 或是 上一步
         $('#goBack').on('click', () => {
-            if (history.length) {
+            if (Core.preView) {
+                // window.location.href =  '#' + Core.preView.name;
                 history.go(-1);
             } else {
-                Core.viewManager.openView(ViewConfig.index);
-                window.history.pushState(null, null, '#index');//临时用，后期优化
+                window.location.href = '#index';
             }
+           
         });
+      
         this.bindClick();
 
         //用户信息
-        let userInfo = await Net.getData(Api.userInfo,{uid:1})
-        this.setUserInfo(userInfo)
+        let userInfo = await Net.getData(Api.userInfo)
+        this.setUserInfo(userInfo)   
+        
     }
 
     /**
@@ -36,12 +38,14 @@ export default class PersonalLoogic extends ViewBase {
      */
     private setUserInfo(userInfo:any[]){
         let html='';
+        let coin: any = userInfo['coin'] / 100;
+        let coins: any = parseInt(coin);
         html=`<div class="headport">
                  <img src="${Config.imgBase + userInfo['avatar']}" alt="">
             </div>
             <div class="tit">
                 <h3>${userInfo['nick_name']}</h3>
-                <p>我的魅力币：${userInfo['coin']}</p>
+                <p>我的魅力币：${coins}</p>
             </div>`
        $("#headportbox").html(html);
     }

@@ -62,7 +62,7 @@ export default class IndexLogic extends ViewBase {
         });
 
         //用户信息
-        let userInfo = await Net.getData(Api.userInfo,{uid:1});
+        let userInfo = await Net.getData(Api.userInfo);
         let coin: any = userInfo['coin'] / 100;
         let coins: any = parseInt(coin);
         $(".rechargeBtn em").text(coins);
@@ -142,9 +142,8 @@ export default class IndexLogic extends ViewBase {
         $('#roomList').html(html);
         //打开场次详情
         $('#roomList').on('click', '.room-info', function () {
-            console.log($(this).data('id'))
-            location.href = '#gameInner?id=' + $(this).data('id');
-            // Core.viewManager.openView(ViewConfig.gameInner, $(this).data('id'));
+            // location.href = '#gameInner?id=' + $(this).data('id');
+            Core.viewManager.openView(ViewConfig.gameInner, $(this).data('id'));
         });
     }
 
